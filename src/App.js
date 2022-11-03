@@ -8,9 +8,15 @@ import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
+import React, { useState } from "react";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
+  const [token, setToken] = useState();
+
+  if (!token) {
+    return <Login setToken={setToken} />;
+  }
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
