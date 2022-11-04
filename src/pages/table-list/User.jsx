@@ -8,26 +8,29 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useUsers } from "./hooks";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 90,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
+  { field: "userName", headerName: "User name", width: 130 },
+  { field: "phone", headerName: "Phone", width: 260 },
+  // { field: "firstName", headerName: "First name", width: 130 },
+  // { field: "lastName", headerName: "Last name", width: 130 },
+  // {
+  //   field: "age",
+  //   headerName: "Age",
+  //   type: "number",
+  //   width: 90,
+  // },
+  // {
+  //   field: "fullName",
+  //   headerName: "Full name",
+  //   description: "This column has a value getter and is not sortable.",
+  //   sortable: false,
+  //   width: 160,
+  //   valueGetter: (params) =>
+  //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+  // },
 ];
 
 const rows = [
@@ -44,6 +47,8 @@ const rows = [
 
 export default function User() {
   const [open, setOpen] = React.useState(false);
+  const users = useUsers();
+  console.log("users", users);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -83,7 +88,7 @@ export default function User() {
         </Dialog>
       </div>
       <DataGrid
-        rows={rows}
+        rows={users}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
