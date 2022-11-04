@@ -1,6 +1,6 @@
 
-import { BASE_URL } from "./Const.ts";
-import { getJSON } from "./Network.ts";
+import { BASE_URL } from "./Const";
+import { getJSON } from "./Network";
 
 export async function getUsers(){
     const url = `${BASE_URL}/accounts`;

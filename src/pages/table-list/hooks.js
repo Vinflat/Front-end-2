@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react"
-import { getUsers } from '../../api/Users.ts'
-interface User {
-    id: number;
-    userName: string;
-    phone: string;
-}
+import { getUsers } from '../../api/Users'
+
 export const useUsers = () =>{
-    const [users, setUsers] = useState<User[]>();
+    const [users, setUsers] = useState([]);
     useEffect(()=>{
         getUsers().then((result) => {       
             const data = result.map((user) => ({
@@ -18,5 +14,5 @@ export const useUsers = () =>{
         })
 
     },[])
-    return users ?? [];
+    return users;
 }

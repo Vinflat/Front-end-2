@@ -1,4 +1,4 @@
-export async function getJSON(url: string) {
+export async function getJSON(url) {
     const result = fetch(url,
         {
             method: 'GET',
