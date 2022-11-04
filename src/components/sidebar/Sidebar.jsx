@@ -12,11 +12,11 @@ import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSyst
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
-import { DarkModeContext } from "../../context/darkModeContext";
-import { useContext } from "react";
+//import { DarkModeContext } from "../../context/darkModeContext";
+//import { useContext } from "react";
 
 const Sidebar = () => {
-  const { dispatch } = useContext(DarkModeContext);
+  // const { dispatch } = useContext(DarkModeContext);
   return (
     <div className="sidebar">
       <div className="top">
@@ -27,11 +27,6 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
-          <p className="title">MAIN</p>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
-          </li>
           <p className="title">LISTS</p>
           <Link to="/users" style={{ textDecoration: "none" }}>
             <li>
@@ -39,42 +34,73 @@ const Sidebar = () => {
               <span>Users</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/buildings" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span>Products</span>
+              <span>Buildings</span>
             </li>
           </Link>
+          <Link to="/apartments" style={{ textDecoration: "none" }}>
+            <li>
+              <StoreIcon className="icon" />
+              <span>Apartments</span>
+            </li>
+          </Link>
+
+          <p className="title">RENTER</p>
           <li>
             <CreditCardIcon className="icon" />
-            <span>Orders</span>
+            <span>Danh sách hợp đồng</span>
           </li>
           <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
+            <PersonOutlineIcon className="icon" />
+            <span>Danh sách khách thuê</span>
           </li>
-          <p className="title">USEFUL</p>
-          <li>
-            <InsertChartIcon className="icon" />
-            <span>Stats</span>
-          </li>
-          <li>
-            <NotificationsNoneIcon className="icon" />
-            <span>Notifications</span>
-          </li>
-          <p className="title">SERVICE</p>
+
+          <p className="title">TÀI CHÍNH</p>
           <li>
             <SettingsSystemDaydreamOutlinedIcon className="icon" />
-            <span>System Health</span>
+            <span>Thu/ chi</span>
           </li>
           <li>
             <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
+            <span>Phiếu thu</span>
+          </li>
+          <li>
+            <PsychologyOutlinedIcon className="icon" />
+            <span>Phiếu chi</span>
+          </li>
+          <li>
+            <PsychologyOutlinedIcon className="icon" />
+            <span>Cài đặt hóa đơn thu</span>
+          </li>
+          <li>
+            <PsychologyOutlinedIcon className="icon" />
+            <span>Cài đặt hóa đơn chi</span>
+          </li>
+          <li>
+            <PsychologyOutlinedIcon className="icon" />
+            <span>Hóa đơn</span>
+          </li>
+          <li>
+            <PsychologyOutlinedIcon className="icon" />
+            <span>Thống kê kinh doanh</span>
+          </li>
+          <p className="title">ĐIỆN NƯỚC</p>
+          <li>
+            <SettingsApplicationsIcon className="icon" />
+            <span>Danh sách chốt điện nước</span>
+          </li>
+          <p className="title">BÁO CÁO</p>
+          <li>
+            <SettingsApplicationsIcon className="icon" />
+            <span>Tổng hợp hiện trạng thuê</span>
           </li>
           <li>
             <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
+            <span>Báo cáo sử dụng điện nước</span>
           </li>
+          <p className="title">CÀI ĐẶT CHUNG</p>
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
@@ -86,7 +112,7 @@ const Sidebar = () => {
           </li>
         </ul>
       </div>
-      <div className="bottom">
+      {/* <div className="bottom">
         <div
           className="colorOption"
           onClick={() => dispatch({ type: "LIGHT" })}
@@ -95,7 +121,7 @@ const Sidebar = () => {
           className="colorOption"
           onClick={() => dispatch({ type: "DARK" })}
         ></div>
-      </div>
+      </div> */}
     </div>
   );
 };

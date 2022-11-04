@@ -23,6 +23,7 @@ export default function Login({ setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
+  //const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
     const token = await loginUser({
@@ -35,14 +36,16 @@ export default function Login({ setToken }) {
   return (
     <div className="login">
       <form onSubmit={handleLogin}>
+        <label>Username</label>
         <input
           type="text"
-          placeholder="username"
+          placeholder="Enter your username"
           onChange={(e) => setUserName(e.target.value)}
         />
+        <label>Password</label>
         <input
           type="password"
-          placeholder="password"
+          placeholder="Enter your password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit">Login</button>
