@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import React, { useState } from "react";
 import ApartmentList from "./pages/list/ApartmentList";
 import BuildingList from "./pages/list/BuildingList";
+import RenterList from "./pages/list/RenterList";
+import ContractList from "./pages/list/ContractList";
 
 function App() {
   const [token, setToken] = useState();
@@ -28,6 +30,14 @@ function App() {
             </Route>
             <Route path="buildings">
               <Route index element={<BuildingList />} />
+              <Route path=":productId" element={<Single />} />
+            </Route>
+            <Route path="renters">
+              <Route index element={<RenterList />} />
+              <Route path=":productId" element={<Single />} />
+            </Route>
+            <Route path="contracts">
+              <Route index element={<ContractList />} />
               <Route path=":productId" element={<Single />} />
             </Route>
           </Route>

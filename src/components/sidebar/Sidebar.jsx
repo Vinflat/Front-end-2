@@ -27,6 +27,7 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
+          {/* LIST */}
           <p className="title">LISTS</p>
           <Link to="/users" style={{ textDecoration: "none" }}>
             <li>
@@ -46,17 +47,21 @@ const Sidebar = () => {
               <span>Apartments</span>
             </li>
           </Link>
-
+          {/* RENTER */}
           <p className="title">RENTER</p>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Danh sách hợp đồng</span>
-          </li>
-          <li>
-            <PersonOutlineIcon className="icon" />
-            <span>Danh sách khách thuê</span>
-          </li>
-
+          <Link to="/contracts" style={{ textDecoration: "none" }}>
+            <li>
+              <CreditCardIcon className="icon" />
+              <span>Danh sách hợp đồng</span>
+            </li>
+          </Link>
+          <Link to="/renters" style={{ textDecoration: "none" }}>
+            <li>
+              <PersonOutlineIcon className="icon" />
+              <span>Danh sách khách thuê</span>
+            </li>
+          </Link>
+          {/* TÀI CHÍNH */}
           <p className="title">TÀI CHÍNH</p>
           <li>
             <SettingsSystemDaydreamOutlinedIcon className="icon" />
