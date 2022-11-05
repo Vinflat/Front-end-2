@@ -1,16 +1,21 @@
 import "./sidebar.scss";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import StoreIcon from "@mui/icons-material/Store";
-import InsertChartIcon from "@mui/icons-material/InsertChart";
+import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
+import HomeOutlinedIcno from '@mui/icons-material/HomeOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
+import AddCardOutlinedIcon from '@mui/icons-material/AddCardOutlined';
+import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
+import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
+import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
+import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
+import DynamicFormOutlinedIcon from '@mui/icons-material/DynamicFormOutlined';
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+
 import { Link } from "react-router-dom";
 //import { DarkModeContext } from "../../context/darkModeContext";
 //import { useContext } from "react";
@@ -31,19 +36,19 @@ const Sidebar = () => {
           <p className="title">LISTS</p>
           <Link to="/users" style={{ textDecoration: "none" }}>
             <li>
-              <PersonOutlineIcon className="icon" />
+              <AccountBoxOutlinedIcon className="icon" />
               <span>Users</span>
             </li>
           </Link>
           <Link to="/buildings" style={{ textDecoration: "none" }}>
             <li>
-              <StoreIcon className="icon" />
+              <ApartmentOutlinedIcon className="icon" />
               <span>Buildings</span>
             </li>
           </Link>
           <Link to="/apartments" style={{ textDecoration: "none" }}>
             <li>
-              <StoreIcon className="icon" />
+              <HomeOutlinedIcno className="icon" />
               <span>Apartments</span>
             </li>
           </Link>
@@ -51,7 +56,7 @@ const Sidebar = () => {
           <p className="title">RENTER</p>
           <Link to="/contracts" style={{ textDecoration: "none" }}>
             <li>
-              <CreditCardIcon className="icon" />
+              <ArticleOutlinedIcon className="icon" />
               <span>Danh sách hợp đồng</span>
             </li>
           </Link>
@@ -64,45 +69,45 @@ const Sidebar = () => {
           {/* TÀI CHÍNH */}
           <p className="title">TÀI CHÍNH</p>
           <li>
-            <SettingsSystemDaydreamOutlinedIcon className="icon" />
+            <AddCardOutlinedIcon className="icon" />
             <span>Thu/ chi</span>
           </li>
           <li>
-            <PsychologyOutlinedIcon className="icon" />
+            <NoteAltOutlinedIcon className="icon" />
             <span>Phiếu thu</span>
           </li>
           <li>
-            <PsychologyOutlinedIcon className="icon" />
+            <NoteAltOutlinedIcon className="icon" />
             <span>Phiếu chi</span>
           </li>
           <li>
-            <PsychologyOutlinedIcon className="icon" />
+            <SettingsOutlinedIcon className="icon" />
             <span>Cài đặt hóa đơn thu</span>
           </li>
           <li>
-            <PsychologyOutlinedIcon className="icon" />
+            <SettingsOutlinedIcon className="icon" />
             <span>Cài đặt hóa đơn chi</span>
           </li>
           <li>
-            <PsychologyOutlinedIcon className="icon" />
+            <ReceiptLongOutlinedIcon className="icon" />
             <span>Hóa đơn</span>
           </li>
           <li>
-            <PsychologyOutlinedIcon className="icon" />
+            <LeaderboardOutlinedIcon className="icon" />
             <span>Thống kê kinh doanh</span>
           </li>
           <p className="title">ĐIỆN NƯỚC</p>
           <li>
-            <SettingsApplicationsIcon className="icon" />
+            <FactCheckOutlinedIcon className="icon" />
             <span>Danh sách chốt điện nước</span>
           </li>
           <p className="title">BÁO CÁO</p>
           <li>
-            <SettingsApplicationsIcon className="icon" />
+            <SummarizeOutlinedIcon className="icon" />
             <span>Tổng hợp hiện trạng thuê</span>
           </li>
           <li>
-            <SettingsApplicationsIcon className="icon" />
+            <DynamicFormOutlinedIcon className="icon" />
             <span>Báo cáo sử dụng điện nước</span>
           </li>
           <p className="title">CÀI ĐẶT CHUNG</p>
