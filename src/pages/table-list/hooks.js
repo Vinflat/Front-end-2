@@ -34,7 +34,7 @@ export const useApartment = () => {
     return apartments;
 }
 
-export const useBuilding = () => {
+export const useBuildings = () => {
     const [buildings, setBuildings] = useState([]);
     useEffect(()=>{
         getBuildings().then((result)=>{

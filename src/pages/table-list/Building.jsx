@@ -8,28 +8,43 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useBuilding } from "./hooks";
 
-//TODO: modify colum to fit with data from server
+import { useBuildings } from "./hooks";
+
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
+  { field: "buildingId", headerName: "ID", width: 70 },
+  { field: "buildingName", headerName: "First name", width: 130 },
+  { field: "imageUrlUrl", headerName: "Image", width: 130 },
+  { field: "description", headerName: "Description", width: 130 },
   {
-    field: "age",
-    headerName: "Age",
+    field: "totalFloor",
+    headerName: "Floors",
     type: "number",
     width: 90,
   },
   {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    field: "totalRooms",
+    headerName: "Rooms",
+    type: "number",
+    width: 90,
   },
+  {
+    field: "coordinateX",
+    headerName: "X",
+    type: "number",
+    width: 90,
+  },
+  {
+    field: "coordinateY",
+    headerName: "Y",
+    type: "number",
+    width: 90,
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 90,
+  }
 ];
 
 // const rows = [
@@ -44,9 +59,9 @@ const columns = [
 //   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 // ];
 
+
 export default function Building() {
   const [open, setOpen] = React.useState(false);
-  const building = useBuilding();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -55,6 +70,11 @@ export default function Building() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const buildings = useBuildings();
+
+  console.log("Building.jsx");
+  console.log("getBuildings()", buildings);
 
   return (
     <div style={{ height: 400, width: "100%" }}>
@@ -86,7 +106,7 @@ export default function Building() {
         </Dialog>
       </div>
       <DataGrid
-        rows={building}
+        rows={buildings}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
@@ -95,3 +115,4 @@ export default function Building() {
     </div>
   );
 }
+
