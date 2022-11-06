@@ -4,10 +4,11 @@ import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import React, { useState } from "react";
-import ApartmentList from "./pages/list/ApartmentList";
+// import ApartmentList from "./pages/list/ApartmentList";
 import BuildingList from "./pages/list/BuildingList";
 import RenterList from "./pages/list/RenterList";
 import ContractList from "./pages/list/ContractList";
+import FlatList from "./pages/list/FlatList";
 
 function App() {
   const [token, setToken] = useState();
@@ -24,12 +25,16 @@ function App() {
               <Route index element={<List />} />
               <Route path=":userId" element={<Single />} />
             </Route>
-            <Route path="apartments">
+            {/* <Route path="apartments">
               <Route index element={<ApartmentList />} />
               <Route path=":productId" element={<Single />} />
-            </Route>
+            </Route> */}
             <Route path="buildings">
               <Route index element={<BuildingList />} />
+              <Route path=":productId" element={<Single />} />
+            </Route>
+            <Route path="flats">
+              <Route index element={<FlatList />} />
               <Route path=":productId" element={<Single />} />
             </Route>
             <Route path="renters">

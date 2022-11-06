@@ -1,7 +1,8 @@
 import "./sidebar.scss";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
-import HomeOutlinedIcno from '@mui/icons-material/HomeOutlined';
+// import HomeOutlinedIcno from '@mui/icons-material/HomeOutlined';
+import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import AddCardOutlinedIcon from '@mui/icons-material/AddCardOutlined';
@@ -12,7 +13,6 @@ import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 import DynamicFormOutlinedIcon from '@mui/icons-material/DynamicFormOutlined';
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
@@ -46,10 +46,16 @@ const Sidebar = () => {
               <span>Buildings</span>
             </li>
           </Link>
-          <Link to="/apartments" style={{ textDecoration: "none" }}>
+          {/* <Link to="/apartments" style={{ textDecoration: "none" }}>
             <li>
               <HomeOutlinedIcno className="icon" />
               <span>Apartments</span>
+            </li>
+          </Link> */}
+          <Link to="/flats" style={{ textDecoration: "none" }}>
+            <li>
+              <MeetingRoomOutlinedIcon className="icon" />
+              <span>Flats</span>
             </li>
           </Link>
           {/* RENTER */}

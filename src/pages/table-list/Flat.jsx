@@ -1,7 +1,6 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 //dialog button import
-import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -9,9 +8,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useUsers } from "./hooks";
 
-const currencies = [
+import { useFlats } from "./hooks";
+const flatType = [
   {
     value: "1",
     label: "Admin",
@@ -32,40 +31,52 @@ const currencies = [
     value: "5",
     label: "Tester",
   },
+];
+const Building = [
   {
-    value: "7",
-    label: "Cleaner",
+    value: "1",
+    label: "Admin",
   },
   {
-    value: "8",
-    label: "Techinician",
+    value: "2",
+    label: "Super Admin",
+  },
+  {
+    value: "3",
+    label: "Moderator",
+  },
+  {
+    value: "4",
+    label: "Employee",
+  },
+  {
+    value: "5",
+    label: "Tester",
   },
 ];
-
 const columns = [
-  { field: "accountId", headerName: "ID", width: 60 },
-  { field: "userName", headerName: "User name", width: 130 },
-  { field: "email", headerName: "Email", width: 130 },
-  { field: "phone", headerName: "Phone", width: 130 },
-  { field: "status", headerName: "Status", width: 60 },
-  { field: "roleId", headerName: "Role ID", width: 60 },
-  // { field: "firstName", headerName: "First name", width: 130 },
-  // { field: "lastName", headerName: "Last name", width: 130 },
-  // {
-  //   field: "age",
-  //   headerName: "Age",
-  //   type: "number",
-  //   width: 90,
-  // },
-  // {
-  //   field: "fullName",
-  //   headerName: "Full name",
-  //   description: "This column has a value getter and is not sortable.",
-  //   sortable: false,
-  //   width: 160,
-  //   valueGetter: (params) =>
-  //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  // },
+  { field: "flatId", headerName: "ID", width: 60 },
+  { field: "name", headerName: "Name", width: 130 },
+
+  { field: "description", headerName: "Description", width: 120 },
+  {
+    field: "status",
+    headerName: "Status",
+    type: "number",
+    width: 80,
+  },
+  {
+    field: "flatType",
+    headerName: "flatType",
+    type: "number",
+    width: 80,
+  },
+  {
+    field: "buildingId",
+    headerName: "buildingId",
+    type: "number",
+    width: 80,
+  }
 ];
 
 // const rows = [
@@ -80,14 +91,9 @@ const columns = [
 //   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 // ];
 
-export default function User() {
-  const [currency, setCurrency] = React.useState("EUR");
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
-  };
+
+export default function Flat() {
   const [open, setOpen] = React.useState(false);
-  const users = useUsers();
-  console.log("users", users);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -97,52 +103,47 @@ export default function User() {
     setOpen(false);
   };
 
+  const flats = useFlats();
+
+  console.log("Flat.jsx");
+  console.log("getFLats()", flats);
+
   return (
     <div style={{ height: 400, width: "100%" }}>
       <div>
         <Button variant="outlined" onClick={handleClickOpen}>
-          Add user account
+          Add Flat
         </Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Add new account</DialogTitle>
+          <DialogTitle>Add Flat</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Tạo mới account cho quản lý và nhân viên
+              Thêm các FLat trong Buidling - Tòa nhà
             </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
-              id="username"
-              label="Username"
+              id="flatId"
+              label="Flat Id"
               type="text"
               fullWidth
               variant="outlined"
             />
-
             <TextField
               autoFocus
               margin="dense"
-              id="password"
-              label="Password"
-              type="Password"
+              id="name"
+              label="Flat Name"
+              type="text"
               fullWidth
               variant="outlined"
             />
             <TextField
               autoFocus
               margin="dense"
-              id="email"
-              label="Email"
-              type="email"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="phone"
-              label="Phone Number"
-              type="number"
+              id="description"
+              label="Description"
+              type="text"
               fullWidth
               variant="outlined"
             />
@@ -155,22 +156,24 @@ export default function User() {
               fullWidth
               variant="outlined"
             />
-
-            {/* use to select the role */}
             <TextField
-              id="outlined-select-currency"
-              select
-              label="Role"
-              value={currency}
-              onChange={handleChange}
-              helperText="Please select the role of account"
-            >
-              {currencies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
+              autoFocus
+              margin="dense"
+              id="flatTypeId"
+              label="Flat Type"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="buildingId"
+              label="Building"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
@@ -179,7 +182,7 @@ export default function User() {
         </Dialog>
       </div>
       <DataGrid
-        rows={users}
+        rows={flats}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
@@ -188,3 +191,4 @@ export default function User() {
     </div>
   );
 }
+

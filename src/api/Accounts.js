@@ -5,6 +5,7 @@ import { getJSON } from "./Network";
 export async function getUsers(){
     const url = `${BASE_URL}/accounts`;
     const accounts = getJSON(url).then((result) => result.resultList.$values);
+    //cần có bear token để có thể sử dụng @@
     return accounts;
 }
 

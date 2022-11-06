@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { getApartments } from "../../api/Apartments";
+// import { getApartments } from "../../api/Apartments";
 import { getBuildings } from "../../api/Buildings";
 import { getUsers } from '../../api/Accounts'
+import {getFlats} from '../../api/Flats'
 
 export const useUsers = () => {
     const [users, setUsers] = useState([]);
@@ -19,20 +20,20 @@ export const useUsers = () => {
     return users;
 }
 
-export const useApartment = () => {
-    const [apartments, setApartments] = useState([]);
-    useEffect(() => {
-        getApartments().then((result) => {
-            const data = result.map((apartment) => ({
-                ...apartment,
-                id: apartment.$id,
-            }));
-            setApartments(data);
-        })
+// export const useApartment = () => {
+//     const [apartments, setApartments] = useState([]);
+//     useEffect(() => {
+//         getApartments().then((result) => {
+//             const data = result.map((apartment) => ({
+//                 ...apartment,
+//                 id: apartment.$id,
+//             }));
+//             setApartments(data);
+//         })
 
-    }, [])
-    return apartments;
-}
+//     }, [])
+//     return apartments;
+// }
 
 export const useBuildings = () => {
     const [buildings, setBuildings] = useState([]);
@@ -46,4 +47,18 @@ export const useBuildings = () => {
         });
     },[]);
     return buildings;
+}
+
+export const useFlats = () => {
+    const [flats, setFlats] = useState([]);
+    useEffect(()=>{
+        getFlats().then((result)=>{
+            const data = result.map((flat)=>({
+                ...flat,
+                id: flat.flatId,
+            }));
+            setFlats(data);
+        });
+    },[]);
+    return flats;
 }

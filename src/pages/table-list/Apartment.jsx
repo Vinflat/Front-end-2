@@ -47,6 +47,7 @@ const columns = [
 
 export default function Apartment() {
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
 
   const apartments = useApartment();
   const handleClickOpen = () => {
@@ -56,6 +57,13 @@ export default function Apartment() {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleClickOpen2 = () => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
 
   return (
     <div style={{ height: 400, width: "100%" }}>
@@ -64,21 +72,42 @@ export default function Apartment() {
           Add apartment
         </Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Subscribe</DialogTitle>
+          <DialogTitle>Add Apartment</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address
-              here. We will send updates occasionally.
-            </DialogContentText>
+            <DialogContentText>Thêm căn hộ.</DialogContentText>
             <TextField
               autoFocus
               margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
+              id="description"
+              label="Description"
+              type="text"
               fullWidth
-              variant="standard"
+              variant="outlined"
             />
+            <div>
+              <Button variant="outlined" onClick={handleClickOpen2}>
+                Add apartment
+              </Button>
+              <Dialog open={open2} onClose={handleClose2}>
+                <DialogTitle>Add Apartment</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>Thêm căn hộ.</DialogContentText>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="description"
+                    label="Description"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose2}>Cancel</Button>
+                  <Button onClick={handleClose2}>Subscribe</Button>
+                </DialogActions>
+              </Dialog>
+            </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

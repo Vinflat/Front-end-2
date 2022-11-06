@@ -45,16 +45,16 @@ const columns = [
     headerName: "Status",
     width: 60,
   },
-  {
-    field: "apartment",
-    headerName: "Apartment",
-    width: 100,
-  },
+  // {
+  //   field: "apartment",
+  //   headerName: "Apartment",
+  //   width: 100,
+  // },
   {
     field: "flats",
     headerName: "Flats",
     width: 130,
-  }
+  },
 ];
 
 // const rows = [
@@ -69,16 +69,24 @@ const columns = [
 //   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 // ];
 
-
 export default function Building() {
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  const handleClickOpen2 = () => {
+    setOpen2(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
   };
 
   const buildings = useBuildings();
@@ -93,25 +101,156 @@ export default function Building() {
           Add building
         </Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Subscribe</DialogTitle>
+          <DialogTitle>Add building</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address
-              here. We will send updates occasionally.
-            </DialogContentText>
+            <DialogContentText>Thêm tòa nhà.</DialogContentText>
             <TextField
               autoFocus
               margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
+              id="buildingId"
+              label="Building Id"
+              type="text"
               fullWidth
-              variant="standard"
+              variant="outlined"
             />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="buildingName"
+              label="Building Name"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="imageUrlUrl"
+              label="Image Url"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="description"
+              label="Description"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="totalFloor"
+              label="Total Floor"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="totalRooms"
+              label="Total Room"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="status"
+              label="status"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            {/* <TextField
+              autoFocus
+              margin="dense"
+              id="apartmentId"
+              label="apartmentId"
+              type="text"
+              fullWidth
+              variant="outlined"
+            /> */}
+            <div>
+              <Button variant="outlined" onClick={handleClickOpen2}>
+                Add Flat
+              </Button>
+              <Dialog open={open2} onClose={handleClose2}>
+                <DialogTitle>Add Flat</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Thêm phòng trong căn hộ.
+                  </DialogContentText>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="flatId"
+                    label="Flat Id"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Flat Name"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="description"
+                    label="Description"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="status"
+                    label="Status"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="flatTypeId"
+                    label="Flat Type"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="buildingId"
+                    label="Building Id"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose2}>Cancel</Button>
+                  <Button onClick={handleClose2}>Submit</Button>
+                </DialogActions>
+              </Dialog>
+            </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Subscribe</Button>
+            <Button onClick={handleClose}>Submit</Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -125,4 +264,3 @@ export default function Building() {
     </div>
   );
 }
-
