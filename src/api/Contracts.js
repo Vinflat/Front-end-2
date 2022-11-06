@@ -1,5 +1,6 @@
 import { BASE_URL } from "./Const";
 import { getJSON } from "./Network";
+
 export async function getContracts() {
     const url = `${BASE_URL}/contracts`;
     const contracts = getJSON(url).then(result => result.$values);

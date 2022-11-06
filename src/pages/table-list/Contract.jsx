@@ -1,5 +1,6 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { useContracts } from "./hooks";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -35,11 +36,12 @@ const rows = [
 ];
 
 export default function Contract() {
+  const contracts = useContracts()
   return (
     <div style={{ height: 400, width: "100%" }}>
       <div>Danh sách hợp đồng</div>
       <DataGrid
-        rows={rows}
+        rows={contracts}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
