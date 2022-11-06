@@ -12,38 +12,48 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useBuildings } from "./hooks";
 
 const columns = [
-  { field: "buildingId", headerName: "ID", width: 70 },
+  { field: "buildingId", headerName: "ID", width: 60 },
   { field: "buildingName", headerName: "First name", width: 130 },
   { field: "imageUrlUrl", headerName: "Image", width: 130 },
-  { field: "description", headerName: "Description", width: 130 },
+  { field: "description", headerName: "Description", width: 120 },
   {
     field: "totalFloor",
     headerName: "Floors",
     type: "number",
-    width: 90,
+    width: 80,
   },
   {
     field: "totalRooms",
     headerName: "Rooms",
     type: "number",
-    width: 90,
+    width: 80,
   },
   {
     field: "coordinateX",
     headerName: "X",
     type: "number",
-    width: 90,
+    width: 80,
   },
   {
     field: "coordinateY",
     headerName: "Y",
     type: "number",
-    width: 90,
+    width: 80,
   },
   {
     field: "status",
     headerName: "Status",
-    width: 90,
+    width: 60,
+  },
+  {
+    field: "apartment",
+    headerName: "Apartment",
+    width: 100,
+  },
+  {
+    field: "flats",
+    headerName: "Flats",
+    width: 130,
   }
 ];
 

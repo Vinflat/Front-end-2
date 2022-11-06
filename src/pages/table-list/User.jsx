@@ -11,9 +11,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useUsers } from "./hooks";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "accountId", headerName: "ID", width: 60 },
   { field: "userName", headerName: "User name", width: 130 },
-  { field: "phone", headerName: "Phone", width: 260 },
+  { field: "email", headerName: "Email", width: 130 },
+  { field: "phone", headerName: "Phone", width: 130 },
+  { field: "status", headerName: "Status", width: 60},
+  { field: "roleId", headerName: "Role ID", width: 60 },
   // { field: "firstName", headerName: "First name", width: 130 },
   // { field: "lastName", headerName: "Last name", width: 130 },
   // {
