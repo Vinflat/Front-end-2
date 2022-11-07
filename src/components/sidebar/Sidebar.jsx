@@ -1,18 +1,19 @@
 import "./sidebar.scss";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
+import ApartmentOutlinedIcon from "@mui/icons-material/ApartmentOutlined";
 // import HomeOutlinedIcno from '@mui/icons-material/HomeOutlined';
-import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
-import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
-import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
-import AddCardOutlinedIcon from '@mui/icons-material/AddCardOutlined';
-import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
-import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
-import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
-import DynamicFormOutlinedIcon from '@mui/icons-material/DynamicFormOutlined';
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
+import AddCardOutlinedIcon from "@mui/icons-material/AddCardOutlined";
+import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
+import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
+import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
+import SummarizeOutlinedIcon from "@mui/icons-material/SummarizeOutlined";
+import DynamicFormOutlinedIcon from "@mui/icons-material/DynamicFormOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
@@ -32,44 +33,10 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
-          {/* LIST */}
-          <p className="title">LISTS</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <li>
-              <AccountBoxOutlinedIcon className="icon" />
-              <span>Users</span>
-            </li>
-          </Link>
-          <Link to="/buildings" style={{ textDecoration: "none" }}>
-            <li>
-              <ApartmentOutlinedIcon className="icon" />
-              <span>Buildings</span>
-            </li>
-          </Link>
-          {/* <Link to="/apartments" style={{ textDecoration: "none" }}>
-            <li>
-              <HomeOutlinedIcno className="icon" />
-              <span>Apartments</span>
-            </li>
-          </Link> */}
-          <Link to="/flats" style={{ textDecoration: "none" }}>
-            <li>
-              <MeetingRoomOutlinedIcon className="icon" />
-              <span>Flats</span>
-            </li>
-          </Link>
-          {/* RENTER */}
-          <p className="title">RENTER</p>
-          <Link to="/contracts" style={{ textDecoration: "none" }}>
-            <li>
-              <ArticleOutlinedIcon className="icon" />
-              <span>Danh sách hợp đồng</span>
-            </li>
-          </Link>
-          <Link to="/renters" style={{ textDecoration: "none" }}>
-            <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Danh sách khách thuê</span>
+              <DashboardOutlinedIcon className="icon" />
+              <span>Dashboard</span>
             </li>
           </Link>
           {/* TÀI CHÍNH */}
@@ -102,6 +69,48 @@ const Sidebar = () => {
             <LeaderboardOutlinedIcon className="icon" />
             <span>Thống kê kinh doanh</span>
           </li>
+          {/* RENTER */}
+          <p className="title">RENTER</p>
+          <Link to="/contracts" style={{ textDecoration: "none" }}>
+            <li>
+              <ArticleOutlinedIcon className="icon" />
+              <span>Danh sách hợp đồng</span>
+            </li>
+          </Link>
+          <Link to="/renters" style={{ textDecoration: "none" }}>
+            <li>
+              <PersonOutlineIcon className="icon" />
+              <span>Danh sách khách thuê</span>
+            </li>
+          </Link>
+
+          {/* LIST */}
+          <p className="title">LISTS</p>
+          <Link to="/users" style={{ textDecoration: "none" }}>
+            <li>
+              <AccountBoxOutlinedIcon className="icon" />
+              <span>Users</span>
+            </li>
+          </Link>
+          <Link to="/buildings" style={{ textDecoration: "none" }}>
+            <li>
+              <ApartmentOutlinedIcon className="icon" />
+              <span>Buildings</span>
+            </li>
+          </Link>
+          {/* <Link to="/apartments" style={{ textDecoration: "none" }}>
+            <li>
+              <HomeOutlinedIcno className="icon" />
+              <span>Apartments</span>
+            </li>
+          </Link> */}
+          <Link to="/flats" style={{ textDecoration: "none" }}>
+            <li>
+              <MeetingRoomOutlinedIcon className="icon" />
+              <span>Flats</span>
+            </li>
+          </Link>
+
           <p className="title">ĐIỆN NƯỚC</p>
           <li>
             <FactCheckOutlinedIcon className="icon" />

@@ -3,24 +3,48 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useContracts } from "./hooks";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
+  { field: "contractId", headerName: "ID", width: 70 },
   {
-    field: "age",
-    headerName: "Age",
+    field: "dateSigned",
+    headerName: "Date Signed",
     type: "number",
+    width: 130,
+  },
+  { field: "startDate", headerName: "Start Date", type: "number", width: 130 },
+  {
+    field: "endDate",
+    headerName: "End Date",
+    type: "number",
+    width: 130,
+  },
+  {
+    field: "lastUpdated",
+    headerName: "Last Updated",
+    type: "number",
+    width: 130,
+  },
+  {
+    field: "contractStatus",
+    headerName: "Status",
+    width: 70,
+  },
+  {
+    field: "imageUrl",
+    headerName: "ImageUrl",
     width: 90,
   },
   {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    field: "image",
+    headerName: "Image",
+    width: 70,
   },
+  {
+    field: "flatId",
+    headerName: "Flat Id  ",
+    width: 70,
+  },
+
+
 ];
 
 const rows = [
@@ -36,7 +60,7 @@ const rows = [
 ];
 
 export default function Contract() {
-  const contracts = useContracts()
+  const contracts = useContracts();
   return (
     <div style={{ height: 400, width: "100%" }}>
       <div>Danh sách hợp đồng</div>
