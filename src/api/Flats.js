@@ -2,9 +2,10 @@ import { BASE_URL } from "./Const";
 import { getJSON } from "./Network";
 
 
-export async function getFlats({name, description, status, flatType, buildingId, pageNumber, pageSize}) {
-    const url = `${BASE_URL}/flats?Name=${name}&Description=${description}&Status=${status}&FlatTypeId=${flatType}&BuildingId=${buildingId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
-    const flats = getJSON(url).then(result => result.$values);
+// export async function getFlats({name, description, status, flatType, buildingId, pageNumber, pageSize}) {
+export async function getFlats() {
+    const url = `${BASE_URL}/flats`;
+    const flats = getJSON(url).then(result => result.resultList.$values);
     return flats;
 }
 

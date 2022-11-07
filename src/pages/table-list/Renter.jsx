@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import { useRenters } from './hooks';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -35,11 +36,12 @@ const rows = [
 ];
 
 export default function Renter() {
+  const renters = useRenters();
   return (
     <div style={{ height: 400, width: '100%' }}>
         <div>Danh sách khách thuê</div>
       <DataGrid
-        rows={rows}
+        rows={renters}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
