@@ -1,6 +1,6 @@
 
 import { BASE_URL } from "./Const";
-import { getJSON } from "./Network";
+import { getJSON } from "../services/Network";
 
 export async function getBuildings(){
     const url = `${BASE_URL}/buildings`;

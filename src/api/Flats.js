@@ -1,5 +1,5 @@
 import { BASE_URL } from "./Const";
-import { getJSON } from "./Network";
+import { getJSON } from "../services/Network";
 
 
 // export async function getFlats({name, description, status, flatType, buildingId, pageNumber, pageSize}) {
