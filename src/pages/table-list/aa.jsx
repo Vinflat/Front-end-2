@@ -56,14 +56,22 @@ const columns = [
 
 export default function Contract() {
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-;
+
+  const handleClickOpen2 = () => {
+    setOpen2(true);
+  };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
   };
 
   const contracts = useContracts();
@@ -81,8 +89,8 @@ export default function Contract() {
             <TextField
               autoFocus
               margin="dense"
-              id="contractId"
-              label="Id"
+              id="buildingId"
+              label="Building Id"
               type="text"
               fullWidth
               variant="outlined"
@@ -90,8 +98,8 @@ export default function Contract() {
             <TextField
               autoFocus
               margin="dense"
-              id="dateSigned"
-              label="Date Signed"
+              id="buildingName"
+              label="Building Name"
               type="text"
               fullWidth
               variant="outlined"
@@ -99,26 +107,8 @@ export default function Contract() {
             <TextField
               autoFocus
               margin="dense"
-              id="startDate"
-              label="Start Date"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="endDate"
-              label="End Date"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="lastUpdated"
-              label="Last Updated"
+              id="imageUrlUrl"
+              label="Image Url"
               type="text"
               fullWidth
               variant="outlined"
@@ -135,8 +125,8 @@ export default function Contract() {
             <TextField
               autoFocus
               margin="dense"
-              id="imageUrl"
-              label="Image Url"
+              id="totalFloor"
+              label="Total Floor"
               type="text"
               fullWidth
               variant="outlined"
@@ -144,18 +134,8 @@ export default function Contract() {
             <TextField
               autoFocus
               margin="dense"
-              id="image"
-              label="Image"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-
-            <TextField
-              autoFocus
-              margin="dense"
-              id="contractStatus"
-              label="Contract Status"
+              id="totalRooms"
+              label="Total Room"
               type="text"
               fullWidth
               variant="outlined"
@@ -163,26 +143,8 @@ export default function Contract() {
             <TextField
               autoFocus
               margin="dense"
-              id="price"
-              label="Price"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="renterId"
-              label="Renter Id"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="flatId"
-              label="Flat Id"
+              id="status"
+              label="status"
               type="text"
               fullWidth
               variant="outlined"
@@ -196,6 +158,77 @@ export default function Contract() {
               fullWidth
               variant="outlined"
             /> */}
+            <div>
+              <Button variant="outlined" onClick={handleClickOpen2}>
+                Add Flat
+              </Button>
+              <Dialog open={open2} onClose={handleClose2}>
+                <DialogTitle>Add Flat</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Thêm phòng trong căn hộ.
+                  </DialogContentText>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="flatId"
+                    label="Flat Id"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Flat Name"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="description"
+                    label="Description"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="status"
+                    label="Status"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="flatTypeId"
+                    label="Flat Type"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="buildingId"
+                    label="Building Id"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose2}>Cancel</Button>
+                  <Button onClick={handleClose2}>Submit</Button>
+                </DialogActions>
+              </Dialog>
+            </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
