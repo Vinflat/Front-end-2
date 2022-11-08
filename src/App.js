@@ -9,6 +9,9 @@ import BuildingList from "./pages/list/BuildingList";
 import RenterList from "./pages/list/RenterList";
 import ContractList from "./pages/list/ContractList";
 import FlatList from "./pages/list/FlatList";
+import ReceiptsandPaymentsList from "./pages/list/ReceiptsandPaymentsList";
+import ElectrictandWaterReportList from "./pages/list/ElectrictandWaterReportList";
+
 
 function App() {
   const [token, setToken] = useState();
@@ -43,6 +46,14 @@ function App() {
             </Route>
             <Route path="contracts">
               <Route index element={<ContractList />} />
+              <Route path=":productId" element={<Single />} />
+            </Route>
+            <Route path="receipts&payments">
+              <Route index element={<ReceiptsandPaymentsList />} />
+              <Route path=":productId" element={<Single />} />
+            </Route>
+            <Route path="electrict&waterreport">
+              <Route index element={<ElectrictandWaterReportList />} />
               <Route path=":productId" element={<Single />} />
             </Route>
           </Route>

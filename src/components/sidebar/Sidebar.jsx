@@ -41,10 +41,12 @@ const Sidebar = () => {
           </Link>
           {/* TÀI CHÍNH */}
           <p className="title">TÀI CHÍNH</p>
-          <li>
-            <AddCardOutlinedIcon className="icon" />
-            <span>Receipts/ payments</span>
-          </li>
+          <Link to="/receipts&payments" style={{ textDecoration: "none" }}>
+            <li>
+              <AddCardOutlinedIcon className="icon" />
+              <span>Receipts/ payments</span>
+            </li>
+          </Link>
           <li>
             <NoteAltOutlinedIcon className="icon" />
             <span>Receipt Bill</span>
@@ -112,19 +114,23 @@ const Sidebar = () => {
           </Link>
 
           <p className="title">ELECTRICAL & WATER</p>
-          <li>
-            <FactCheckOutlinedIcon className="icon" />
-            <span>List of electricity and water reports</span>
-          </li>
+          <Link to="/electrict&waterreport" style={{ textDecoration: "none" }}>
+            <li>
+              <FactCheckOutlinedIcon className="icon" />
+              <span>List of electricity and water reports</span>
+            </li>
+          </Link>
           <p className="title">BÁO CÁO</p>
           <li>
             <SummarizeOutlinedIcon className="icon" />
             <span>Summary of rental status</span>
           </li>
+
           <li>
             <DynamicFormOutlinedIcon className="icon" />
             <span>Electricity and water usage report</span>
           </li>
+
           <p className="title">GENERAL SETTINGS</p>
           <p className="title">USER</p>
           <li>
