@@ -62,11 +62,11 @@ const columns = [
 //   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 // ];
 
-export default function ReceiptsandPayments() {
+export default function ReceiptSetting() {
   const renters = useRenters();
   return (
     <div style={{ height: 400, width: '100%' }}>
-        <div>Receipts and Payments List</div>
+        <div>Receipt Setting</div>
       {/* <DataGrid
         rows={renters}
         columns={columns}

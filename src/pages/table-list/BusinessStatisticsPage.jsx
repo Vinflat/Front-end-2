@@ -2,43 +2,43 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useRenters } from './hooks';
 
-const columns = [
-  { field: 'renterId', headerName: 'ID', width: 70 },
-  { field: 'username', headerName: 'User name', width: 130 },
-  { field: 'email', headerName: 'Email', width: 130 },
-  { field: 'phone', headerName: 'Phone', width: 130 },
-  { field: 'fullName', headerName: 'Full Name', width: 130 },
-  {
-    field: 'birthDate',
-    headerName: 'Birth Date',
-    type: 'number',
-    width: 90,
-  },
-  {
-    field: 'status',
-    headerName: 'Status',
-    width: 70,
-  },
-  {
-    field: "imageUrl",
-    headerName: "ImageUrl",
-    width: 90,
-  },
-  {
-    field: "image",
-    headerName: "Image",
-    width: 70,
-  },
-  {
-    field: "address",
-    headerName: "Address",
-    width: 70,
-  },
-  {
-    field: "gender",
-    headerName: "Gender",
-    width: 70,
-  },
+// const columns = [
+//   { field: 'renterId', headerName: 'ID', width: 70 },
+//   { field: 'username', headerName: 'User name', width: 130 },
+//   { field: 'email', headerName: 'Email', width: 130 },
+//   { field: 'phone', headerName: 'Phone', width: 130 },
+//   { field: 'fullName', headerName: 'Full Name', width: 130 },
+//   {
+//     field: 'birthDate',
+//     headerName: 'Birth Date',
+//     type: 'number',
+//     width: 90,
+//   },
+//   {
+//     field: 'status',
+//     headerName: 'Status',
+//     width: 70,
+//   },
+//   {
+//     field: "imageUrl",
+//     headerName: "ImageUrl",
+//     width: 90,
+//   },
+//   {
+//     field: "image",
+//     headerName: "Image",
+//     width: 70,
+//   },
+//   {
+//     field: "address",
+//     headerName: "Address",
+//     width: 70,
+//   },
+//   {
+//     field: "gender",
+//     headerName: "Gender",
+//     width: 70,
+//   },
   // {
   //   field: 'fullName',
   //   headerName: 'Full name',
@@ -48,7 +48,7 @@ const columns = [
   //   valueGetter: (params) =>
   //     `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   // },
-];
+// ];
 
 // const rows = [
 //   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
@@ -62,11 +62,11 @@ const columns = [
 //   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 // ];
 
-export default function ReceiptsandPayments() {
-  const renters = useRenters();
+export default function BusinessStatisticsPage() {
+  // const renters = useRenters();
   return (
     <div style={{ height: 400, width: '100%' }}>
-        <div>Receipts and Payments List</div>
+        <div>Business Statistics Page</div>
       {/* <DataGrid
         rows={renters}
         columns={columns}

@@ -47,30 +47,43 @@ const Sidebar = () => {
               <span>Receipts/ payments</span>
             </li>
           </Link>
+          <Link to="/receiptbill" style={{ textDecoration: "none" }}>
           <li>
             <NoteAltOutlinedIcon className="icon" />
             <span>Receipt Bill</span>
           </li>
+          </Link>
+          <Link to="/paymentbill" style={{ textDecoration: "none" }}>
           <li>
             <NoteAltOutlinedIcon className="icon" />
             <span>Payment Bill</span>
           </li>
+          </Link>
+          <Link to="/receiptsetting" style={{ textDecoration: "none" }}>
           <li>
             <SettingsOutlinedIcon className="icon" />
-            <span>Setting Receipt</span>
+            <span>Receipt Setting </span>
           </li>
+          </Link>
+          <Link to="/paymentsetting" style={{ textDecoration: "none" }}>
           <li>
             <SettingsOutlinedIcon className="icon" />
-            <span>Setting Payment</span>
+            <span>Payment Setting </span>
           </li>
+          </Link>
+          <Link to="/bills" style={{ textDecoration: "none" }}>
           <li>
             <ReceiptLongOutlinedIcon className="icon" />
             <span>Bill</span>
           </li>
+          </Link>
+          
+          <Link to="/businessStatistics" style={{ textDecoration: "none" }}>
           <li>
             <LeaderboardOutlinedIcon className="icon" />
             <span>Business statistics</span>
           </li>
+          </Link>
           {/* RENTER */}
           <p className="title">RENTER</p>
           <Link to="/contracts" style={{ textDecoration: "none" }}>
