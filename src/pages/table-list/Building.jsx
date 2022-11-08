@@ -103,7 +103,7 @@ export default function Building() {
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Add building</DialogTitle>
           <DialogContent>
-            <DialogContentText>Thêm tòa nhà.</DialogContentText>
+            {/* <DialogContentText>Thêm tòa nhà.</DialogContentText> */}
             <TextField
               autoFocus
               margin="dense"

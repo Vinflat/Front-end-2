@@ -41,46 +41,61 @@ const Sidebar = () => {
           </Link>
           {/* TÀI CHÍNH */}
           <p className="title">TÀI CHÍNH</p>
-          <li>
-            <AddCardOutlinedIcon className="icon" />
-            <span>Thu/ chi</span>
-          </li>
+          <Link to="/receipts&payments" style={{ textDecoration: "none" }}>
+            <li>
+              <AddCardOutlinedIcon className="icon" />
+              <span>Receipts/ payments</span>
+            </li>
+          </Link>
+          <Link to="/receiptbill" style={{ textDecoration: "none" }}>
           <li>
             <NoteAltOutlinedIcon className="icon" />
-            <span>Phiếu thu</span>
+            <span>Receipt Bill</span>
           </li>
+          </Link>
+          <Link to="/paymentbill" style={{ textDecoration: "none" }}>
           <li>
             <NoteAltOutlinedIcon className="icon" />
-            <span>Phiếu chi</span>
+            <span>Payment Bill</span>
           </li>
+          </Link>
+          <Link to="/receiptsetting" style={{ textDecoration: "none" }}>
           <li>
             <SettingsOutlinedIcon className="icon" />
-            <span>Cài đặt hóa đơn thu</span>
+            <span>Receipt Setting </span>
           </li>
+          </Link>
+          <Link to="/paymentsetting" style={{ textDecoration: "none" }}>
           <li>
             <SettingsOutlinedIcon className="icon" />
-            <span>Cài đặt hóa đơn chi</span>
+            <span>Payment Setting </span>
           </li>
+          </Link>
+          <Link to="/bills" style={{ textDecoration: "none" }}>
           <li>
             <ReceiptLongOutlinedIcon className="icon" />
-            <span>Hóa đơn</span>
+            <span>Bill</span>
           </li>
+          </Link>
+          
+          <Link to="/businessStatistics" style={{ textDecoration: "none" }}>
           <li>
             <LeaderboardOutlinedIcon className="icon" />
-            <span>Thống kê kinh doanh</span>
+            <span>Business statistics</span>
           </li>
+          </Link>
           {/* RENTER */}
           <p className="title">RENTER</p>
           <Link to="/contracts" style={{ textDecoration: "none" }}>
             <li>
               <ArticleOutlinedIcon className="icon" />
-              <span>Danh sách hợp đồng</span>
+              <span>Contract List</span>
             </li>
           </Link>
           <Link to="/renters" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
-              <span>Danh sách khách thuê</span>
+              <span>List of renters</span>
             </li>
           </Link>
 
@@ -111,21 +126,25 @@ const Sidebar = () => {
             </li>
           </Link>
 
-          <p className="title">ĐIỆN NƯỚC</p>
-          <li>
-            <FactCheckOutlinedIcon className="icon" />
-            <span>Danh sách chốt điện nước</span>
-          </li>
+          <p className="title">ELECTRICAL & WATER</p>
+          <Link to="/electrict&waterreport" style={{ textDecoration: "none" }}>
+            <li>
+              <FactCheckOutlinedIcon className="icon" />
+              <span>List of electricity and water reports</span>
+            </li>
+          </Link>
           <p className="title">BÁO CÁO</p>
           <li>
             <SummarizeOutlinedIcon className="icon" />
-            <span>Tổng hợp hiện trạng thuê</span>
+            <span>Summary of rental status</span>
           </li>
+
           <li>
             <DynamicFormOutlinedIcon className="icon" />
-            <span>Báo cáo sử dụng điện nước</span>
+            <span>Electricity and water usage report</span>
           </li>
-          <p className="title">CÀI ĐẶT CHUNG</p>
+
+          <p className="title">GENERAL SETTINGS</p>
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />

@@ -62,18 +62,18 @@ const columns = [
 //   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 // ];
 
-export default function Renter() {
+export default function ReceiptBill() {
   const renters = useRenters();
   return (
     <div style={{ height: 400, width: '100%' }}>
-        <div>List of Renters</div>
-      <DataGrid
+        <div>Receipt Bill List</div>
+      {/* <DataGrid
         rows={renters}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
-      />
+      /> */}
     </div>
   );
 }

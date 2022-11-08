@@ -8,9 +8,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import MenuItem from "@mui/material/MenuItem";
 
 import { useFlats } from "./hooks";
-const flatType = [
+
+const flatTypes = [
   {
     value: "1",
     label: "Admin",
@@ -32,7 +34,7 @@ const flatType = [
     label: "Tester",
   },
 ];
-const Building = [
+const Buildings = [
   {
     value: "1",
     label: "Admin",
@@ -76,7 +78,7 @@ const columns = [
     headerName: "buildingId",
     type: "number",
     width: 80,
-  }
+  },
 ];
 
 // const rows = [
@@ -91,8 +93,17 @@ const columns = [
 //   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 // ];
 
-
 export default function Flat() {
+  const [flatType, setflatType] = React.useState("EUR");
+  const handleChange = (event) => {
+    setflatType(event.target.value);
+  };
+
+  const [building, setBuilding] = React.useState("EUR");
+  const handleChangeBuilding = (event) => {
+    setBuilding(event.target.value);
+  };
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -105,8 +116,8 @@ export default function Flat() {
 
   const flats = useFlats();
 
-  console.log("Flat.jsx");
-  console.log("getFLats()", flats);
+  // console.log("Flat.jsx");
+  // console.log("getFLats()", flats);
 
   return (
     <div style={{ height: 400, width: "100%" }}>
@@ -118,7 +129,7 @@ export default function Flat() {
           <DialogTitle>Add Flat</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Thêm các FLat trong Buidling - Tòa nhà
+              Add FLat into Buidling
             </DialogContentText>
             <TextField
               autoFocus
@@ -156,24 +167,35 @@ export default function Flat() {
               fullWidth
               variant="outlined"
             />
+
             <TextField
-              autoFocus
-              margin="dense"
               id="flatTypeId"
+              select
               label="Flat Type"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
+              value={flatType}
+              onChange={handleChange}
+              helperText="Please select the flatType"
+            >
+              {flatTypes.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
             <TextField
-              autoFocus
-              margin="dense"
               id="buildingId"
+              select
               label="Building"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
+              value={building}
+              onChange={handleChangeBuilding}
+              helperText="Please select the Building"
+            >
+              {Buildings.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
@@ -191,4 +213,3 @@ export default function Flat() {
     </div>
   );
 }
-

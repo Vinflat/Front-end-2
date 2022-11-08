@@ -1,5 +1,14 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+//dialog button import
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 import { useContracts } from "./hooks";
 
 const columns = [
@@ -43,27 +52,157 @@ const columns = [
     headerName: "Flat Id  ",
     width: 70,
   },
-
-
-];
-
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
 export default function Contract() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+;
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const contracts = useContracts();
+
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <div>Danh sách hợp đồng</div>
+      <div>
+        <Button variant="outlined" onClick={handleClickOpen}>
+          Add contract
+        </Button>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Add contract</DialogTitle>
+          <DialogContent>
+            {/* <DialogContentText>Thêm hợp đồng.</DialogContentText> */}
+            <TextField
+              autoFocus
+              margin="dense"
+              id="contractId"
+              label="Id"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="dateSigned"
+              label="Date Signed"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="startDate"
+              label="Start Date"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="endDate"
+              label="End Date"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="lastUpdated"
+              label="Last Updated"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="description"
+              label="Description"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="imageUrl"
+              label="Image Url"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="image"
+              label="Image"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+
+            <TextField
+              autoFocus
+              margin="dense"
+              id="contractStatus"
+              label="Contract Status"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="price"
+              label="Price"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="renterId"
+              label="Renter Id"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="flatId"
+              label="Flat Id"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            {/* <TextField
+              autoFocus
+              margin="dense"
+              id="apartmentId"
+              label="apartmentId"
+              type="text"
+              fullWidth
+              variant="outlined"
+            /> */}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>Submit</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
       <DataGrid
         rows={contracts}
         columns={columns}
