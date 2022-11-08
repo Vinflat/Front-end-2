@@ -129,7 +129,7 @@ export default function Flat() {
           <DialogTitle>Add Flat</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Thêm các FLat trong Buidling - Tòa nhà
+              Add FLat into Buidling
             </DialogContentText>
             <TextField
               autoFocus

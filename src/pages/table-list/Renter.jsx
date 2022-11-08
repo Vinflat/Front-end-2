@@ -66,7 +66,7 @@ export default function Renter() {
   const renters = useRenters();
   return (
     <div style={{ height: 400, width: '100%' }}>
-        <div>Danh sách khách thuê</div>
+        <div>List of Renters</div>
       <DataGrid
         rows={renters}
         columns={columns}

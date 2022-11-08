@@ -107,7 +107,7 @@ export default function User() {
           <DialogTitle>Add new account</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Tạo mới account cho quản lý và nhân viên
+              Create new accounts for users
             </DialogContentText>
             <TextField
               autoFocus

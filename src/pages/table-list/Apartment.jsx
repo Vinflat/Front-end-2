@@ -72,7 +72,7 @@ export default function Apartment() {
           Add apartment
         </Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Add Apartment</DialogTitle>
+          {/* <DialogTitle>Add Apartment</DialogTitle> */}
           <DialogContent>
             <DialogContentText>Thêm căn hộ.</DialogContentText>
             <TextField

@@ -43,44 +43,44 @@ const Sidebar = () => {
           <p className="title">TÀI CHÍNH</p>
           <li>
             <AddCardOutlinedIcon className="icon" />
-            <span>Thu/ chi</span>
+            <span>Receipts/ payments</span>
           </li>
           <li>
             <NoteAltOutlinedIcon className="icon" />
-            <span>Phiếu thu</span>
+            <span>Receipt Bill</span>
           </li>
           <li>
             <NoteAltOutlinedIcon className="icon" />
-            <span>Phiếu chi</span>
+            <span>Payment Bill</span>
           </li>
           <li>
             <SettingsOutlinedIcon className="icon" />
-            <span>Cài đặt hóa đơn thu</span>
+            <span>Setting Receipt</span>
           </li>
           <li>
             <SettingsOutlinedIcon className="icon" />
-            <span>Cài đặt hóa đơn chi</span>
+            <span>Setting Payment</span>
           </li>
           <li>
             <ReceiptLongOutlinedIcon className="icon" />
-            <span>Hóa đơn</span>
+            <span>Bill</span>
           </li>
           <li>
             <LeaderboardOutlinedIcon className="icon" />
-            <span>Thống kê kinh doanh</span>
+            <span>Business statistics</span>
           </li>
           {/* RENTER */}
           <p className="title">RENTER</p>
           <Link to="/contracts" style={{ textDecoration: "none" }}>
             <li>
               <ArticleOutlinedIcon className="icon" />
-              <span>Danh sách hợp đồng</span>
+              <span>Contract List</span>
             </li>
           </Link>
           <Link to="/renters" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
-              <span>Danh sách khách thuê</span>
+              <span>List of renters</span>
             </li>
           </Link>
 
@@ -111,21 +111,21 @@ const Sidebar = () => {
             </li>
           </Link>
 
-          <p className="title">ĐIỆN NƯỚC</p>
+          <p className="title">ELECTRICAL & WATER</p>
           <li>
             <FactCheckOutlinedIcon className="icon" />
-            <span>Danh sách chốt điện nước</span>
+            <span>List of electricity and water reports</span>
           </li>
           <p className="title">BÁO CÁO</p>
           <li>
             <SummarizeOutlinedIcon className="icon" />
-            <span>Tổng hợp hiện trạng thuê</span>
+            <span>Summary of rental status</span>
           </li>
           <li>
             <DynamicFormOutlinedIcon className="icon" />
-            <span>Báo cáo sử dụng điện nước</span>
+            <span>Electricity and water usage report</span>
           </li>
-          <p className="title">CÀI ĐẶT CHUNG</p>
+          <p className="title">GENERAL SETTINGS</p>
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />

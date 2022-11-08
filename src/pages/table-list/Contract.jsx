@@ -77,7 +77,7 @@ export default function Contract() {
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Add contract</DialogTitle>
           <DialogContent>
-            <DialogContentText>Thêm hợp đồng.</DialogContentText>
+            {/* <DialogContentText>Thêm hợp đồng.</DialogContentText> */}
             <TextField
               autoFocus
               margin="dense"
