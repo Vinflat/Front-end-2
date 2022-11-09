@@ -17,18 +17,43 @@ import PaymentBillList from "./pages/list/PaymentBillList";
 import BillListPage from "./pages/list/BillListPage";
 import PaymentSettingPage from "./pages/list/PaymentSettingPage";
 import ReceiptSettingPage from "./pages/list/ReceiptSettingPage";
+import jwt_decode from "jwt-decode";
 
 function App() {
   const [token, setToken] = useState();
-  if (!token) {
-    return <Login setToken={setToken} />;
+  // const [username, setUsername] = useState('');
+  // const [role, setRole] = useState('');
+
+    const setUser= (tokenString)=>{
+    localStorage.setItem("token", tokenString)
+    setToken(tokenString)
+    const decoded= jwt_decode(tokenString)
+    console.log('decoded jwt', JSON.stringify(decoded, null, 2))
+    const role=decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+    const email =decoded[ "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"]
+    const username =decoded[ "http://schemas.xmlsoap.org/ws/2009/09/identity/claims/actor"]
+    alert(`Role:${role}\n Username: ${username}\nEmail: ${email}} `)
+    //return({role: role, email: email, username: username})
   }
+  // Để dễ test flow login do chưa có logout, comment lại khi có logout, logout nhớ localStorage.removeItem('token')
+  localStorage.removeItem('token')
+  
+  const storedToken=localStorage.getItem('token')
+  if(storedToken&&storedToken.length>0){
+    //Todo: 
+    // có thể setState cho token
+    // setToken(localToken)
+  }
+  if (!token || token.length==0) {
+    return <Login setToken={setUser} />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/">
           <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
+          <Route path="login" element={<Login setToken={setUser}/>} />
           <Route path="users">
             <Route index element={<List />} />
             <Route path=":userId" element={<Single />} />

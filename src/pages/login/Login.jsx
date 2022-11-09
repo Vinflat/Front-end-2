@@ -34,10 +34,13 @@ export default function Login({ setToken }) {
   //const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
-    const token = await loginUser({
+    const res = await loginUser({
       username,
       password,
     });
+    const token= res.token
+
+    
     setToken(token);
   };
 
