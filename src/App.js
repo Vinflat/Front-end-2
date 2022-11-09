@@ -33,6 +33,7 @@ function App() {
     const email =decoded[ "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"]
     const username =decoded[ "http://schemas.xmlsoap.org/ws/2009/09/identity/claims/actor"]
     alert(`Role:${role}\n Username: ${username}\nEmail: ${email}} `)
+    alert(`Token trong: ${token}`)
     //return({role: role, email: email, username: username})
   }
   // Để dễ test flow login do chưa có logout, comment lại khi có logout, logout nhớ localStorage.removeItem('token')
@@ -44,6 +45,7 @@ function App() {
     // có thể setState cho token
     // setToken(localToken)
   }
+  alert(`Token ngoai: ${token}`)
   if (!token || token.length==0) {
     return <Login setToken={setUser} />;
   }
