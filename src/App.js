@@ -17,9 +17,10 @@ import PaymentBillList from "./pages/list/PaymentBillList";
 import BillListPage from "./pages/list/BillListPage";
 import PaymentSettingPage from "./pages/list/PaymentSettingPage";
 import ReceiptSettingPage from "./pages/list/ReceiptSettingPage";
+import { useToken } from "./services/AuthService";
 
 function App() {
-  const [token, setToken] = useState();
+  const {token, setToken} = useToken();
   if (!token) {
     return <Login setToken={setToken} />;
   }
