@@ -13,7 +13,7 @@ import { useBuildings } from "./hooks";
 
 const columns = [
   { field: "buildingId", headerName: "ID", width: 60 },
-  { field: "buildingName", headerName: "First name", width: 130 },
+  { field: "buildingName", headerName: "Name", width: 130 },
   { field: "imageUrlUrl", headerName: "Image", width: 130 },
   { field: "description", headerName: "Description", width: 120 },
   {
