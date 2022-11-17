@@ -197,7 +197,7 @@ const Bill = () => {
             onClick={() => setCreateModalOpen(true)}
             variant="contained"
           >
-            Create New Account
+            Create New Bill
           </Button>
         )}
       />

@@ -40,49 +40,26 @@ const Sidebar = () => {
             </li>
           </Link>
           {/* TÀI CHÍNH */}
-          <p className="title">TÀI CHÍNH</p>
+          <p className="title">FINANCE</p>
           <Link to="/receipts&payments" style={{ textDecoration: "none" }}>
             <li>
               <AddCardOutlinedIcon className="icon" />
               <span>Receipts/ payments</span>
             </li>
           </Link>
-          <Link to="/receiptbill" style={{ textDecoration: "none" }}>
-          <li>
-            <NoteAltOutlinedIcon className="icon" />
-            <span>Receipt Bill</span>
-          </li>
-          </Link>
-          <Link to="/paymentbill" style={{ textDecoration: "none" }}>
-          <li>
-            <NoteAltOutlinedIcon className="icon" />
-            <span>Payment Bill</span>
-          </li>
-          </Link>
-          <Link to="/receiptsetting" style={{ textDecoration: "none" }}>
-          <li>
-            <SettingsOutlinedIcon className="icon" />
-            <span>Receipt Setting </span>
-          </li>
-          </Link>
-          <Link to="/paymentsetting" style={{ textDecoration: "none" }}>
-          <li>
-            <SettingsOutlinedIcon className="icon" />
-            <span>Payment Setting </span>
-          </li>
-          </Link>
+
           <Link to="/bills" style={{ textDecoration: "none" }}>
-          <li>
-            <ReceiptLongOutlinedIcon className="icon" />
-            <span>Bill</span>
-          </li>
+            <li>
+              <ReceiptLongOutlinedIcon className="icon" />
+              <span>Bill</span>
+            </li>
           </Link>
-          
+
           <Link to="/businessStatistics" style={{ textDecoration: "none" }}>
-          <li>
-            <LeaderboardOutlinedIcon className="icon" />
-            <span>Business statistics</span>
-          </li>
+            <li>
+              <LeaderboardOutlinedIcon className="icon" />
+              <span>Business statistics</span>
+            </li>
           </Link>
           {/* RENTER */}
           <p className="title">RENTER</p>
@@ -127,13 +104,16 @@ const Sidebar = () => {
           </Link>
 
           <p className="title">ELECTRICAL & WATER</p>
-          <Link to="/electrict&waterreport" style={{ textDecoration: "none" }}>
+          <Link
+            to="/electrictandwaterreport"
+            style={{ textDecoration: "none" }}
+          >
             <li>
               <FactCheckOutlinedIcon className="icon" />
               <span>List of electricity and water reports</span>
             </li>
           </Link>
-          <p className="title">BÁO CÁO</p>
+          <p className="title">REPORT</p>
           <li>
             <SummarizeOutlinedIcon className="icon" />
             <span>Summary of rental status</span>

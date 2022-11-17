@@ -1,79 +1,120 @@
-import * as React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import { useRenters } from './hooks';
+import React from 'react';
+import MaterialReactTable from 'material-react-table';
+import { Box, Button } from '@mui/material';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { ExportToCsv } from 'export-to-csv'; //or use your library of choice here
+// import { data } from './makeData';
+import { useBuildings } from "./hooks";
+const data = useBuildings;
 
+//defining columns outside of the component is fine, is stable
 const columns = [
-  { field: 'renterId', headerName: 'ID', width: 70 },
-  { field: 'username', headerName: 'User name', width: 130 },
-  { field: 'email', headerName: 'Email', width: 130 },
-  { field: 'phone', headerName: 'Phone', width: 130 },
-  { field: 'fullName', headerName: 'Full Name', width: 130 },
   {
-    field: 'birthDate',
-    headerName: 'Birth Date',
-    type: 'number',
-    width: 90,
+    accessorKey: 'id',
+    header: 'ID',
+    size: 40,
   },
   {
-    field: 'status',
-    headerName: 'Status',
-    width: 70,
+    accessorKey: 'firstName',
+    header: 'First Name',
+    size: 120,
   },
   {
-    field: "imageUrl",
-    headerName: "ImageUrl",
-    width: 90,
+    accessorKey: 'lastName',
+    header: 'Last Name',
+    size: 120,
   },
   {
-    field: "image",
-    headerName: "Image",
-    width: 70,
+    accessorKey: 'company',
+    header: 'Company',
+    size: 300,
   },
   {
-    field: "address",
-    headerName: "Address",
-    width: 70,
+    accessorKey: 'city',
+    header: 'City',
   },
   {
-    field: "gender",
-    headerName: "Gender",
-    width: 70,
+    accessorKey: 'country',
+    header: 'Country',
+    size: 220,
   },
-  // {
-  //   field: 'fullName',
-  //   headerName: 'Full name',
-  //   description: 'This column has a value getter and is not sortable.',
-  //   sortable: false,
-  //   width: 160,
-  //   valueGetter: (params) =>
-  //     `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  // },
 ];
 
-// const rows = [
-//   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-//   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-//   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-//   { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-//   { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-//   { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-//   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-//   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-//   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-// ];
+const csvOptions = {
+  fieldSeparator: ',',
+  quoteStrings: '"',
+  decimalSeparator: '.',
+  showLabels: true,
+  useBom: true,
+  useKeysAsHeaders: false,
+  headers: columns.map((c) => c.header),
+};
 
-export default function ReceiptsandPayments() {
-  const renters = useRenters();
+const csvExporter = new ExportToCsv(csvOptions);
+
+const ReceiptsandPayments = () => {
+  const handleExportRows = (rows) => {
+    csvExporter.generateCsv(rows.map((row) => row.original));
+  };
+
+  const handleExportData = () => {
+    csvExporter.generateCsv(data);
+  };
+
   return (
-    <div style={{ height: 400, width: '100%' }}>
-        <div>Receipts and Payments List</div>
-      {/* <DataGrid
-        rows={renters}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      /> */}
-    </div>
+    <MaterialReactTable
+      columns={columns}
+      data={data}
+      enableRowSelection
+      positionToolbarAlertBanner="bottom"
+      renderTopToolbarCustomActions={({ table }) => (
+        <Box
+          sx={{ display: 'flex', gap: '1rem', p: '0.5rem', flexWrap: 'wrap' }}
+        >
+          <Button
+            color="primary"
+            //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
+            onClick={handleExportData}
+            startIcon={<FileDownloadIcon />}
+            variant="contained"
+          >
+            Export All Data
+          </Button>
+          <Button
+            disabled={table.getPrePaginationRowModel().rows.length === 0}
+            //export all rows, including from the next page, (still respects filtering and sorting)
+            onClick={() =>
+              handleExportRows(table.getPrePaginationRowModel().rows)
+            }
+            startIcon={<FileDownloadIcon />}
+            variant="contained"
+          >
+            Export All Rows
+          </Button>
+          <Button
+            disabled={table.getRowModel().rows.length === 0}
+            //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
+            onClick={() => handleExportRows(table.getRowModel().rows)}
+            startIcon={<FileDownloadIcon />}
+            variant="contained"
+          >
+            Export Page Rows
+          </Button>
+          <Button
+            disabled={
+              !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
+            }
+            //only export selected rows
+            onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
+            startIcon={<FileDownloadIcon />}
+            variant="contained"
+          >
+            Export Selected Rows
+          </Button>
+        </Box>
+      )}
+    />
   );
-}
+};
+
+export default ReceiptsandPayments;
