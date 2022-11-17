@@ -16,7 +16,7 @@ import "./login.scss";
 
 async function loginUser(credentials) {
   return fetch(
-    "https://webapp-221025125738.azurewebsites.net/api/auth/management/v1/login",
+    "https://webapp-133769420727.azurewebsites.net/api/auth/management/v1/login",
     {
       method: "POST",
       headers: {
