@@ -165,6 +165,7 @@ const Building = () => {
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
+          type: "number",
         }),
       },
       {

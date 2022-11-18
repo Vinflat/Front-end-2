@@ -14,13 +14,12 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-// import { data, states } from './makeData';
-import { useBuildings } from "./hooks";
+import { useFlats } from "./hooks";
 import { useEffect } from "react";
 
 // const data = useBuildings();
 const Bill = () => {
-  const data = useBuildings();
+  const data = useFlats();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -47,7 +46,7 @@ const Bill = () => {
     (row) => {
       if (
         !window.confirm(
-          `Are you sure you want to delete ${row.getValue("buildingName")}`
+          `Are you sure you want to delete ${row.getValue("username")}`
         )
       ) {
         return;
@@ -93,24 +92,16 @@ const Bill = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "buildingId",
+        accessorKey: "flatId",
         header: "ID",
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
-        size: 100,
+        size: 80,
       },
       {
-        accessorKey: "buildingName",
+        accessorKey: "name",
         header: "Name",
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: "imageUrlUrl",
-        header: "Image",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -119,45 +110,9 @@ const Bill = () => {
       {
         accessorKey: "description",
         header: "Description",
+        size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          // type: 'email',
-        }),
-      },
-      {
-        accessorKey: "totalRooms",
-        header: "Floors",
-        size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
-        }),
-      },
-      {
-        accessorKey: "totalFloor",
-        header: "Rooms",
-        size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
-        }),
-      },
-      {
-        accessorKey: "coordinateX",
-        header: "coordinateX",
-        size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
-        }),
-      },
-      {
-        accessorKey: "coordinateY",
-        header: "coordinateY",
-        size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
         }),
       },
       {
@@ -167,15 +122,18 @@ const Bill = () => {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
+        type: "number",
       },
       {
-        accessorKey: "areaId",
-        header: "areaId",
-        size: 80,
+        accessorKey: "buildingId",
+        header: "Building Id",
+        size: 630,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
+          type: "number",
         }),
       },
+
       // {
       //   accessorKey: 'state',
       //   header: 'State',
@@ -229,7 +187,7 @@ const Bill = () => {
             onClick={() => setCreateModalOpen(true)}
             variant="contained"
           >
-            Create New Bill
+            Create New Account
           </Button>
         )}
       />

@@ -1,215 +1,263 @@
-import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
-//dialog button import
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import MenuItem from "@mui/material/MenuItem";
-
+import React, { useCallback, useMemo, useState } from "react";
+import MaterialReactTable from "material-react-table";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  MenuItem,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
 import { useFlats } from "./hooks";
+import { useEffect } from "react";
 
-const flatTypes = [
-  {
-    value: "1",
-    label: "Admin",
-  },
-  {
-    value: "2",
-    label: "Super Admin",
-  },
-  {
-    value: "3",
-    label: "Moderator",
-  },
-  {
-    value: "4",
-    label: "Employee",
-  },
-  {
-    value: "5",
-    label: "Tester",
-  },
-];
-const Buildings = [
-  {
-    value: "1",
-    label: "Admin",
-  },
-  {
-    value: "2",
-    label: "Super Admin",
-  },
-  {
-    value: "3",
-    label: "Moderator",
-  },
-  {
-    value: "4",
-    label: "Employee",
-  },
-  {
-    value: "5",
-    label: "Tester",
-  },
-];
-const columns = [
-  { field: "flatId", headerName: "ID", width: 60 },
-  { field: "name", headerName: "Name", width: 130 },
+const Flat = () => {
+  const data = useFlats();
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [tableData, setTableData] = useState([]);
+  const [validationErrors, setValidationErrors] = useState({});
 
-  { field: "description", headerName: "Description", width: 120 },
-  {
-    field: "status",
-    headerName: "Status",
-    type: "number",
-    width: 80,
-  },
-  {
-    field: "flatType",
-    headerName: "flatType",
-    type: "number",
-    width: 80,
-  },
-  {
-    field: "buildingId",
-    headerName: "buildingId",
-    type: "number",
-    width: 80,
-  },
-];
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
 
-// const rows = [
-//   { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-//   { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-//   { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-//   { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-//   { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-//   { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-//   { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-//   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-//   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-// ];
-
-export default function Flat() {
-  const [flatType, setflatType] = React.useState("EUR");
-  const handleChange = (event) => {
-    setflatType(event.target.value);
+  const handleCreateNewRow = (values) => {
+    tableData.push(values);
+    setTableData([...tableData]);
   };
 
-  const [building, setBuilding] = React.useState("EUR");
-  const handleChangeBuilding = (event) => {
-    setBuilding(event.target.value);
+  const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
+    if (!Object.keys(validationErrors).length) {
+      tableData[row.index] = values;
+      //send/receive api updates here, then refetch or update local table data for re-render
+      setTableData([...tableData]);
+      exitEditingMode(); //required to exit editing mode and close modal
+    }
   };
 
-  const [open, setOpen] = React.useState(false);
+  const handleDeleteRow = useCallback(
+    (row) => {
+      if (
+        !window.confirm(
+          `Are you sure you want to delete ${row.getValue("name")}`
+        )
+      ) {
+        return;
+      }
+      //send api delete request here, then refetch or update local table data for re-render
+      tableData.splice(row.index, 1);
+      setTableData([...tableData]);
+    },
+    [tableData]
+  );
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const getCommonEditTextFieldProps = useCallback(
+    (cell) => {
+      return {
+        error: !!validationErrors[cell.id],
+        helperText: validationErrors[cell.id],
+        onBlur: (event) => {
+          const isValid =
+            cell.column.id === "email"
+              ? validateEmail(event.target.value)
+              : cell.column.id === "age"
+              ? validateAge(+event.target.value)
+              : validateRequired(event.target.value);
+          if (!isValid) {
+            //set validation error for cell if invalid
+            setValidationErrors({
+              ...validationErrors,
+              [cell.id]: `${cell.column.columnDef.header} is required`,
+            });
+          } else {
+            //remove validation error for cell if valid
+            delete validationErrors[cell.id];
+            setValidationErrors({
+              ...validationErrors,
+            });
+          }
+        },
+      };
+    },
+    [validationErrors]
+  );
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "flatId",
+        header: "ID",
+        enableColumnOrdering: false,
+        enableEditing: false, //disable editing on this column
+        enableSorting: false,
+        size: 80,
+      },
+      {
+        accessorKey: "name",
+        header: "Name",
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "description",
+        header: "Description",
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        type: "number",
+      },
+      {
+        accessorKey: "buildingId",
+        header: "Building Id",
+        size: 630,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+        }),
+      },
 
-  const flats = useFlats();
-
-  // console.log("Flat.jsx");
-  // console.log("getFLats()", flats);
+      // {
+      //   accessorKey: 'state',
+      //   header: 'State',
+      //   muiTableBodyCellEditTextFieldProps: {
+      //     select: true, //change to select for a dropdown
+      //     children: states.map((state) => (
+      //       <MenuItem key={state} value={state}>
+      //         {state}
+      //       </MenuItem>
+      //     )),
+      //   },
+      // },
+    ],
+    [getCommonEditTextFieldProps]
+  );
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <div>
-        <Button variant="outlined" onClick={handleClickOpen}>
-          Add Flat
-        </Button>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Add Flat</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Add FLat into Buidling
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="flatId"
-              label="Flat Id"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Flat Name"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="description"
-              label="Description"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="status"
-              label="Status"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-
-            <TextField
-              id="flatTypeId"
-              select
-              label="Flat Type"
-              value={flatType}
-              onChange={handleChange}
-              helperText="Please select the flatType"
-            >
-              {flatTypes.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              id="buildingId"
-              select
-              label="Building"
-              value={building}
-              onChange={handleChangeBuilding}
-              helperText="Please select the Building"
-            >
-              {Buildings.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Submit</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-      <DataGrid
-        rows={flats}
+    <>
+      <MaterialReactTable
+        displayColumnDefOptions={{
+          "mrt-row-actions": {
+            muiTableHeadCellProps: {
+              align: "center",
+            },
+            size: 120,
+          },
+        }}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
+        data={tableData}
+        editingMode="modal" //default
+        enableColumnOrdering
+        enableEditing
+        onEditingRowSave={handleSaveRowEdits}
+        renderRowActions={({ row, table }) => (
+          <Box sx={{ display: "flex", gap: "1rem" }}>
+            <Tooltip arrow placement="left" title="Edit">
+              <IconButton onClick={() => table.setEditingRow(row)}>
+                <Edit />
+              </IconButton>
+            </Tooltip>
+            <Tooltip arrow placement="right" title="Delete">
+              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                <Delete />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        )}
+        renderTopToolbarCustomActions={() => (
+          <Button
+            color="secondary"
+            onClick={() => setCreateModalOpen(true)}
+            variant="contained"
+          >
+            Create New Flat
+          </Button>
+        )}
       />
-    </div>
+      <CreateNewAccountModal
+        columns={columns}
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        onSubmit={handleCreateNewRow}
+      />
+    </>
   );
-}
+};
+
+//example of creating a mui dialog modal for creating new rows
+export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
+  const [values, setValues] = useState(() =>
+    columns.reduce((acc, column) => {
+      acc[column.accessorKey ?? ""] = "";
+      return acc;
+    }, {})
+  );
+
+  const handleSubmit = () => {
+    //put your validation logic here
+    onSubmit(values);
+    onClose();
+  };
+
+  return (
+    <Dialog open={open}>
+      <DialogTitle textAlign="center">Create New Flat</DialogTitle>
+      <DialogContent>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <Stack
+            sx={{
+              width: "100%",
+              minWidth: { xs: "300px", sm: "360px", md: "400px" },
+              gap: "1.5rem",
+            }}
+          >
+            {columns.map((column) => (
+              <TextField
+                key={column.accessorKey}
+                label={column.header}
+                name={column.accessorKey}
+                onChange={(e) =>
+                  setValues({ ...values, [e.target.name]: e.target.value })
+                }
+              />
+            ))}
+          </Stack>
+        </form>
+      </DialogContent>
+      <DialogActions sx={{ p: "1.25rem" }}>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button color="secondary" onClick={handleSubmit} variant="contained">
+          Create New Flat
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+const validateRequired = (value) => !!value.length;
+const validateEmail = (email) =>
+  !!email.length &&
+  email
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+const validateAge = (age) => age >= 18 && age <= 50;
+
+export default Flat;
