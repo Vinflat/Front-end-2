@@ -125,7 +125,6 @@ const Sidebar = () => {
           </li>
 
           <p className="title">GENERAL SETTINGS</p>
-          <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
