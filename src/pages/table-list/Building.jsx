@@ -1,266 +1,305 @@
-import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
-//dialog button import
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-
+import React, { useCallback, useMemo, useState } from "react";
+import MaterialReactTable from "material-react-table";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  MenuItem,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
 import { useBuildings } from "./hooks";
+import { useEffect } from "react";
 
-const columns = [
-  { field: "buildingId", headerName: "ID", width: 60 },
-  { field: "buildingName", headerName: "Name", width: 130 },
-  { field: "imageUrlUrl", headerName: "Image", width: 130 },
-  { field: "description", headerName: "Description", width: 120 },
-  {
-    field: "totalFloor",
-    headerName: "Floors",
-    type: "number",
-    width: 80,
-  },
-  {
-    field: "totalRooms",
-    headerName: "Rooms",
-    type: "number",
-    width: 80,
-  },
-  {
-    field: "coordinateX",
-    headerName: "X",
-    type: "number",
-    width: 80,
-  },
-  {
-    field: "coordinateY",
-    headerName: "Y",
-    type: "number",
-    width: 80,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 60,
-  },
-  // {
-  //   field: "apartment",
-  //   headerName: "Apartment",
-  //   width: 100,
-  // },
-  {
-    field: "flats",
-    headerName: "Flats",
-    width: 130,
-  },
-];
+// const data = useBuildings();
+const Building = () => {
+  const data = useBuildings();
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [tableData, setTableData] = useState([]);
+  const [validationErrors, setValidationErrors] = useState({});
 
-// const rows = [
-//   { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-//   { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-//   { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-//   { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-//   { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-//   { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-//   { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-//   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-//   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-// ];
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
 
-export default function Building() {
-  const [open, setOpen] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleCreateNewRow = (values) => {
+    tableData.push(values);
+    setTableData([...tableData]);
   };
 
-  const handleClickOpen2 = () => {
-    setOpen2(true);
+  const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
+    if (!Object.keys(validationErrors).length) {
+      tableData[row.index] = values;
+      //send/receive api updates here, then refetch or update local table data for re-render
+      setTableData([...tableData]);
+      exitEditingMode(); //required to exit editing mode and close modal
+    }
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleDeleteRow = useCallback(
+    (row) => {
+      if (
+        !window.confirm(
+          `Are you sure you want to delete ${row.getValue("buildingName")}`
+        )
+      ) {
+        return;
+      }
+      //send api delete request here, then refetch or update local table data for re-render
+      tableData.splice(row.index, 1);
+      setTableData([...tableData]);
+    },
+    [tableData]
+  );
 
-  const handleClose2 = () => {
-    setOpen2(false);
-  };
+  const getCommonEditTextFieldProps = useCallback(
+    (cell) => {
+      return {
+        error: !!validationErrors[cell.id],
+        helperText: validationErrors[cell.id],
+        onBlur: (event) => {
+          const isValid =
+            cell.column.id === "email"
+              ? validateEmail(event.target.value)
+              : cell.column.id === "age"
+              ? validateAge(+event.target.value)
+              : validateRequired(event.target.value);
+          if (!isValid) {
+            //set validation error for cell if invalid
+            setValidationErrors({
+              ...validationErrors,
+              [cell.id]: `${cell.column.columnDef.header} is required`,
+            });
+          } else {
+            //remove validation error for cell if valid
+            delete validationErrors[cell.id];
+            setValidationErrors({
+              ...validationErrors,
+            });
+          }
+        },
+      };
+    },
+    [validationErrors]
+  );
 
-  const buildings = useBuildings();
-
-  console.log("Building.jsx");
-  console.log("getBuildings()", buildings);
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "buildingId",
+        header: "ID",
+        enableColumnOrdering: false,
+        enableEditing: false, //disable editing on this column
+        enableSorting: false,
+        size: 100,
+      },
+      {
+        accessorKey: "buildingName",
+        header: "Name",
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "imageUrlUrl",
+        header: "Image",
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "description",
+        header: "Description",
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          // type: 'email',
+        }),
+      },
+      {
+        accessorKey: "totalRooms",
+        header: "Floors",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+        }),
+      },
+      {
+        accessorKey: "totalFloor",
+        header: "Rooms",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+        }),
+      },
+      {
+        accessorKey: "coordinateX",
+        header: "coordinateX",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+        }),
+      },
+      {
+        accessorKey: "coordinateY",
+        header: "coordinateY",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+        }),
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "areaId",
+        header: "areaId",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      // {
+      //   accessorKey: 'state',
+      //   header: 'State',
+      //   muiTableBodyCellEditTextFieldProps: {
+      //     select: true, //change to select for a dropdown
+      //     children: states.map((state) => (
+      //       <MenuItem key={state} value={state}>
+      //         {state}
+      //       </MenuItem>
+      //     )),
+      //   },
+      // },
+    ],
+    [getCommonEditTextFieldProps]
+  );
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <div>
-        <Button variant="outlined" onClick={handleClickOpen}>
-          Add building
-        </Button>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Add building</DialogTitle>
-          <DialogContent>
-            {/* <DialogContentText>Thêm tòa nhà.</DialogContentText> */}
-            <TextField
-              autoFocus
-              margin="dense"
-              id="buildingId"
-              label="Building Id"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="buildingName"
-              label="Building Name"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="imageUrlUrl"
-              label="Image Url"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="description"
-              label="Description"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="totalFloor"
-              label="Total Floor"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="totalRooms"
-              label="Total Room"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="status"
-              label="status"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            {/* <TextField
-              autoFocus
-              margin="dense"
-              id="apartmentId"
-              label="apartmentId"
-              type="text"
-              fullWidth
-              variant="outlined"
-            /> */}
-            <div>
-              <Button variant="outlined" onClick={handleClickOpen2}>
-                Add Flat
-              </Button>
-              <Dialog open={open2} onClose={handleClose2}>
-                <DialogTitle>Add Flat</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>
-                    Thêm phòng trong căn hộ.
-                  </DialogContentText>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="flatId"
-                    label="Flat Id"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                  />
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Flat Name"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                  />
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="description"
-                    label="Description"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                  />
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="status"
-                    label="Status"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                  />
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="flatTypeId"
-                    label="Flat Type"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                  />
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="buildingId"
-                    label="Building Id"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                  />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose2}>Cancel</Button>
-                  <Button onClick={handleClose2}>Submit</Button>
-                </DialogActions>
-              </Dialog>
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Submit</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-      <DataGrid
-        rows={buildings}
+    <>
+      <MaterialReactTable
+        displayColumnDefOptions={{
+          "mrt-row-actions": {
+            muiTableHeadCellProps: {
+              align: "center",
+            },
+            size: 120,
+          },
+        }}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
+        data={tableData}
+        editingMode="modal" //default
+        enableColumnOrdering
+        enableEditing
+        onEditingRowSave={handleSaveRowEdits}
+        renderRowActions={({ row, table }) => (
+          <Box sx={{ display: "flex", gap: "1rem" }}>
+            <Tooltip arrow placement="left" title="Edit">
+              <IconButton onClick={() => table.setEditingRow(row)}>
+                <Edit />
+              </IconButton>
+            </Tooltip>
+            <Tooltip arrow placement="right" title="Delete">
+              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                <Delete />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        )}
+        renderTopToolbarCustomActions={() => (
+          <Button
+            color="secondary"
+            onClick={() => setCreateModalOpen(true)}
+            variant="contained"
+          >
+            Create New Building
+          </Button>
+        )}
       />
-    </div>
+      <CreateNewAccountModal
+        columns={columns}
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        onSubmit={handleCreateNewRow}
+      />
+    </>
   );
-}
+};
+
+//example of creating a mui dialog modal for creating new rows
+export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
+  const [values, setValues] = useState(() =>
+    columns.reduce((acc, column) => {
+      acc[column.accessorKey ?? ""] = "";
+      return acc;
+    }, {})
+  );
+
+  const handleSubmit = () => {
+    //put your validation logic here
+    onSubmit(values);
+    onClose();
+  };
+
+  return (
+    <Dialog open={open}>
+      <DialogTitle textAlign="center">Create New Buidling</DialogTitle>
+      <DialogContent>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <Stack
+            sx={{
+              width: "100%",
+              minWidth: { xs: "300px", sm: "360px", md: "400px" },
+              gap: "1.5rem",
+            }}
+          >
+            {columns.map((column) => (
+              <TextField
+                key={column.accessorKey}
+                label={column.header}
+                name={column.accessorKey}
+                onChange={(e) =>
+                  setValues({ ...values, [e.target.name]: e.target.value })
+                }
+              />
+            ))}
+          </Stack>
+        </form>
+      </DialogContent>
+      <DialogActions sx={{ p: "1.25rem" }}>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button color="secondary" onClick={handleSubmit} variant="contained">
+          Create New Building
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+const validateRequired = (value) => !!value.length;
+const validateEmail = (email) =>
+  !!email.length &&
+  email
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+const validateAge = (age) => age >= 18 && age <= 50;
+
+export default Building;

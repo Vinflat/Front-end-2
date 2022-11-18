@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import MaterialReactTable from 'material-react-table';
+import React, { useCallback, useMemo, useState } from "react";
+import MaterialReactTable from "material-react-table";
 import {
   Box,
   Button,
@@ -12,19 +12,25 @@ import {
   Stack,
   TextField,
   Tooltip,
-} from '@mui/material';
-import { Delete, Edit } from '@mui/icons-material';
+} from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
 // import { data, states } from './makeData';
 import { useBuildings } from "./hooks";
-const data = useBuildings;
+import { useEffect } from "react";
+
+// const data = useBuildings();
 const Bill = () => {
+  const data = useBuildings();
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState(() => data);
+  const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
-  
+
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
 
   const handleCreateNewRow = (values) => {
-    tableData.push(values); 
+    tableData.push(values);
     setTableData([...tableData]);
   };
 
@@ -40,7 +46,9 @@ const Bill = () => {
   const handleDeleteRow = useCallback(
     (row) => {
       if (
-        !window.confirm(`Are you sure you want to delete ${row.getValue('firstName')}`)
+        !window.confirm(
+          `Are you sure you want to delete ${row.getValue("buildingName")}`
+        )
       ) {
         return;
       }
@@ -48,7 +56,7 @@ const Bill = () => {
       tableData.splice(row.index, 1);
       setTableData([...tableData]);
     },
-    [tableData],
+    [tableData]
   );
 
   const getCommonEditTextFieldProps = useCallback(
@@ -58,9 +66,9 @@ const Bill = () => {
         helperText: validationErrors[cell.id],
         onBlur: (event) => {
           const isValid =
-            cell.column.id === 'email'
+            cell.column.id === "email"
               ? validateEmail(event.target.value)
-              : cell.column.id === 'age'
+              : cell.column.id === "age"
               ? validateAge(+event.target.value)
               : validateRequired(event.target.value);
           if (!isValid) {
@@ -79,69 +87,93 @@ const Bill = () => {
         },
       };
     },
-    [validationErrors],
+    [validationErrors]
   );
 
   const columns = useMemo(
     () => [
-      
       {
-        accessorKey: 'buildingId',
-        header: 'ID',
+        accessorKey: "buildingId",
+        header: "ID",
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 100,
       },
       {
-        accessorKey: 'buildingName',
-        header: 'Name',
+        accessorKey: "buildingName",
+        header: "Name",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
       },
       {
-        accessorKey: 'imageUrlUrl',
-        header: 'Image',
+        accessorKey: "imageUrlUrl",
+        header: "Image",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
       },
       {
-        accessorKey: 'description',
-        header: 'Description',
+        accessorKey: "description",
+        header: "Description",
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
           // type: 'email',
         }),
       },
       {
-        accessorKey: 'totalRooms',
-        header: 'Floors',
+        accessorKey: "totalRooms",
+        header: "Floors",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: 'number',
+          type: "number",
         }),
       },
       {
-        accessorKey: 'totalFloor',
-        header: 'Rooms',
+        accessorKey: "totalFloor",
+        header: "Rooms",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: 'number',
+          type: "number",
         }),
       },
       {
-        accessorKey: 'totalFloor',
-        header: 'Rooms',
+        accessorKey: "coordinateX",
+        header: "coordinateX",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: 'number',
+          type: "number",
+        }),
+      },
+      {
+        accessorKey: "coordinateY",
+        header: "coordinateY",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+        }),
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "areaId",
+        header: "areaId",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
         }),
       },
       // {
@@ -157,16 +189,16 @@ const Bill = () => {
       //   },
       // },
     ],
-    [getCommonEditTextFieldProps],
+    [getCommonEditTextFieldProps]
   );
 
   return (
     <>
       <MaterialReactTable
         displayColumnDefOptions={{
-          'mrt-row-actions': {
+          "mrt-row-actions": {
             muiTableHeadCellProps: {
-              align: 'center',
+              align: "center",
             },
             size: 120,
           },
@@ -178,7 +210,7 @@ const Bill = () => {
         enableEditing
         onEditingRowSave={handleSaveRowEdits}
         renderRowActions={({ row, table }) => (
-          <Box sx={{ display: 'flex', gap: '1rem' }}>
+          <Box sx={{ display: "flex", gap: "1rem" }}>
             <Tooltip arrow placement="left" title="Edit">
               <IconButton onClick={() => table.setEditingRow(row)}>
                 <Edit />
@@ -215,9 +247,9 @@ const Bill = () => {
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
-      acc[column.accessorKey ?? ''] = '';
+      acc[column.accessorKey ?? ""] = "";
       return acc;
-    }, {}),
+    }, {})
   );
 
   const handleSubmit = () => {
@@ -233,9 +265,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
             sx={{
-              width: '100%',
-              minWidth: { xs: '300px', sm: '360px', md: '400px' },
-              gap: '1.5rem',
+              width: "100%",
+              minWidth: { xs: "300px", sm: "360px", md: "400px" },
+              gap: "1.5rem",
             }}
           >
             {columns.map((column) => (
@@ -251,7 +283,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           </Stack>
         </form>
       </DialogContent>
-      <DialogActions sx={{ p: '1.25rem' }}>
+      <DialogActions sx={{ p: "1.25rem" }}>
         <Button onClick={onClose}>Cancel</Button>
         <Button color="secondary" onClick={handleSubmit} variant="contained">
           Create New Account
@@ -267,7 +299,7 @@ const validateEmail = (email) =>
   email
     .toLowerCase()
     .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 const validateAge = (age) => age >= 18 && age <= 50;
 
