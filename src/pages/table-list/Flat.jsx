@@ -182,7 +182,7 @@ const Flat = () => {
         )}
         renderTopToolbarCustomActions={() => (
           <Button
-            color="secondary"
+            color="primary"
             onClick={() => setCreateModalOpen(true)}
             variant="contained"
           >
@@ -242,7 +242,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
       </DialogContent>
       <DialogActions sx={{ p: "1.25rem" }}>
         <Button onClick={onClose}>Cancel</Button>
-        <Button color="secondary" onClick={handleSubmit} variant="contained">
+        <Button color="primary" onClick={handleSubmit} variant="contained">
           Create New Flat
         </Button>
       </DialogActions>
