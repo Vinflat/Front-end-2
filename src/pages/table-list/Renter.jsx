@@ -139,7 +139,7 @@ const Renter = () => {
         size: 50,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: "number",
+          type: "date",
         }),
       },
       {

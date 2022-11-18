@@ -17,7 +17,7 @@ const Widget = ({ type }) => {
   switch (type) {
     case "user":
       data = {
-        title: "USERS",
+        title: "BUILDINGS",
         isMoney: false,
         link: "See all users",
         query:"users",
@@ -34,7 +34,7 @@ const Widget = ({ type }) => {
       break;
     case "order":
       data = {
-        title: "ORDERS",
+        title: "LOSING",
         isMoney: false,
         link: "View all orders",
         icon: (
@@ -63,7 +63,7 @@ const Widget = ({ type }) => {
       break;
     case "product":
       data = {
-        title: "PRODUCTS",
+        title: "FLATS",
         query:"products",
         link: "See details",
         icon: (
