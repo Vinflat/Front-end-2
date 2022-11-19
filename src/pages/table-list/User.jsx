@@ -197,7 +197,7 @@ const User = () => {
             onClick={() => setCreateModalOpen(true)}
             variant="contained"
           >
-            Create New Account
+            Thêm tài khoản
           </Button>
         )}
       />
@@ -228,7 +228,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Create New Account</DialogTitle>
+      <DialogTitle textAlign="center">Thêm tài khoản</DialogTitle>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
@@ -252,9 +252,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
         </form>
       </DialogContent>
       <DialogActions sx={{ p: "1.25rem" }}>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose}>Hủy</Button>
         <Button color="primary" onClick={handleSubmit} variant="contained">
-          Create New Account
+          Lưu
         </Button>
       </DialogActions>
     </Dialog>

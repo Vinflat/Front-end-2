@@ -73,8 +73,8 @@ export default function Login({ setToken }) {
                   <TextField
                     type="text"
                     fullWidth
-                    label="Username"
-                    placeholder="Enter your username"
+                    label="Tên tài khoản"
+                    placeholder="Nhập tên tài khoản"
                     variant="outlined"
                     required
                     onChange={(e) => setUserName(e.target.value)}
@@ -85,8 +85,8 @@ export default function Login({ setToken }) {
                   <TextField
                     type={values.showPass ? "text" : "password"}
                     fullWidth
-                    label="Password"
-                    placeholder="Password"
+                    label="Mật khẩu"
+                    placeholder="********"
                     variant="outlined"
                     required
                     onChange={(e) => setPassword(e.target.value)}
@@ -117,7 +117,7 @@ export default function Login({ setToken }) {
                     fullWidth
                     variant="contained"
                   >
-                    Log In
+                    Đăng nhập
                   </Button>
                 </Grid>
               </Grid>
