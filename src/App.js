@@ -12,7 +12,6 @@ import ReceiptsandPaymentsList from "./pages/list/ReceiptsandPaymentsList";
 import ElectrictandWaterReportList from "./pages/list/ElectrictandWaterReportList";
 import BusinessStatistics from "./pages/list/BusinessStatistics";
 import BillListPage from "./pages/list/BillListPage";
-// import ApartmentList from "./pages/list/ApartmentList";
 // import ReceiptBillList from "./pages/list/ReceiptBillList";
 // import PaymentBillList from "./pages/list/PaymentBillList";
 // import PaymentSettingPage from "./pages/list/PaymentSettingPage";
@@ -79,10 +78,6 @@ function App() {
             <Route index element={<PaymentBillList />} />
             <Route path=":productId" element={<Single />} />
           </Route> */}
-          {/* <Route path="apartments">
-              <Route index element={<ApartmentList />} />
-              <Route path=":productId" element={<Single />} />
-            </Route> */}
           {/* <Route path="paymentsetting">
             <Route index element={<PaymentSettingPage />} />
             <Route path=":productId" element={<Single />} />
