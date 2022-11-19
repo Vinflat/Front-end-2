@@ -3,7 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import Contract from "../table-list/Contract"
 
-const ApartmentList = () => {
+const ContractList = () => {
   return (
     <div className="list">
       <Sidebar/>
@@ -16,4 +16,4 @@ const ApartmentList = () => {
   )
 }
 
-export default ApartmentList
+export default ContractList

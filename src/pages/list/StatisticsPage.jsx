@@ -1,19 +1,19 @@
 import "./list.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import BusinessStatisticsPage from "../table-list/BusinessStatisticsPage"
+import Statistics from "../table-list/Statistics"
 
-const BusinessStatistics = () => {
+const StatisticsPage = () => {
   return (
     <div className="list">
       <Sidebar/>
       <div className="listContainer">
         <Navbar/>
         {/* Business Statistics Page */}
-        <BusinessStatisticsPage/>
+        <Statistics/>
       </div>
     </div>
   )
 }
 
-export default BusinessStatistics
+export default StatisticsPage

@@ -1,19 +1,19 @@
 import "./list.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import Bill from "../table-list/Bill"
+import ReceiptsandPayments from "../table-list/ReceiptsandPayments"
 
-const BillListPage = () => {
+const MoneyPage = () => {
   return (
     <div className="list">
       <Sidebar/>
       <div className="listContainer">
         <Navbar/>
-        {/* Bill List Page */}
-        <Bill/>
+        {/* Receipts and Payments list */}
+        <ReceiptsandPayments/>
       </div>
     </div>
   )
 }
 
-export default BillListPage
+export default MoneyPage

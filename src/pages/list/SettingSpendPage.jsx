@@ -1,19 +1,19 @@
 import "./list.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import ReceiptSetting from "../table-list/ReceiptSetting"
+import SettingSpend from "../table-list/SettingSpend"
 
-const ReceiptSettingPage = () => {
+const SettingSpendPage = () => {
   return (
     <div className="list">
       <Sidebar/>
       <div className="listContainer">
         <Navbar/>
         {/* Business Statistics Page */}
-        <ReceiptSetting/>
+        <SettingSpend/>
       </div>
     </div>
   )
 }
 
-export default ReceiptSettingPage
+export default SettingSpendPage

@@ -41,42 +41,42 @@ const Sidebar = () => {
           </Link>
           {/* TÀI CHÍNH */}
           <p className="title">TÀI CHÍNH</p>
-          <Link to="/receipts&payments" style={{ textDecoration: "none" }}>
+          <Link to="/money" style={{ textDecoration: "none" }}>
             <li>
               <AddCardOutlinedIcon className="icon" />
               <span>Thu /chi</span>
             </li>
           </Link>
 
-          <Link to="/bills" style={{ textDecoration: "none" }}>
+          <Link to="/money/income" style={{ textDecoration: "none" }}>
             <li>
               <ReceiptLongOutlinedIcon className="icon" />
               <span>Phiếu Thu</span>
             </li>
           </Link>
 
-          <Link to="/bills" style={{ textDecoration: "none" }}>
+          <Link to="/money/outcome" style={{ textDecoration: "none" }}>
             <li>
               <ReceiptLongOutlinedIcon className="icon" />
               <span>Phiếu Chi</span>
             </li>
           </Link>
 
-          <Link to="/bills" style={{ textDecoration: "none" }}>
+          <Link to="/money/setting-collect" style={{ textDecoration: "none" }}>
             <li>
               <ReceiptLongOutlinedIcon className="icon" />
               <span>Cài Đặt Phiếu Thu</span>
             </li>
           </Link>
 
-          <Link to="/bills" style={{ textDecoration: "none" }}>
+          <Link to="/money/setting-spend" style={{ textDecoration: "none" }}>
             <li>
               <ReceiptLongOutlinedIcon className="icon" />
               <span>Cài Đặt Phiếu Chi</span>
             </li>
           </Link>
 
-          <Link to="/businessStatistics" style={{ textDecoration: "none" }}>
+          <Link to="/money/statistics" style={{ textDecoration: "none" }}>
             <li>
               <LeaderboardOutlinedIcon className="icon" />
               <span>Thống kê kinh doanh</span>
@@ -84,13 +84,13 @@ const Sidebar = () => {
           </Link>
           {/* RENTER */}
           <p className="title">KHÁCH THUÊ</p>
-          <Link to="/contracts" style={{ textDecoration: "none" }}>
+          <Link to="/contract/list" style={{ textDecoration: "none" }}>
             <li>
               <ArticleOutlinedIcon className="icon" />
               <span>Danh sách hợp đồng</span>
             </li>
           </Link>
-          <Link to="/renters" style={{ textDecoration: "none" }}>
+          <Link to="/renter/list" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
               <span>Danh sách khách thuê</span>
@@ -105,28 +105,23 @@ const Sidebar = () => {
               <span>Tài Khoản</span>
             </li>
           </Link>
-          <Link to="/buildings" style={{ textDecoration: "none" }}>
+          <Link to="/building/list" style={{ textDecoration: "none" }}>
             <li>
               <ApartmentOutlinedIcon className="icon" />
-              <span>Tòa Nhà</span>
+              <span>Danh sách tòa nhà</span>
             </li>
           </Link>
-          {/* <Link to="/apartments" style={{ textDecoration: "none" }}>
-            <li>
-              <HomeOutlinedIcno className="icon" />
-              <span>Apartments</span>
-            </li>
-          </Link> */}
-          <Link to="/flats" style={{ textDecoration: "none" }}>
+          <Link to="/flat/list" style={{ textDecoration: "none" }}>
             <li>
               <MeetingRoomOutlinedIcon className="icon" />
               <span>Phòng</span>
             </li>
           </Link>
 
+          {/* Điện nước */}
           <p className="title">ĐIỆN NƯỚC</p>
           <Link
-            to="/electrictandwaterreport"
+            to="/ew"
             style={{ textDecoration: "none" }}
           >
             <li>
