@@ -21,3 +21,8 @@ export const useToken = () => {
         setToken: saveToken
     }
 }
+
+export const Logout = () => {
+        sessionStorage.clear();
+        window.location.href = '/';
+}

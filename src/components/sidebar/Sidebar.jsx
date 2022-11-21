@@ -18,6 +18,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 import { Link } from "react-router-dom";
+import { Logout } from "../../services/AuthService";
 //import { DarkModeContext } from "../../context/darkModeContext";
 //import { useContext } from "react";
 
@@ -145,10 +146,11 @@ const Sidebar = () => {
             <AccountCircleOutlinedIcon className="icon" />
             <span>Hồ Sơ</span>
           </li>
-          <li>
-            <ExitToAppIcon className="icon" />
-            <span>Đăng xuất</span>
-          </li>
+            <li>
+              <ExitToAppIcon className="icon" />
+              {/* <span >Đăng xuất</span> */}
+              <span onClick={Logout} style={{ textDecoration: "none" }}>Đăng xuất</span>
+            </li>
         </ul>
       </div>
       {/* <div className="bottom">
