@@ -3,7 +3,7 @@ import { BASE_URL } from "./Const";
 import { getJSON } from "./Network";
 export async function getAreas() {
     const url = `${BASE_URL}/areas`;
-    const areas = getJSON(url).then(result => result.$values);
+    const areas = getJSON(url).then(result => result);
     return areas;
 }
 
