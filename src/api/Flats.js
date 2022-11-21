@@ -5,7 +5,7 @@ import { getJSON } from "../services/Network";
 // export async function getFlats({name, description, status, flatType, buildingId, pageNumber, pageSize}) {
 export async function getFlats() {
     const url = `${BASE_URL}/flats`;
-    const flats = getJSON(url).then(result => result.resultList.$values);
+    const flats = getJSON(url).then(result => result.resultList);
     return flats;
 }
 

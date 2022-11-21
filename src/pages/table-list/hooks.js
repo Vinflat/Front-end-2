@@ -13,7 +13,8 @@ export const useUsers = () => {
             const data = result.map((user) => ({
                 ...user,
                 userName: user.username,
-                id: user.$id,
+                id: user.AccountId,
+                RoleId: user.Role.RoleId,
             }));
             setUsers(data);
         })
@@ -43,7 +44,7 @@ export const useBuildings = () => {
         getBuildings().then((result)=>{
             const data = result.map((building)=>({
                 ...building,
-                id: building.buildingId,
+                id: building.BuildingId,
             }));
             setBuildings(data);
         });
@@ -57,7 +58,7 @@ export const useFlats = () => {
         getFlats().then((result) => {
             const data = result?.map((flat) => ({
                 ...flat,
-                id: flat.flatId,
+                id: flat.FlatId,
             }));
             setFlats(data);
         });
@@ -85,7 +86,7 @@ export const useRenters = () => {
         getRenters().then((result) => {
             const data = result?.map((renter) => ({
                 ...renter,
-                id: renter.renterId,
+                id: renter.RenterId,
             }));
             setRenters(data);
         });

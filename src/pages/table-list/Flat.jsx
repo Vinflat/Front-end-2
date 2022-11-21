@@ -91,7 +91,7 @@ const Flat = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "flatId",
+        accessorKey: "FlatId",
         header: "ID",
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
@@ -99,7 +99,7 @@ const Flat = () => {
         size: 80,
       },
       {
-        accessorKey: "name",
+        accessorKey: "Name",
         header: "Name",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -107,7 +107,7 @@ const Flat = () => {
         }),
       },
       {
-        accessorKey: "description",
+        accessorKey: "Description",
         header: "Description",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -115,7 +115,7 @@ const Flat = () => {
         }),
       },
       {
-        accessorKey: "status",
+        accessorKey: "Status",
         header: "Status",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -124,7 +124,7 @@ const Flat = () => {
         type: "number",
       },
       {
-        accessorKey: "buildingId",
+        accessorKey: "BuildingId",
         header: "Building Id",
         size: 630,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({

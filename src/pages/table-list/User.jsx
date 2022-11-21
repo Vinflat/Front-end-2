@@ -92,7 +92,7 @@ const User = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "accountId",
+        accessorKey: "AccountId",
         header: "ID",
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
@@ -100,7 +100,7 @@ const User = () => {
         size: 50,
       },
       {
-        accessorKey: "username",
+        accessorKey: "Username",
         header: "Username",
         size: 50,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -108,7 +108,7 @@ const User = () => {
         }),
       },
       {
-        accessorKey: "email",
+        accessorKey: "Email",
         header: "Email",
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -117,7 +117,7 @@ const User = () => {
         }),
       },
       {
-        accessorKey: "phone",
+        accessorKey: "Phone",
         header: "Phone",
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -127,7 +127,7 @@ const User = () => {
       },
 
       {
-        accessorKey: "status",
+        accessorKey: "Status",
         header: "Status",
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -136,7 +136,7 @@ const User = () => {
         type: "number",
       },
       {
-        accessorKey: "roleId",
+        accessorKey: "RoleId",
         header: "Role ID",
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
