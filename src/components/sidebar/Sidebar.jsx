@@ -121,10 +121,7 @@ const Sidebar = () => {
 
           {/* Điện nước */}
           <p className="title">ĐIỆN NƯỚC</p>
-          <Link
-            to="/ew"
-            style={{ textDecoration: "none" }}
-          >
+          <Link to="/ew" style={{ textDecoration: "none" }}>
             <li>
               <FactCheckOutlinedIcon className="icon" />
               <span>Danh sách báo cáo điện nước</span>
