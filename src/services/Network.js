@@ -1,5 +1,5 @@
 export async function getJSON(url) {
-    const token = JSON.parse(sessionStorage.getItem('token'))?.token;
+    const token = JSON.parse(sessionStorage.getItem('token'))?.Token;
     const result = fetch(url,
         {
             method: 'GET',
@@ -12,7 +12,7 @@ export async function getJSON(url) {
 }
 
 export async function putJSON(url, option){
-    const token = JSON.parse(sessionStorage.getItem('token'))?.token;
+    const token = JSON.parse(sessionStorage.getItem('token'))?.Token;
     const result = fetch(url,{
         method: 'PUT',
         headers: {
@@ -25,7 +25,7 @@ export async function putJSON(url, option){
 }
 
 export async function postJSON(url, option){
-    const token = JSON.parse(sessionStorage.getItem('token'))?.token;
+    const token = JSON.parse(sessionStorage.getItem('token'))?.Token;
     const result = fetch(url,{
         method: 'POST',
         headers: {
@@ -38,7 +38,7 @@ export async function postJSON(url, option){
 }
 
 export async function deleteJSON(url, option){
-    const token = JSON.parse(sessionStorage.getItem('token'))?.token;
+    const token = JSON.parse(sessionStorage.getItem('token'))?.Token;
     const result = fetch(url,{
         method: 'DELETE',
         headers: {

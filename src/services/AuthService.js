@@ -5,7 +5,8 @@ export const useToken = () => {
     const getToken = () => {
         const tokenString = sessionStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
-        return userToken?.token;
+        console.log(userToken);
+        return userToken?.Token;
     }
 
     const [token, setToken] = useState(getToken());
