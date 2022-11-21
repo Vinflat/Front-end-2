@@ -6,7 +6,7 @@ import Statistics from "../table-list/Statistics"
 const StatisticsPage = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* Business Statistics Page */}

@@ -6,7 +6,7 @@ import Outcome from "../table-list/Outcome"
 const OutcomePage = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* Business Statistics Page */}

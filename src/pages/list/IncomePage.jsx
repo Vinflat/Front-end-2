@@ -6,7 +6,7 @@ import Income from "../table-list/Income"
 const IncomePage = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* Business Statistics Page */}

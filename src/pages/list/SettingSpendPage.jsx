@@ -6,7 +6,7 @@ import SettingSpend from "../table-list/SettingSpend"
 const SettingSpendPage = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* Business Statistics Page */}

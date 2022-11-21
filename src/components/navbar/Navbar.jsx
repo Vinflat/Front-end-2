@@ -1,85 +1,169 @@
 import "./navbar.scss";
-import { useState } from "react";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import * as React from "react";
 import { Logout } from "../../services/AuthService";
-// import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-// import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-// import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlined";
-// import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-// import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-// import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import NavbarMenu from "../menu/Menu";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [isOpenAccountMenu, setIsOpenAccountMenu] = useState(false);
-  const hadleAvatarClick = (event) =>{
-    setIsOpenAccountMenu(event.currentTarget);
-  }
-  const handleCloseNavMenu = () => {
-    setIsOpenAccountMenu(null);
-  }
-  return (
-    <div className="navbar">
-      <div className="wrapper">
-        <div className="search">
-          <input type="text" placeholder="Search..." />
-          <SearchOutlinedIcon />
-        </div>
-        <div className="items">
-          {/* <div className="item">
-            <LanguageOutlinedIcon className="icon" />
-            English
-          </div> */}
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-          {/* <div className="item">
-            <FullscreenExitOutlinedIcon className="icon" />
-          </div> */}
-          {/* <div className="item">
-            <NotificationsNoneOutlinedIcon className="icon" />
-            <div className="counter">1</div>
-          </div> */}
-          {/* <div className="item">
-            <ChatBubbleOutlineOutlinedIcon className="icon" />
-            <div className="counter">2</div>
-          </div> */}
-          {/* <div className="item">
-            <ListOutlinedIcon className="icon" />
-          </div> */}
-          <div className="item">
-            <img
-              onClick={hadleAvatarClick}
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="avatar"
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  return (
+    <AppBar
+      position="static"
+      className="navbar"
+      sx={{ backgroundColor: "#ffffff" }}
+    >
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "Nunito",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              textDecoration: "none",
+              color: "#004AAD",
+            }}
+          >
+            Vinflat
+          </Typography>
+
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+            }}
+          >
+            <Button
+              component={Link}
+              to="/"
+              sx={{
+                my: 2,
+                display: "block",
+                color: "#888",
+                fontFamily: "Nunito",
+                textDecoration: "none",
+              }}
+            >
+              Trang chủ
+            </Button>
+            <NavbarMenu
+              title="Tài chính"
+              items={[
+                { name: "Thu /chi", link: "/money" },
+                { name: "Phiếu thu", link: "/money/income" },
+                { name: "Phiếu chi", link: "/money/outcome" },
+                { name: "Cài đặt phiếu thu", link: "/money/setting-collect" },
+                { name: "Cài đặt phiếu chi", link: "/money/setting-spend" },
+                { name: "Thống kê kinh doanh", link: "/money/statistics" },
+              ]}
             />
-            </div>
+            <NavbarMenu
+              title="Khách thuê"
+              items={[
+                { name: "Danh sách hợp đồng", link: "/contract/list" },
+                { name: "Danh sách khách thuê", link: "/renter/list" },
+              ]}
+            />
+            <NavbarMenu
+              title="Danh sách"
+              items={[
+                { name: "Tài khoản", link: "/users" },
+                { name: "Danh sách tòa nhà", link: "/building/list" },
+                { name: "Phòng", link: "/flat/list" },
+              ]}
+            />
+            <NavbarMenu
+              title="Điện nước"
+              items={[
+                { name: "Danh sách báo cáo điện nước", link: "/ew" },
+              ]}
+            />
+            <NavbarMenu
+              title="Báo cáo"
+              items={[
+                { name: "Báo cáo tổng hợp hiện trạng thuê", link: "/money" },
+                { name: "Báo cáo sử dụng điện nước", link: "/money/income" },
+              ]}
+            />
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                />
+              </IconButton>
+            </Tooltip>
             <Menu
+              sx={{ mt: "45px" }}
               id="menu-appbar"
-              anchorEl={isOpenAccountMenu}
+              anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "right",
               }}
-              open={Boolean(isOpenAccountMenu)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
             >
-              <MenuItem key={'log-out'} onClick={Logout}>
-                <Typography textAlign="center">Đăng xuất</Typography>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <AccountCircleOutlinedIcon className="icon" />
+                <Typography textAlign="center" sx={{ ml: 1 }}>
+                  Hồ sơ
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={Logout}>
+                <ExitToAppIcon className="icon" />
+                <Typography textAlign="center" sx={{ ml: 1 }}>
+                  Đăng xuất
+                </Typography>
               </MenuItem>
             </Menu>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 

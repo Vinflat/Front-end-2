@@ -6,7 +6,7 @@ import User from "../table-list/User"
 const List = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* user table list*/}
