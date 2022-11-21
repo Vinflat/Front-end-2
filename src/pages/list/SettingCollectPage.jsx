@@ -6,7 +6,7 @@ import SettingCollect from "../table-list/SettingCollect"
 const SettingCollectPage = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* Business Statistics Page */}
