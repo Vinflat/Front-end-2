@@ -14,19 +14,45 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { useBuildings } from "./hooks";
+import { useAreas, useBuildings } from "./hooks";
 import { useEffect } from "react";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 
 // const data = useBuildings();
 const Building = () => {
-  const data = useBuildings();
+  const [buildings, createBuilding, error] = useBuildings();
+  const areasData = useAreas();
+  const [selected, setSelected] = useState(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
-    setTableData(data);
-  }, [data]);
+    setTableData(buildings);
+  }, [buildings]);
+
+  const handleSubmitMain = (value) => {
+    if (selected) {
+      // here update
+    } else {
+      createBuilding(
+        JSON.stringify({
+          BuildingId: Number.parseInt(value.BuildingId),
+          BuildingName: "Giang Vu",
+          ImageUrlUrl: "123",
+          Description: "213",
+          TotalRooms: Number.parseInt(value.TotalRooms),
+          TotalFloor: Number.parseInt(value.TotalFloor),
+          CoordinateX: Number.parseInt(value.CoordinateX),
+          CoordinateY: Number.parseInt(value.CoordinateY),
+          Status: true,
+          AreaId: 2,
+        })
+      );
+    }
+  };
 
   const handleCreateNewRow = (values) => {
     tableData.push(values);
@@ -64,6 +90,7 @@ const Building = () => {
         error: !!validationErrors[cell.id],
         helperText: validationErrors[cell.id],
         onBlur: (event) => {
+          console.log(cell);
           const isValid =
             cell.column.id === "email"
               ? validateEmail(event.target.value)
@@ -98,6 +125,7 @@ const Building = () => {
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 100,
+        component: (props) => <TextField {...props} type="number" />,
       },
       {
         accessorKey: "buildingName",
@@ -106,6 +134,7 @@ const Building = () => {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
+        component: (props) => <TextField {...props} />,
       },
       {
         accessorKey: "imageUrlUrl",
@@ -122,6 +151,9 @@ const Building = () => {
           ...getCommonEditTextFieldProps(cell),
           // type: 'email',
         }),
+        component: (props) => (
+          <TextField fullWidth multiline minRows={3} maxRows={5} {...props} />
+        ),
       },
       {
         accessorKey: "totalRooms",
@@ -131,6 +163,7 @@ const Building = () => {
           ...getCommonEditTextFieldProps(cell),
           type: "number",
         }),
+        component: (props) => <TextField {...props} type="number" />,
       },
       {
         accessorKey: "totalFloor",
@@ -140,6 +173,7 @@ const Building = () => {
           ...getCommonEditTextFieldProps(cell),
           type: "number",
         }),
+        component: (props) => <TextField {...props} type="number" />,
       },
       {
         accessorKey: "coordinateX",
@@ -167,6 +201,19 @@ const Building = () => {
           ...getCommonEditTextFieldProps(cell),
           type: "number",
         }),
+        component: (props) => (
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              {...props}
+            >
+              <MenuItem value={false}>False</MenuItem>
+              <MenuItem value={true}>True</MenuItem>
+            </Select>
+          </FormControl>
+        ),
       },
       {
         accessorKey: "areaId",
@@ -175,6 +222,22 @@ const Building = () => {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
+        component: (props) => (
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">{props.name}</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              {...props}
+            >
+              {areasData.map((area, idx) => (
+                <MenuItem value={area.AreaId} key={idx}>
+                  {area?.Name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        ),
       },
       // {
       //   accessorKey: 'state',
@@ -212,7 +275,13 @@ const Building = () => {
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", gap: "1rem" }}>
             <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
+              <IconButton
+                onClick={() => {
+                  console.log(row.original);
+                  setSelected(row.original);
+                  setCreateModalOpen(true);
+                }}
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -226,7 +295,10 @@ const Building = () => {
         renderTopToolbarCustomActions={() => (
           <Button
             color="primary"
-            onClick={() => setCreateModalOpen(true)}
+            onClick={() => {
+              setSelected(null);
+              setCreateModalOpen(true);
+            }}
             variant="contained"
           >
             Thêm tòa nhà
@@ -237,20 +309,31 @@ const Building = () => {
         columns={columns}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
-        onSubmit={handleCreateNewRow}
+        onSubmit={handleSubmitMain}
+        selected={selected}
       />
     </>
   );
 };
 
 //example of creating a mui dialog modal for creating new rows
-export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
+export const CreateNewAccountModal = ({
+  open,
+  columns,
+  onClose,
+  onSubmit,
+  selected,
+}) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
       acc[column.accessorKey ?? ""] = "";
       return acc;
     }, {})
   );
+
+  useEffect(() => {
+    setValues({ ...selected });
+  }, [selected]);
 
   const handleSubmit = () => {
     //put your validation logic here
@@ -260,7 +343,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Thêm tòa nhà</DialogTitle>
+      <DialogTitle textAlign="center">
+        {!selected ? "Thêm tòa nhà" : "Chỉnh sửa tòa nhà"}
+      </DialogTitle>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
@@ -270,16 +355,32 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
               gap: "1.5rem",
             }}
           >
-            {columns.map((column) => (
-              <TextField
-                key={column.accessorKey}
-                label={column.header}
-                name={column.accessorKey}
-                onChange={(e) =>
-                  setValues({ ...values, [e.target.name]: e.target.value })
-                }
-              />
-            ))}
+            {columns.map((column) => {
+              if (column.component)
+                return (
+                  <column.component
+                    key={column.accessorKey}
+                    label={column.header}
+                    name={column.accessorKey}
+                    onChange={(e) =>
+                      setValues({ ...values, [e.target.name]: e.target.value })
+                    }
+                    value={values[column.accessorKey]}
+                  />
+                );
+              else
+                return (
+                  <TextField
+                    key={column.accessorKey}
+                    label={column.header}
+                    name={column.accessorKey}
+                    onChange={(e) =>
+                      setValues({ ...values, [e.target.name]: e.target.value })
+                    }
+                    value={values[column.accessorKey]}
+                  />
+                );
+            })}
           </Stack>
         </form>
       </DialogContent>
