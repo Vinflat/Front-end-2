@@ -13,26 +13,32 @@ export async function getJSON(url) {
 
 export async function putJSON(url, option){
     const token = JSON.parse(sessionStorage.getItem('token'))?.Token;
+    const formData = new FormData();
+    for (const item in option){
+        formData.append(item, option[item]);
+    }
     const result = fetch(url,{
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
         },
-        body: option,
+        body: formData,
     }).then(response =>response.json());
     return result;
 }
 
 export async function postJSON(url, option){
     const token = JSON.parse(sessionStorage.getItem('token'))?.Token;
+    const formData = new FormData();
+    for (const item in option){
+        formData.append(item, option[item]);
+    }
     const result = fetch(url,{
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
         },
-        body: option,
+        body: formData,
     }).then(response =>response.json());
     return result;
 }

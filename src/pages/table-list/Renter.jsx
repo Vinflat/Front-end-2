@@ -19,7 +19,7 @@ import { useRenters } from './hooks';
 import { useEffect } from "react";
 
 const Renter = () => {
-  const data = useRenters();
+  const { data, onAddRenter } = useRenters();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -29,6 +29,7 @@ const Renter = () => {
   }, [data]);
 
   const handleCreateNewRow = (values) => {
+    onAddRenter(values);
     tableData.push(values);
     setTableData([...tableData]);
   };
