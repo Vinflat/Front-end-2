@@ -6,7 +6,7 @@ import Contract from "../table-list/Contract"
 const ContractList = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* contract list */}

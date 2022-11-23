@@ -3,7 +3,7 @@ import { getJSON } from "../services/Network";
 
 export async function getRenters() {
     const url = `${BASE_URL}/renters`;
-    const renters = getJSON(url).then(result => result.$values);
+    const renters = getJSON(url).then(result => result.resultList);
     return renters;
 }
 

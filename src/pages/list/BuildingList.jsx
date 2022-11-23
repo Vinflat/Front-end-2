@@ -6,7 +6,7 @@ import Building from "../table-list/Building"
 const BuildingList = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* building list */}

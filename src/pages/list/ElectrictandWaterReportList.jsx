@@ -6,7 +6,7 @@ import ElectrictandWaterReport from "../table-list/ElectrictandWaterReport"
 const ElectrictandWaterReportList = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* ElectrictandWaterReport list */}

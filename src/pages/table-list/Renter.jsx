@@ -92,7 +92,7 @@ const Renter = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "renterId",
+        accessorKey: "RenterId",
         header: "ID",
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
@@ -100,7 +100,7 @@ const Renter = () => {
         size: 100,
       },
       {
-        accessorKey: "username",
+        accessorKey: "Username",
         header: "Username",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -108,7 +108,7 @@ const Renter = () => {
         }),
       },
       {
-        accessorKey: "email",
+        accessorKey: "Email",
         header: "Email",
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -117,7 +117,7 @@ const Renter = () => {
         }),
       },
       {
-        accessorKey: "phone",
+        accessorKey: "Phone",
         header: "Phone",
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -126,7 +126,7 @@ const Renter = () => {
         }),
       },
       {
-        accessorKey: "fullName",
+        accessorKey: "FullName",
         header: "Full Name",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -134,7 +134,7 @@ const Renter = () => {
         }),
       },
       {
-        accessorKey: "birthDate",
+        accessorKey: "BirthDate",
         header: "Birth Date",
         size: 50,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -143,7 +143,7 @@ const Renter = () => {
         }),
       },
       {
-        accessorKey: "status",
+        accessorKey: "Status",
         header: "Status",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -151,7 +151,7 @@ const Renter = () => {
         }),
       },
       {
-        accessorKey: "imageUrl",
+        accessorKey: "ImageUrl",
         header: "ImageUrl",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -159,7 +159,7 @@ const Renter = () => {
         }),
       },
       {
-        accessorKey: "image",
+        accessorKey: "Image",
         header: "Image",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -167,7 +167,7 @@ const Renter = () => {
         }),
       },
       {
-        accessorKey: "address",
+        accessorKey: "Address",
         header: "Address",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -175,7 +175,7 @@ const Renter = () => {
         }),
       },
       {
-        accessorKey: "gender",
+        accessorKey: "Gender",
         header: "Gender",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({

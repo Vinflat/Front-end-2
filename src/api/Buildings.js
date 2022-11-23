@@ -4,7 +4,7 @@ import { getJSON, postJSON } from "../services/Network";
 
 export async function getBuildings() {
     const url = `${BASE_URL}/buildings`;
-    const buildings = getJSON(url).then((result) => result.$values);
+    const buildings = getJSON(url).then((result) => result.resultList);
     return buildings;
 }
 
