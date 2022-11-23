@@ -97,13 +97,13 @@ const Navbar = () => {
             />
             <NavbarMenu
               title="Điện nước"
-              items={[{ name: "Danh sách báo cáo điện nước", link: "/ew" }]}
+              items={[{ name: "Danh sách chốt điện nước", link: "/ew" }]}
             />
             <NavbarMenu
               title="Báo cáo"
               items={[
-                { name: "Báo cáo tổng hợp hiện trạng thuê", link: "/money" },
-                { name: "Báo cáo sử dụng điện nước", link: "/money/income" },
+                { name: "Báo cáo tổng hợp hiện trạng thuê", link: "/report/rent-status" },
+                { name: "Báo cáo sử dụng điện nước", link: "/report/ew" },
               ]}
             />
           </Box>

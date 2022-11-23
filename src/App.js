@@ -20,7 +20,10 @@ import List from "./pages/list/List";
 import BuildingList from "./pages/list/BuildingList";
 import FlatList from "./pages/list/FlatList";
 //ew
-import ElectrictandWaterReportList from "./pages/list/ElectrictandWaterReportList";
+import ElectrictandWaterList from "./pages/list/ElectrictandWaterList";
+//report
+import ReportRentStatus from "./pages/list/ReportRentStatus";
+import ReportEWPage from "./pages/list/ReportEWPage";
 
 function App() {
   const { token, setToken } = useToken();
@@ -53,7 +56,7 @@ function App() {
           <Route path="money/statistics">
             <Route index element={<StatisticsPage />} />
           </Route>
-          
+
           {/* renter */}
           <Route path="contract/list">
             <Route index element={<ContractList />} />
@@ -72,9 +75,18 @@ function App() {
           <Route path="flat/list">
             <Route index element={<FlatList />} />
           </Route>
+
           {/* ELECTRICAL & WATER */}
           <Route path="ew">
-            <Route index element={<ElectrictandWaterReportList />} />
+            <Route index element={<ElectrictandWaterList />} />
+          </Route>
+
+          {/* Report */}
+          <Route path="report/rent-status">
+            <Route index element={<ReportRentStatus />} />
+          </Route>
+          <Route path="report/ew">
+            <Route index element={<ReportEWPage />} />
           </Route>
         </Route>
       </Routes>
