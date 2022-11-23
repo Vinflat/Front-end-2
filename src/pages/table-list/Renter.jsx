@@ -17,9 +17,10 @@ import { Delete, Edit } from "@mui/icons-material";
 // import { useBuildings } from "./hooks";
 import { useRenters } from './hooks';
 import { useEffect } from "react";
+import { updateRenter } from '../../api/Renters'
 
 const Renter = () => {
-  const { data, onAddRenter } = useRenters();
+  const { data, addRenter } = useRenters();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -29,17 +30,17 @@ const Renter = () => {
   }, [data]);
 
   const handleCreateNewRow = (values) => {
-    onAddRenter(values);
+    addRenter(values);
     tableData.push(values);
     setTableData([...tableData]);
   };
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
-    if (!Object.keys(validationErrors).length) {
+    if (!Object.keys(validationErrors).length && values) {
+      updateRenter(values);
       tableData[row.index] = values;
-      //send/receive api updates here, then refetch or update local table data for re-render
       setTableData([...tableData]);
-      exitEditingMode(); //required to exit editing mode and close modal
+      exitEditingMode();
     }
   };
 

@@ -94,11 +94,12 @@ export const useRenters = () => {
             setRenters(data);
         });
     }, []);
-    const onAddRenter = (renter) => {
+    
+    const addRenter = (renter) => {
         createRenter(renter);
     }
     return {
         data: renters,
-        onAddRenter,
+        addRenter,
     };
 }
