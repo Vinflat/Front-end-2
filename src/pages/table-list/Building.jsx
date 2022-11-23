@@ -119,7 +119,7 @@ const Building = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "buildingId",
+        accessorKey: "BuildingId",
         header: "ID",
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
@@ -128,7 +128,7 @@ const Building = () => {
         component: (props) => <TextField {...props} type="number" />,
       },
       {
-        accessorKey: "buildingName",
+        accessorKey: "BuildingName",
         header: "Name",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -137,7 +137,7 @@ const Building = () => {
         component: (props) => <TextField {...props} />,
       },
       {
-        accessorKey: "imageUrlUrl",
+        accessorKey: "ImageUrlUrl",
         header: "Image",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -145,7 +145,7 @@ const Building = () => {
         }),
       },
       {
-        accessorKey: "description",
+        accessorKey: "Description",
         header: "Description",
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -156,7 +156,7 @@ const Building = () => {
         ),
       },
       {
-        accessorKey: "totalRooms",
+        accessorKey: "TotalRooms",
         header: "Floors",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -166,7 +166,7 @@ const Building = () => {
         component: (props) => <TextField {...props} type="number" />,
       },
       {
-        accessorKey: "totalFloor",
+        accessorKey: "TotalFloor",
         header: "Rooms",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -176,7 +176,7 @@ const Building = () => {
         component: (props) => <TextField {...props} type="number" />,
       },
       {
-        accessorKey: "coordinateX",
+        accessorKey: "CoordinateX",
         header: "coordinateX",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -185,7 +185,7 @@ const Building = () => {
         }),
       },
       {
-        accessorKey: "coordinateY",
+        accessorKey: "CoordinateY",
         header: "coordinateY",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -194,7 +194,7 @@ const Building = () => {
         }),
       },
       {
-        accessorKey: "status",
+        accessorKey: "Status",
         header: "Status",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -216,7 +216,7 @@ const Building = () => {
         ),
       },
       {
-        accessorKey: "areaId",
+        accessorKey: "AreaId",
         header: "areaId",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({

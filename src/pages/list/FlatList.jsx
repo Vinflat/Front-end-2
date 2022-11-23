@@ -6,7 +6,7 @@ import Flat from "../table-list/Flat"
 const ApartmentList = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* Flat list */}

@@ -6,7 +6,7 @@ import ReceiptsandPayments from "../table-list/ReceiptsandPayments"
 const MoneyPage = () => {
   return (
     <div className="list">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* Receipts and Payments list */}
