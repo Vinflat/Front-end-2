@@ -1,5 +1,5 @@
 import { BASE_URL } from "./Const";
-import { getJSON, postJSON, putJSON} from "../services/Network";
+import { getJSON, postJSON, putJSON, deleteJSON } from "../services/Network";
 
 export async function getRenters() {
     const url = `${BASE_URL}/renters`;
@@ -21,5 +21,10 @@ export async function createRenter(renter){
 export async function updateRenter(renter){
     const url = `${BASE_URL}/renters/${renter.RenterId}`;
     return await putJSON(url, renter)
+}
+
+export async function deleteRenter(renter){
+    const url = `${BASE_URL}/renters/${renter.RenterId}`;
+    return await deleteJSON(url, renter)
 }
 

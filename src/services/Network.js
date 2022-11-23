@@ -43,15 +43,13 @@ export async function postJSON(url, option){
     return result;
 }
 
-export async function deleteJSON(url, option){
+export async function deleteJSON(url){
     const token = JSON.parse(sessionStorage.getItem('token'))?.Token;
     const result = fetch(url,{
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
         },
-        body: option,
     }).then(response =>response.json());
     return result;
 }

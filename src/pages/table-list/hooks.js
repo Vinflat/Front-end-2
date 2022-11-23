@@ -4,7 +4,7 @@ import { getBuildings } from "../../api/Buildings";
 import { getUsers } from '../../api/Accounts'
 import {getFlats} from '../../api/Flats'
 import { getContracts } from '../../api/Contracts'
-import { createRenter, getRenters } from '../../api/Renters'
+import { createRenter, getRenters, deleteRenter } from '../../api/Renters'
 
 export const useUsers = () => {
     const [users, setUsers] = useState([]);
@@ -98,8 +98,14 @@ export const useRenters = () => {
     const addRenter = (renter) => {
         createRenter(renter);
     }
+
+    const removeRenter = (renter) =>{
+        deleteRenter(renter);
+    }
+
     return {
         data: renters,
         addRenter,
+        removeRenter,
     };
 }

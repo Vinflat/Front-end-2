@@ -20,7 +20,7 @@ import { useEffect } from "react";
 import { updateRenter } from '../../api/Renters'
 
 const Renter = () => {
-  const { data, addRenter } = useRenters();
+  const { data, addRenter, removeRenter } = useRenters();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -44,21 +44,20 @@ const Renter = () => {
     }
   };
 
-  const handleDeleteRow = useCallback(
-    (row) => {
-      if (
-        !window.confirm(
-          `Are you sure you want to delete ${row.getValue("fullName")}`
-        )
-      ) {
-        return;
-      }
-      //send api delete request here, then refetch or update local table data for re-render
-      tableData.splice(row.index, 1);
-      setTableData([...tableData]);
-    },
-    [tableData]
-  );
+  const handleDeleteRow = useCallback((row) => {
+
+    //ERROR IN IF STATEMENT
+
+    // if (
+    //   !window.confirm(`Are you sure you want to delete ${row.getValue("fullName")}`
+    //   )
+    // ) {
+    //   return;
+    // }
+    removeRenter(row.original);
+    tableData.splice(row.index, 1);
+    setTableData([...tableData]);
+  }, [tableData]);
 
   const getCommonEditTextFieldProps = useCallback(
     (cell) => {
