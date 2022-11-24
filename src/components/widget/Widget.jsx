@@ -17,9 +17,9 @@ const Widget = ({ type }) => {
   switch (type) {
     case "user":
       data = {
-        title: "BUILDINGS",
+        title: "TÒA NHÀ",
         isMoney: false,
-        link: "See all users",
+        link: "Xem danh sách tòa nhà",
         query:"users",
         icon: (
           <PersonOutlinedIcon
@@ -34,25 +34,22 @@ const Widget = ({ type }) => {
       break;
     case "order":
       data = {
-        title: "LOSING",
+        title: "TIỀN THU",
         isMoney: false,
-        link: "View all orders",
+        link: "Xem tất cả thu nhập",
         icon: (
-          <ShoppingCartOutlinedIcon
+          <MonetizationOnOutlinedIcon
             className="icon"
-            style={{
-              backgroundColor: "rgba(218, 165, 32, 0.2)",
-              color: "goldenrod",
-            }}
+            style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
           />
         ),
       };
       break;
     case "earning":
       data = {
-        title: "EARNINGS",
+        title: "TIỀN CHI",
         isMoney: true,
-        link: "View net earnings",
+        link: "Xem tất cả phiếu chi",
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"
@@ -63,9 +60,9 @@ const Widget = ({ type }) => {
       break;
     case "product":
       data = {
-        title: "FLATS",
+        title: "PHÒNG",
         query:"products",
-        link: "See details",
+        link: "Xem danh sách phòng",
         icon: (
           <AccountBalanceWalletOutlinedIcon
             className="icon"
