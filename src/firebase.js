@@ -3,14 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
-  authDomain: "tutorial-5a2cf.firebaseapp.com",
-  projectId: "tutorial-5a2cf",
-  storageBucket: "tutorial-5a2cf.appspot.com",
-  messagingSenderId: "585126334212",
-  appId: "1:585126334212:web:8539eafc56885e1b4c4a51"
+  authDomain: "vinflat.firebaseapp.com",
+  projectId: "vinflat",
+  storageBucket: "vinflat.appspot.com",
+  messagingSenderId: "477007183791",
+  appId: "1:477007183791:web:dc929c79a41ea2789a795a",
 };
 
 const app = initializeApp(firebaseConfig);

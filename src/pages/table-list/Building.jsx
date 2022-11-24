@@ -20,6 +20,8 @@ import { useEffect } from "react";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import { storage } from "../../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 // const data = useBuildings();
 const Building = () => {
@@ -40,7 +42,7 @@ const Building = () => {
     } else {
       createBuilding(
         JSON.stringify({
-          BuildingId: Number.parseInt(value.BuildingId),
+          BuildingId: "1",
           BuildingName: value.BuildingName,
           ImageUrl: value.ImageUrl,
           Description: value.Description,
@@ -159,7 +161,6 @@ const Building = () => {
             <Tooltip arrow placement="left" title="Edit">
               <IconButton
                 onClick={() => {
-                  console.log(row.original);
                   setSelected(row.original);
                   setCreateModalOpen(true);
                 }}
@@ -221,15 +222,63 @@ export const CreateNewAccountModal = ({
 
   const handleChange = (e) => {
     console.log(e);
-    setValues({ ...values, [e.target.name]: e.target.value });
+    let targetValue = e.target.value;
+    if (e.target.name == "ImageUrl") {
+      targetValue = e.target.files[0];
+    }
+    setValues({ ...values, [e.target.name]: targetValue });
   };
+  const handleSubmit = async () => {
+    const storageRef = ref(
+      storage,
+      `images/building/${values.ImageUrl.name}-${new Date().toISOString()}`
+    );
+    const uploadTask = uploadBytesResumable(storageRef, values.ImageUrl);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
 
-  const handleSubmit = () => {
+          // ...
+
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          values.ImageUrl = downloadURL;
+          onSubmit(values);
+        });
+      }
+    );
     //put your validation logic here
-    onSubmit(values);
     onClose();
   };
-
   return (
     <Dialog open={open} maxWidth="lg" fullWidth={true}>
       <form
@@ -243,16 +292,26 @@ export const CreateNewAccountModal = ({
         </DialogTitle>
         <DialogContent>
           <Stack spacing={3} sx={{ my: 2 }}>
-            <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
-              <TextField
-                label="BuildingId"
-                name="BuildingId"
-                onChange={handleChange}
-                value={values.BuildingId}
-                fullWidth
-                required
-                type="number"
+            <Stack
+              direction={{ xs: "row" }}
+              spacing={{ xs: 2 }}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <img
+                src={
+                  typeof values.ImageUrl == "string"
+                    ? values.ImageUrl
+                    : `${
+                        values.ImageUrl
+                          ? URL.createObjectURL(values.ImageUrl)
+                          : "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
+                      }`
+                }
+                style={{ maxWidth: "50%" }}
               />
+            </Stack>
+            <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
               <TextField
                 label="BuildingName"
                 name="BuildingName"
@@ -311,7 +370,6 @@ export const CreateNewAccountModal = ({
                 fullWidth
                 label="ImageUrl"
                 name="ImageUrl"
-                value={values.ImageUrl}
                 onChange={handleChange}
               />
               <TextField
@@ -368,15 +426,5 @@ export const CreateNewAccountModal = ({
     </Dialog>
   );
 };
-
-const validateRequired = (value) => !!value.length;
-const validateEmail = (email) =>
-  !!email.length &&
-  email
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-const validateAge = (age) => age >= 18 && age <= 50;
 
 export default Building;
