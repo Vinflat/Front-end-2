@@ -5,6 +5,7 @@ import { getUsers } from '../../api/Accounts'
 import { getFlats } from '../../api/Flats'
 import { getContracts } from '../../api/Contracts'
 import { createRenter, getRenters, deleteRenter } from '../../api/Renters'
+import { getAreas } from '../../api/Areas'
 
 export const useUsers = () => {
     const [users, setUsers] = useState([]);
