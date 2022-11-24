@@ -12,27 +12,48 @@ import {
   Stack,
   TextField,
   Tooltip,
+  Input,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { useBuildings } from "./hooks";
+import { useAreas, useBuildings } from "./hooks";
 import { useEffect } from "react";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 
 // const data = useBuildings();
 const Building = () => {
-  const data = useBuildings();
+  const [buildings, createBuilding, error] = useBuildings();
+  const areasData = useAreas();
+  const [selected, setSelected] = useState(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
-    setTableData(data);
-  }, [data]);
+    setTableData(buildings);
+  }, [buildings]);
 
-  const handleCreateNewRow = (values) => {
-    tableData.push(values);
-    setTableData([...tableData]);
+  const handleSubmitMain = (value) => {
+    if (selected) {
+      // here update
+    } else {
+      createBuilding(
+        JSON.stringify({
+          BuildingId: Number.parseInt(value.BuildingId),
+          BuildingName: value.BuildingName,
+          ImageUrl: value.ImageUrl,
+          Description: value.Description,
+          TotalRooms: Number.parseInt(value.TotalRooms),
+          TotalFloor: Number.parseInt(value.TotalFloor),
+          CoordinateX: Number.parseInt(value.CoordinateX),
+          CoordinateY: Number.parseInt(value.CoordinateY),
+          Status: value.Status,
+          AreaId: value.AreaId,
+        })
+      );
+    }
   };
-
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
     if (!Object.keys(validationErrors).length) {
       tableData[row.index] = values;
@@ -58,37 +79,6 @@ const Building = () => {
     [tableData]
   );
 
-  const getCommonEditTextFieldProps = useCallback(
-    (cell) => {
-      return {
-        error: !!validationErrors[cell.id],
-        helperText: validationErrors[cell.id],
-        onBlur: (event) => {
-          const isValid =
-            cell.column.id === "email"
-              ? validateEmail(event.target.value)
-              : cell.column.id === "age"
-              ? validateAge(+event.target.value)
-              : validateRequired(event.target.value);
-          if (!isValid) {
-            //set validation error for cell if invalid
-            setValidationErrors({
-              ...validationErrors,
-              [cell.id]: `${cell.column.columnDef.header} is required`,
-            });
-          } else {
-            //remove validation error for cell if valid
-            delete validationErrors[cell.id];
-            setValidationErrors({
-              ...validationErrors,
-            });
-          }
-        },
-      };
-    },
-    [validationErrors]
-  );
-
   const columns = useMemo(
     () => [
       {
@@ -103,93 +93,48 @@ const Building = () => {
         accessorKey: "BuildingName",
         header: "Name",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "ImageUrlUrl",
         header: "Image",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "Description",
         header: "Description",
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          // type: 'email',
-        }),
       },
       {
         accessorKey: "TotalRooms",
         header: "Floors",
         size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
-        }),
       },
       {
         accessorKey: "TotalFloor",
         header: "Rooms",
         size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
-        }),
       },
       {
         accessorKey: "CoordinateX",
         header: "coordinateX",
         size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
-        }),
       },
       {
         accessorKey: "CoordinateY",
         header: "coordinateY",
         size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
-        }),
       },
       {
         accessorKey: "Status",
         header: "Status",
         size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
-        }),
       },
       {
         accessorKey: "AreaId",
         header: "areaId",
         size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
-      // {
-      //   accessorKey: 'state',
-      //   header: 'State',
-      //   muiTableBodyCellEditTextFieldProps: {
-      //     select: true, //change to select for a dropdown
-      //     children: states.map((state) => (
-      //       <MenuItem key={state} value={state}>
-      //         {state}
-      //       </MenuItem>
-      //     )),
-      //   },
-      // },
     ],
-    [getCommonEditTextFieldProps]
+    []
   );
 
   return (
@@ -212,7 +157,13 @@ const Building = () => {
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", gap: "1rem" }}>
             <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
+              <IconButton
+                onClick={() => {
+                  console.log(row.original);
+                  setSelected(row.original);
+                  setCreateModalOpen(true);
+                }}
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -226,7 +177,10 @@ const Building = () => {
         renderTopToolbarCustomActions={() => (
           <Button
             color="primary"
-            onClick={() => setCreateModalOpen(true)}
+            onClick={() => {
+              setSelected(null);
+              setCreateModalOpen(true);
+            }}
             variant="contained"
           >
             Thêm tòa nhà
@@ -237,20 +191,38 @@ const Building = () => {
         columns={columns}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
-        onSubmit={handleCreateNewRow}
+        onSubmit={handleSubmitMain}
+        selected={selected}
+        areasData={areasData}
       />
     </>
   );
 };
 
 //example of creating a mui dialog modal for creating new rows
-export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
+export const CreateNewAccountModal = ({
+  open,
+  columns,
+  onClose,
+  onSubmit,
+  selected,
+  areasData,
+}) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
       acc[column.accessorKey ?? ""] = "";
       return acc;
     }, {})
   );
+
+  useEffect(() => {
+    setValues({ ...selected });
+  }, [selected]);
+
+  const handleChange = (e) => {
+    console.log(e);
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = () => {
     //put your validation logic here
@@ -259,36 +231,140 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   };
 
   return (
-    <Dialog open={open}>
-      <DialogTitle textAlign="center">Thêm tòa nhà</DialogTitle>
-      <DialogContent>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <Stack
-            sx={{
-              width: "100%",
-              minWidth: { xs: "300px", sm: "360px", md: "400px" },
-              gap: "1.5rem",
-            }}
-          >
-            {columns.map((column) => (
+    <Dialog open={open} maxWidth="lg" fullWidth={true}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(values);
+        }}
+      >
+        <DialogTitle textAlign="center">
+          {!selected ? "Thêm tòa nhà" : "Chỉnh sửa tòa nhà"}
+        </DialogTitle>
+        <DialogContent>
+          <Stack spacing={3} sx={{ my: 2 }}>
+            <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
               <TextField
-                key={column.accessorKey}
-                label={column.header}
-                name={column.accessorKey}
-                onChange={(e) =>
-                  setValues({ ...values, [e.target.name]: e.target.value })
-                }
+                label="BuildingId"
+                name="BuildingId"
+                onChange={handleChange}
+                value={values.BuildingId}
+                fullWidth
+                required
+                type="number"
               />
-            ))}
+              <TextField
+                label="BuildingName"
+                name="BuildingName"
+                onChange={handleChange}
+                value={values.BuildingName}
+                fullWidth
+                required
+              />
+            </Stack>
+            <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
+              <TextField
+                label="TotalFloor"
+                name="TotalFloor"
+                onChange={handleChange}
+                value={values.TotalFloor}
+                type="number"
+                fullWidth
+                required
+              />
+              <TextField
+                fullWidth
+                label="TotalRooms"
+                name="TotalRooms"
+                onChange={handleChange}
+                value={values.TotalRooms}
+                type="number"
+                required
+              />
+            </Stack>
+            <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
+              <TextField
+                label="CoordinateX"
+                name="CoordinateX"
+                onChange={handleChange}
+                value={values.CoordinateX}
+                type="number"
+                fullWidth
+                required
+              />
+              <TextField
+                label="CoordinateY"
+                name="CoordinateY"
+                onChange={handleChange}
+                value={values.CoordinateY}
+                type="number"
+                fullWidth
+                required
+              />
+            </Stack>
+            <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
+              <Input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+                fullWidth
+                label="ImageUrl"
+                name="ImageUrl"
+                value={values.ImageUrl}
+                onChange={handleChange}
+              />
+              <TextField
+                label="Description"
+                name="Description"
+                onChange={handleChange}
+                value={values.Description}
+                fullWidth
+                required
+              />
+            </Stack>
+            <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
+              <FormControl fullWidth required>
+                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Status"
+                  name="Status"
+                  onChange={handleChange}
+                  value={values.Status}
+                >
+                  <MenuItem value={false}>False</MenuItem>
+                  <MenuItem value={true}>True</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth required>
+                <InputLabel id="demo-simple-select-label">AreaId</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="AreaId"
+                  name="AreaId"
+                  onChange={handleChange}
+                  value={values.AreaId}
+                >
+                  {areasData.map((area, idx) => (
+                    <MenuItem value={area.AreaId} key={idx}>
+                      {area?.Name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Stack>
           </Stack>
-        </form>
-      </DialogContent>
-      <DialogActions sx={{ p: "1.25rem" }}>
-        <Button onClick={onClose}>Hủy</Button>
-        <Button color="primary" onClick={handleSubmit} variant="contained">
-          Lưu
-        </Button>
-      </DialogActions>
+        </DialogContent>
+        <DialogActions sx={{ p: "1.25rem" }}>
+          <Button onClick={onClose}>Hủy</Button>
+          <Button color="primary" type="submit" variant="contained">
+            Lưu
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };

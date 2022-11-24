@@ -1,6 +1,6 @@
 import { deleteJSON, postJSON, putJSON } from "../services/Network";
 import { BASE_URL } from "./Const";
-import { getJSON } from "./Network";
+import { getJSON } from "../services/Network";
 export async function getAreas() {
     const url = `${BASE_URL}/areas`;
     const areas = getJSON(url).then(result => result);

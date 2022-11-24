@@ -18,18 +18,10 @@ import NavbarMenu from "../menu/Menu";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -37,12 +29,8 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar
-      position="static"
-      className="navbar"
-      sx={{ backgroundColor: "#ffffff" }}
-    >
-      <Container maxWidth="xl">
+    <AppBar position="static" sx={{ backgroundColor: "#ffffff" }}>
+      <Container maxWidth="100%">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -109,21 +97,19 @@ const Navbar = () => {
             />
             <NavbarMenu
               title="Điện nước"
-              items={[
-                { name: "Danh sách báo cáo điện nước", link: "/ew" },
-              ]}
+              items={[{ name: "Danh sách chốt điện nước", link: "/ew" }]}
             />
             <NavbarMenu
               title="Báo cáo"
               items={[
-                { name: "Báo cáo tổng hợp hiện trạng thuê", link: "/money" },
-                { name: "Báo cáo sử dụng điện nước", link: "/money/income" },
+                { name: "Báo cáo tổng hợp hiện trạng thuê", link: "/report/rent-status" },
+                { name: "Báo cáo sử dụng điện nước", link: "/report/ew" },
               ]}
             />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Cài đặt">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
                   alt="Remy Sharp"

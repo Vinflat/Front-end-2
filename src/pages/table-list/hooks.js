@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 // import { getApartments } from "../../api/Apartments";
-import { getBuildings } from "../../api/Buildings";
+import { createBuildingApi, getBuildings } from "../../api/Buildings";
 import { getUsers } from '../../api/Accounts'
-import {getFlats} from '../../api/Flats'
+import { getFlats } from '../../api/Flats'
 import { getContracts } from '../../api/Contracts'
 import { createRenter, getRenters, deleteRenter } from '../../api/Renters'
 
@@ -22,6 +22,16 @@ export const useUsers = () => {
     }, [])
     return users;
 }
+export const useAreas = () => {
+    const [areas, setAreas] = useState([]);
+    useEffect(() => {
+        getAreas().then((result) => {
+            setAreas(result?.resultList);
+        })
+
+    }, [])
+    return areas;
+}
 
 // export const useApartment = () => {
 //     const [apartments, setApartments] = useState([]);
@@ -40,16 +50,31 @@ export const useUsers = () => {
 
 export const useBuildings = () => {
     const [buildings, setBuildings] = useState([]);
-    useEffect(()=>{
-        getBuildings().then((result)=>{
-            const data = result.map((building)=>({
+    const [error, setError] = useState(null)
+    useEffect(() => {
+        getBuildings().then((result) => {
+            const data = result.map((building) => ({
                 ...building,
                 id: building.BuildingId,
             }));
             setBuildings(data);
         });
-    },[]);
-    return buildings;
+    }, []);
+    const createBuilding = async (building) => {
+        try {
+            await createBuildingApi(building);
+        } catch (err) {
+            setError(err)
+        }
+        getBuildings().then((result) => {
+            const data = result.map((building) => ({
+                ...building,
+                id: building.BuildingId,
+            }));
+            setBuildings(data);
+        });
+    }
+    return [buildings, createBuilding, error];
 }
 
 export const useFlats = () => {

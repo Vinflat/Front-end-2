@@ -1,19 +1,19 @@
 import "./list.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import Renter from "../table-list/Renter"
+import RentStatus from "../table-list/RentStatus"
 
-const RenterList = () => {
+const ReportRentStatus = () => {
   return (
     <div className="list">
       {/* <Sidebar/> */}
       <div className="listContainer">
         <Navbar/>
         {/* renter list */}
-        <Renter/>
+        <RentStatus/>
       </div>
     </div>
   )
 }
 
-export default RenterList
+export default ReportRentStatus
