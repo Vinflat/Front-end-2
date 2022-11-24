@@ -4,8 +4,7 @@ import { createBuildingApi, getBuildings } from "../../api/Buildings";
 import { getUsers } from '../../api/Accounts'
 import { getFlats } from '../../api/Flats'
 import { getContracts } from '../../api/Contracts'
-import { getRenters } from '../../api/Renters'
-import { getAreas } from "../../api/Areas"
+import { createRenter, getRenters, deleteRenter } from '../../api/Renters'
 
 export const useUsers = () => {
     const [users, setUsers] = useState([]);
@@ -110,13 +109,28 @@ export const useRenters = () => {
     const [renters, setRenters] = useState([]);
     useEffect(() => {
         getRenters().then((result) => {
-            const data = result?.map((renter) => ({
-                ...renter,
-                id: renter.RenterId,
-            }));
+            const data = result?.map((renter) => {
+                return {
+                    ...renter,
+                    id: renter.RenterId,
+                    BirthDate: new Date(renter.BirthDate).toLocaleDateString()
+                }
+            });
             setRenters(data);
         });
     }, []);
-    return renters;
-}
+    
+    const addRenter = (renter) => {
+        createRenter(renter);
+    }
 
+    const removeRenter = (renter) =>{
+        deleteRenter(renter);
+    }
+
+    return {
+        data: renters,
+        addRenter,
+        removeRenter,
+    };
+}
