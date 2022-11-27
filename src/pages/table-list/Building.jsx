@@ -22,6 +22,7 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { storage } from "../../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import Map from "../../components/openstreetmap/Map";
 
 // const data = useBuildings();
 const Building = () => {
@@ -42,14 +43,28 @@ const Building = () => {
     } else {
       createBuilding(
         JSON.stringify({
+          buildingId: "1",
+          buildingName: value.BuildingName,
+          imageUrl: value.ImageUrl,
+          description: value.Description,
+          totalRooms: Number.parseInt(value.TotalRooms),
+          totalFloor: Number.parseInt(value.TotalFloor),
+          coordinateX: value.CoordinateX,
+          coordinateY: value.CoordinateY,
+          status: value.Status,
+          areaId: value.AreaId,
+        })
+      );
+      console.log(
+        JSON.stringify({
           BuildingId: "1",
           BuildingName: value.BuildingName,
           ImageUrl: value.ImageUrl,
           Description: value.Description,
           TotalRooms: Number.parseInt(value.TotalRooms),
           TotalFloor: Number.parseInt(value.TotalFloor),
-          CoordinateX: Number.parseInt(value.CoordinateX),
-          CoordinateY: Number.parseInt(value.CoordinateY),
+          CoordinateX: value.CoordinateX,
+          CoordinateY: value.CoordinateY,
           Status: value.Status,
           AreaId: value.AreaId,
         })
@@ -222,11 +237,20 @@ export const CreateNewAccountModal = ({
 
   const handleChange = (e) => {
     console.log(e);
-    let targetValue = e.target.value;
-    if (e.target.name == "ImageUrl") {
-      targetValue = e.target.files[0];
+
+    if (e.name === "location") {
+      setValues({
+        ...values,
+        CoordinateX: e.value.lat,
+        CoordinateY: e.value.lng,
+      });
+    } else {
+      let targetValue = e.target.value;
+      if (e.target.name == "ImageUrl") {
+        targetValue = e.target.files[0];
+      }
+      setValues({ ...values, [e.target.name]: targetValue });
     }
-    setValues({ ...values, [e.target.name]: targetValue });
   };
   const handleSubmit = async () => {
     const storageRef = ref(
@@ -341,8 +365,17 @@ export const CreateNewAccountModal = ({
                 required
               />
             </Stack>
-            <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
-              <TextField
+            <Stack
+              direction={{ xs: "row" }}
+              spacing={{ xs: 2 }}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <div style={{ width: "70%", height: "70%" }}>
+                <Map setPos={handleChange} />
+              </div>
+
+              {/* <TextField
                 label="CoordinateX"
                 name="CoordinateX"
                 onChange={handleChange}
@@ -359,7 +392,7 @@ export const CreateNewAccountModal = ({
                 type="number"
                 fullWidth
                 required
-              />
+              /> */}
             </Stack>
             <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
               <Input
