@@ -1,4 +1,4 @@
-import { deleteJSON, postJSON, putJSON } from "../services/Network";
+import { deleteJSON, postForm, putForm } from "../services/Network";
 import { BASE_URL } from "./Const";
 import { getJSON } from "../services/Network";
 export async function getAreas() {
@@ -15,13 +15,13 @@ export async function getAreaById(areaId){
 
 export async function updateArea(option){
     const url = `${BASE_URL}/areas/${option.areaId}`;
-    const updatedArea = putJSON(url, option).then(result => result);
+    const updatedArea = putForm(url, option).then(result => result);
     return updatedArea;
 }
 
 export async function createArea(option){
     const url = `${BASE_URL}/areas`;
-    const createdArea = postJSON(url, option).then(result => result);
+    const createdArea = postForm(url, option).then(result => result);
     return createdArea;
 }
 

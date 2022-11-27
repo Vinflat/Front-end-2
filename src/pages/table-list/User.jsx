@@ -16,10 +16,11 @@ import {
 import { Delete, Edit } from "@mui/icons-material";
 import { useUsers } from "./hooks";
 import { useEffect } from "react";
+import { updateAccount } from "../../api/Accounts";
 
 // const data = useBuildings();
 const User = () => {
-  const data = useUsers();
+  const {data, addUser, removeUser } = useUsers();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -29,6 +30,7 @@ const User = () => {
   }, [data]);
 
   const handleCreateNewRow = (values) => {
+    addUser(values);
     tableData.push(values);
     setTableData([...tableData]);
   };
@@ -37,6 +39,7 @@ const User = () => {
     if (!Object.keys(validationErrors).length) {
       tableData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
+      updateAccount(values);
       setTableData([...tableData]);
       exitEditingMode(); //required to exit editing mode and close modal
     }
@@ -44,14 +47,15 @@ const User = () => {
 
   const handleDeleteRow = useCallback(
     (row) => {
-      if (
-        !window.confirm(
-          `Are you sure you want to delete ${row.getValue("username")}`
-        )
-      ) {
-        return;
-      }
+      // if (
+      //   !window.confirm(
+      //     `Are you sure you want to delete ${row.getValue("username")}`
+      //   )
+      // ) {
+      //   return;
+      // }
       //send api delete request here, then refetch or update local table data for re-render
+      removeUser(row.original);
       tableData.splice(row.index, 1);
       setTableData([...tableData]);
     },

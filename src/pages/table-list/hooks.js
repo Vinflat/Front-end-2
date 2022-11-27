@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 // import { getApartments } from "../../api/Apartments";
 import { createBuildingApi, getBuildings } from "../../api/Buildings";
-import { getUsers } from '../../api/Accounts'
+import { getUsers, deleteAccount, createAccount } from '../../api/Accounts'
 import { getFlats } from '../../api/Flats'
 import { getContracts } from '../../api/Contracts'
 import { createRenter, getRenters, deleteRenter } from '../../api/Renters'
@@ -20,8 +20,19 @@ export const useUsers = () => {
             setUsers(data);
         })
 
-    }, [])
-    return users;
+    }, []);
+    const addUser = (user) => {
+        createAccount(user);
+    }
+
+    const removeUser = (user) =>{
+        deleteAccount(user);
+    }
+    return {
+        data: users,
+        addUser,
+        removeUser,
+    };
 }
 export const useAreas = () => {
     const [areas, setAreas] = useState([]);
