@@ -132,7 +132,7 @@ export default function ElectrictandWater() {
       </Box>
       {/* 3 button */}
       <Box m={2} pt={2}>
-        <Stack spacing={2} direction="row">
+        <Stack alignItems="flex-end" justifyContent="flex-end" spacing={2} direction="row">
           <Button
             variant="contained"
             color="error"

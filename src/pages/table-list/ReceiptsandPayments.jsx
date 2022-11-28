@@ -1,49 +1,98 @@
-import React from 'react';
-import MaterialReactTable from 'material-react-table';
-import { Box, Button } from '@mui/material';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { ExportToCsv } from 'export-to-csv'; //or use your library of choice here
-// import { data } from './makeData';
+import React from "react";
+import MaterialReactTable from "material-react-table";
+import { Box, Button } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import { ExportToCsv } from "export-to-csv"; //or use your library of choice here
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import MenuItem from "@mui/material/MenuItem";
 import { useBuildings } from "./hooks";
 const data = useBuildings;
 
-//defining columns outside of the component is fine, is stable
+const buildings = [
+  {
+    value: "Tòa nhà 1",
+    label: "Tòa nhà 1",
+  },
+  {
+    value: "Tòa nhà 2",
+    label: "Tòa nhà 2",
+  },
+  {
+    value: "Tòa nhà 3",
+    label: "Tòa nhà 3",
+  },
+];
+const flats = [
+  {
+    value: "Phòng 1",
+    label: "Phòng 1",
+  },
+  {
+    value: "Phòng 2",
+    label: "Phòng 2",
+  },
+  {
+    value: "Phòng 3",
+    label: "Phòng 3",
+  },
+];
+const invoiceTypes = [
+  {
+    value: "Tất cả",
+    label: "Tất cả",
+  },
+  {
+    value: "Phiếu thu",
+    label: "Phiếu thu",
+  },
+  {
+    value: "Phiếu chi",
+    label: "Phiếu chi",
+  },
+];
+
 const columns = [
   {
-    accessorKey: 'id',
-    header: 'ID',
+    accessorKey: "id",
+    header: "ID",
     size: 40,
   },
   {
-    accessorKey: 'firstName',
-    header: 'First Name',
+    accessorKey: "firstName",
+    header: "First Name",
     size: 120,
   },
   {
-    accessorKey: 'lastName',
-    header: 'Last Name',
+    accessorKey: "lastName",
+    header: "Last Name",
     size: 120,
   },
   {
-    accessorKey: 'company',
-    header: 'Company',
+    accessorKey: "company",
+    header: "Company",
     size: 300,
   },
   {
-    accessorKey: 'city',
-    header: 'City',
+    accessorKey: "city",
+    header: "City",
   },
   {
-    accessorKey: 'country',
-    header: 'Country',
+    accessorKey: "country",
+    header: "Country",
     size: 220,
   },
 ];
 
 const csvOptions = {
-  fieldSeparator: ',',
+  fieldSeparator: ",",
   quoteStrings: '"',
-  decimalSeparator: '.',
+  decimalSeparator: ".",
   showLabels: true,
   useBom: true,
   useKeysAsHeaders: false,
@@ -53,6 +102,11 @@ const csvOptions = {
 const csvExporter = new ExportToCsv(csvOptions);
 
 const ReceiptsandPayments = () => {
+  const [building, setBuilding] = React.useState("Tòa nhà 1");
+  const [flat, setFlat] = React.useState("Phòng 1");
+  const [invoiceType, setInvoiceType] = React.useState("Tất cả");
+  const [value, setValue] = React.useState(dayjs("2014-08-01"));
+
   const handleExportRows = (rows) => {
     csvExporter.generateCsv(rows.map((row) => row.original));
   };
@@ -61,59 +115,141 @@ const ReceiptsandPayments = () => {
     csvExporter.generateCsv(data);
   };
 
+  const handleChangeBuilding = (event) => {
+    setBuilding(event.target.value);
+  };
+
+  const handleChangeFlat = (event) => {
+    setFlat(event.target.value);
+  };
+
+  const handleChangeInvoiceType = (event) => {
+    setInvoiceType(event.target.value);
+  };
+
+  const handleChangeDate = (newValue) => {
+    setValue(newValue);
+  };
+
+  const handleChangeMonth = (newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <MaterialReactTable
-      columns={columns}
-      data={data}
-      enableRowSelection
-      positionToolbarAlertBanner="bottom"
-      renderTopToolbarCustomActions={({ table }) => (
-        <Box
-          sx={{ display: 'flex', gap: '1rem', p: '0.5rem', flexWrap: 'wrap' }}
+    <div>
+      <Box m={2} pt={2}>
+        <Typography variant="h6">Thu chi</Typography>
+      </Box>
+
+      <Box m={2} pt={2}>
+        <Divider />
+        <div>
+          <Stack spacing={2} direction="row">
+            <TextField
+              id="outlined-select-building"
+              select
+              label="Chọn tòa nhà"
+              value={building}
+              onChange={handleChangeBuilding}
+            >
+              {buildings.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              id="outlined-select-flat"
+              select
+              label="Chọn phòng"
+              value={flat}
+              onChange={handleChangeFlat}
+            >
+              {flats.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="Ngày bắt đầu"
+                inputFormat="DD/MM/YYYY"
+                value={value}
+                onChange={handleChangeMonth}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="Ngày kết thúc"
+                inputFormat="DD/MM/YYYY"
+                value={value}
+                onChange={handleChangeDate}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+
+            <TextField
+              id="outlined-select-invoice-type"
+              select
+              label="Loại chứng từ"
+              value={invoiceType}
+              onChange={handleChangeInvoiceType}
+            >
+              {invoiceTypes.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Stack>
+        </div>
+        <Divider />
+      </Box>
+
+      <Box m={2} pt={1}>
+        <Stack
+          alignItems="flex-end"
+          justifyContent="flex-end"
+          spacing={2}
+          direction="row"
         >
           <Button
-            color="primary"
+            color="success"
             //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
             onClick={handleExportData}
-            startIcon={<FileDownloadIcon />}
             variant="contained"
           >
-            Export All Data
+            Xuất excel
           </Button>
           <Button
-            disabled={table.getPrePaginationRowModel().rows.length === 0}
-            //export all rows, including from the next page, (still respects filtering and sorting)
-            onClick={() =>
-              handleExportRows(table.getPrePaginationRowModel().rows)
-            }
-            startIcon={<FileDownloadIcon />}
+            color="primary"
+            onClick={handleExportData}
             variant="contained"
           >
-            Export All Rows
+            Thêm phiếu thu
           </Button>
           <Button
-            disabled={table.getRowModel().rows.length === 0}
-            //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
-            onClick={() => handleExportRows(table.getRowModel().rows)}
-            startIcon={<FileDownloadIcon />}
+            color="primary"
+            onClick={handleExportData}
             variant="contained"
           >
-            Export Page Rows
+            Thêm phiếu chi
           </Button>
-          <Button
-            disabled={
-              !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
-            }
-            //only export selected rows
-            onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
-            startIcon={<FileDownloadIcon />}
-            variant="contained"
-          >
-            Export Selected Rows
-          </Button>
-        </Box>
-      )}
-    />
+        </Stack>
+      </Box>
+
+      <Box m={2} pt={2}>
+        <MaterialReactTable
+          columns={columns}
+          data={data}
+          enableRowSelection
+          positionToolbarAlertBanner="bottom"
+        />
+      </Box>
+    </div>
   );
 };
 
