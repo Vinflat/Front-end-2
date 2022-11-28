@@ -3,7 +3,14 @@ import MaterialReactTable from "material-react-table";
 import { Box, Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import AppBar from "@mui/material/AppBar";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { useBuildings } from "./hooks";
+import TextField from "@mui/material/TextField";
 const data = useBuildings;
 
 const columns = [
@@ -39,6 +46,13 @@ const columns = [
 ];
 
 const SettingCollect = () => {
+  const [openAddIncome, setOpenAddIncome] = React.useState(false);
+  const handleClickOpenAddIncome = () => {
+    setOpenAddIncome(true);
+  };
+  const handleCloseAddIncome = () => {
+    setOpenAddIncome(false);
+  };
 
   return (
     <div>
@@ -47,21 +61,52 @@ const SettingCollect = () => {
       </Box>
 
       <Box m={2} pt={2}>
-        <Stack
-          alignItems="flex-end"
-          justifyContent="flex-end"
-          direction="row"
-        >
-          
+        <Stack alignItems="flex-end" justifyContent="flex-end" direction="row">
           <Button
             color="primary"
-            // onClick={handleExportData}
+            onClick={handleClickOpenAddIncome}
             variant="contained"
           >
             Thêm loại phiếu thu
           </Button>
         </Stack>
       </Box>
+
+      <Dialog open={openAddIncome} onClose={handleCloseAddIncome}>
+        <AppBar position="static">
+          <DialogTitle>Thêm loại phiếu thu</DialogTitle>
+        </AppBar>
+        <DialogContent>
+          {/* <DialogContentText></DialogContentText> */}
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: "25ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <div>
+              <TextField
+                required
+                id="outlined-required"
+                label="Tên"
+                defaultValue="..."
+              />
+            </div>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAddIncome}>Hủy</Button>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleCloseAddIncome}
+          >
+            Lưu
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Box m={2} pt={2}>
         <MaterialReactTable

@@ -1,24 +1,23 @@
-import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { useRenters } from "./hooks";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import React from "react";
+import MaterialReactTable from "material-react-table";
+import { Box, Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import PublishIcon from "@mui/icons-material/Publish";
+import Stack from "@mui/material/Stack";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import MenuItem from "@mui/material/MenuItem";
+import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import MenuItem from "@mui/material/MenuItem";
-import dayjs from "dayjs";
 import { CircularProgressbar } from "react-circular-progressbar";
-import Divider from "@mui/material/Divider";
+import { useBuildings } from "./hooks";
+const data = useBuildings;
 
 const buildings = [
   {
@@ -66,40 +65,38 @@ const contracts = [
 ];
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
   {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90,
+    accessorKey: "id",
+    header: "ID",
+    size: 40,
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    accessorKey: "firstName",
+    header: "First Name",
+    size: 120,
+  },
+  {
+    accessorKey: "lastName",
+    header: "Last Name",
+    size: 120,
+  },
+  {
+    accessorKey: "company",
+    header: "Company",
+    size: 300,
+  },
+  {
+    accessorKey: "city",
+    header: "City",
+  },
+  {
+    accessorKey: "country",
+    header: "Country",
+    size: 220,
   },
 ];
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
-
-export default function ElectrictandWater() {
-  const renters = useRenters();
+const ElectrictandWater = () => {
   const [building, setBuilding] = React.useState("Tòa nhà 1");
   const [flat, setFlat] = React.useState("Phòng 1");
   const [contract, setContract] = React.useState("Hợp đồng 1");
@@ -126,13 +123,19 @@ export default function ElectrictandWater() {
   };
 
   return (
-    <div style={{ width: "100%" }}>
+    <div>
       <Box m={2} pt={2}>
         <Typography variant="h6">Danh sách chốt điện nước</Typography>
       </Box>
+
       {/* 3 button */}
       <Box m={2} pt={2}>
-        <Stack alignItems="flex-end" justifyContent="flex-end" spacing={2} direction="row">
+        <Stack
+          alignItems="flex-end"
+          justifyContent="flex-end"
+          spacing={2}
+          direction="row"
+        >
           <Button
             variant="contained"
             color="error"
@@ -154,6 +157,7 @@ export default function ElectrictandWater() {
           </Button>
         </Stack>
       </Box>
+
       {/* setting dien nuoc form */}
       <Box m={2} pt={2}>
         <Accordion>
@@ -304,90 +308,97 @@ export default function ElectrictandWater() {
         </Accordion>
       </Box>
 
-      <Divider />
       <Box m={2} pt={2}>
-        <Stack spacing={20} direction="row">
+        <Stack
+          spacing={20}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
           <div style={{ width: 120, height: 120 }}>
-            <CircularProgressbar value={100} text={"0"} strokeWidth={5} />
+            {/* <CircularProgressbar value={100} text={"0"} strokeWidth={5} /> */}
             <h7>Tổng số điện</h7>
           </div>
           <div style={{ width: 120, height: 120 }}>
-            <CircularProgressbar value={100} text={"0"} strokeWidth={5} />
+            {/* <CircularProgressbar value={100} text={"0"} strokeWidth={5} /> */}
             <h7>Tổng số nước</h7>
           </div>
           <div style={{ width: 120, height: 120 }}>
-            <CircularProgressbar value={70} text={"0"} strokeWidth={5} />
+            {/* <CircularProgressbar value={70} text={"0"} strokeWidth={5} /> */}
             <h7>Tổng thu điện</h7>
           </div>
           <div style={{ width: 120, height: 120 }}>
-            <CircularProgressbar value={70} text={"0"} strokeWidth={5} />
+            {/* <CircularProgressbar value={70} text={"0"} strokeWidth={5} /> */}
             <h7>Tổng thu nước</h7>
           </div>
         </Stack>
       </Box>
-      <Divider />
-      <Box m={2} pt={2}>
-        <div>
-          <Stack spacing={2} direction="row">
-            <TextField
-              id="outlined-select-building"
-              select
-              label="Chọn tòa nhà"
-              value={building}
-              onChange={handleChangeBuilding}
-            >
-              {buildings.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              id="outlined-select-flat"
-              select
-              label="Chọn phòng"
-              value={flat}
-              onChange={handleChangeFlat}
-            >
-              {flats.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="Ngày bắt đầu"
-                inputFormat="MM/YYYY"
-                value={value}
-                onChange={handleChangeMonth}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="Ngày kết thúc"
-                inputFormat="MM/YYYY"
-                value={value}
-                onChange={handleChangeDate}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-          </Stack>
-        </div>
-      </Box>
       <Box m={2} pt={2}>
-      <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
-    </div>
+        <Stack
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+          direction="row"
+        >
+          <TextField
+            id="outlined-select-building"
+            select
+            label="Chọn tòa nhà"
+            value={building}
+            onChange={handleChangeBuilding}
+          >
+            {buildings.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            id="outlined-select-flat"
+            select
+            label="Chọn phòng"
+            value={flat}
+            onChange={handleChangeFlat}
+          >
+            {flats.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DesktopDatePicker
+              label="Ngày bắt đầu"
+              inputFormat="MM/YYYY"
+              value={value}
+              onChange={handleChangeMonth}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DesktopDatePicker
+              label="Ngày kết thúc"
+              inputFormat="MM/YYYY"
+              value={value}
+              onChange={handleChangeDate}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </Stack>
+      </Box>
+
+      <Box m={2} pt={2}>
+        <MaterialReactTable
+          columns={columns}
+          data={data}
+          enableRowSelection
+          positionToolbarAlertBanner="bottom"
+        />
       </Box>
     </div>
   );
-}
+};
+
+export default ElectrictandWater;

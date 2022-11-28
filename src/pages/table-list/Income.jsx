@@ -12,6 +12,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import MenuItem from "@mui/material/MenuItem";
 import { useBuildings } from "./hooks";
+import AppBar from "@mui/material/AppBar";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 const data = useBuildings;
 
 const buildings = [
@@ -54,6 +60,25 @@ const invoiceTypes = [
   {
     value: "Phiếu chi",
     label: "Phiếu chi",
+  },
+];
+
+const invoiceNames = [
+  {
+    value: "Tiền trọ",
+    label: "Tiền trọ",
+  },
+  {
+    value: "Tiền điện",
+    label: "Tiền điện",
+  },
+  {
+    value: "Tiền nước",
+    label: "Tiền nước",
+  },
+  {
+    value: "Tiền cọc",
+    label: "Tiền cọc",
   },
 ];
 
@@ -105,7 +130,20 @@ const Income = () => {
   const [building, setBuilding] = React.useState("Tòa nhà 1");
   const [flat, setFlat] = React.useState("Phòng 1");
   const [invoiceType, setInvoiceType] = React.useState("Tất cả");
+  const [invoiceName, setInvoiceName] = React.useState("Tiền trọ");
   const [value, setValue] = React.useState(dayjs("2014-08-01"));
+
+  const [openCreateIncome, setOpenCreateIncome] = React.useState(false);
+  const handleClickOpenCreateIncome = () => {
+    setOpenCreateIncome(true);
+  };
+  const handleCloseCreateIncome = () => {
+    setOpenCreateIncome(false);
+  };
+
+  const handleChangeInvoiceName = (event) => {
+    setInvoiceName(event.target.value);
+  };
 
   const handleExportRows = (rows) => {
     csvExporter.generateCsv(rows.map((row) => row.original));
@@ -204,30 +242,160 @@ const Income = () => {
               ))}
             </TextField>
             <Stack
-          alignItems="flex-end"
-          justifyContent="flex-end"
-          spacing={2}
-          direction="row"
-        >
-          <Button
-            color="success"
-            //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
-            onClick={handleExportData}
-            variant="contained"
-          >
-            Xuất excel
-          </Button>
-          <Button
-            color="primary"
-            onClick={handleExportData}
-            variant="contained"
-          >
-            Thêm phiếu chi
-          </Button>
-        </Stack>
+              alignItems="flex-end"
+              justifyContent="flex-end"
+              spacing={2}
+              direction="row"
+            >
+              <Button
+                color="success"
+                //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
+                onClick={handleExportData}
+                variant="contained"
+              >
+                Xuất excel
+              </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={handleClickOpenCreateIncome}
+              >
+                Thêm phiếu thu
+              </Button>
+            </Stack>
           </Stack>
         </div>
       </Box>
+
+      <Dialog open={openCreateIncome} onClose={handleCloseCreateIncome}>
+        <AppBar position="static">
+          <DialogTitle>Lập phiếu thu</DialogTitle>
+        </AppBar>
+        <DialogContent>
+          {/* <DialogContentText></DialogContentText> */}
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: "25ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <div>
+              <TextField
+                id="outlined-select-building"
+                select
+                required
+                label="Chọn tòa nhà"
+                value={building}
+                onChange={handleChangeBuilding}
+                helperText="Vui lòng chọn tòa nhà của bạn."
+              >
+                {buildings.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id="outlined-select-flat"
+                select
+                required
+                label="Chọn phòng"
+                value={flat}
+                onChange={handleChangeFlat}
+                helperText="Vui lòng chọn phòng."
+              >
+                {flats.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                required
+                id="outlined-required"
+                label="Lý do thu"
+                defaultValue="..."
+              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker
+                  required
+                  label="Ngày thu (*)"
+                  inputFormat="DD/MM/YYYY"
+                  value={value}
+                  onChange={handleChangeDate}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+              <TextField
+                required
+                id="outlined-required"
+                label="Số tiền"
+                defaultValue="0"
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Người thu"
+                defaultValue="..."
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Người nộp tiền"
+                defaultValue="..."
+              />
+
+              <TextField
+                required
+                id="outlined-required"
+                label="Hình thức thu"
+                defaultValue="Tiền mặt/ Chuyển khoản"
+              />
+              <TextField
+                id="outlined-select-invoice-name"
+                select
+                label="Loại phiếu thu"
+                value={invoiceName}
+                onChange={handleChangeInvoiceName}
+              >
+                {invoiceNames.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                required
+                id="outlined-required"
+                label="Ghi chú"
+                defaultValue="..."
+              />
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Button variant="outlined" component="label">
+                  Đính kèm file
+                  <input hidden multiple type="file" />
+                </Button>
+              </Stack>
+            </div>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseCreateIncome}>Hủy</Button>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleCloseCreateIncome}
+          >
+            Lưu
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Box m={2} pt={2}>
         <MaterialReactTable
