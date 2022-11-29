@@ -16,9 +16,10 @@ import {
 import { Delete, Edit } from "@mui/icons-material";
 import { useFlats } from "./hooks";
 import { useEffect } from "react";
+import { updateFlat } from "../../api/Flats";
 
 const Flat = () => {
-  const data = useFlats();
+  const { data, insertFlat, removeFlat } = useFlats();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -28,12 +29,14 @@ const Flat = () => {
   }, [data]);
 
   const handleCreateNewRow = (values) => {
+    insertFlat(values)
     tableData.push(values);
     setTableData([...tableData]);
   };
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
     if (!Object.keys(validationErrors).length) {
+      updateFlat(values);
       tableData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
       setTableData([...tableData]);
@@ -43,14 +46,15 @@ const Flat = () => {
 
   const handleDeleteRow = useCallback(
     (row) => {
-      if (
-        !window.confirm(
-          `Are you sure you want to delete ${row.getValue("name")}`
-        )
-      ) {
-        return;
-      }
+      // if (
+      //   !window.confirm(
+      //     `Are you sure you want to delete ${row.getValue("name")}`
+      //   )
+      // ) {
+      //   return;
+      // }
       //send api delete request here, then refetch or update local table data for re-render
+      removeFlat(row.original)
       tableData.splice(row.index, 1);
       setTableData([...tableData]);
     },

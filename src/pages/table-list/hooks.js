@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 // import { getApartments } from "../../api/Apartments";
 import { createBuildingApi, getBuildings } from "../../api/Buildings";
 import { getUsers, deleteAccount, createAccount } from '../../api/Accounts'
-import { getFlats } from '../../api/Flats'
+import { getFlats, getFlatById, getFlatTypes, getFlatTypeByFlatTypeId, createFlat, updateFlat, deleteFlat, createFlatType, updateFlatType, deleteFlatType } from '../../api/Flats'
 import { getContracts } from '../../api/Contracts'
 import { createRenter, getRenters, deleteRenter } from '../../api/Renters'
 import { getAreas } from '../../api/Areas'
@@ -100,7 +100,19 @@ export const useFlats = () => {
             setFlats(data);
         });
     }, []);
-    return flats;
+    
+    const insertFlat = (flat) => {
+        createFlat(flat)
+    }
+
+    const removeFlat = (flat) => {
+        deleteFlat(flat.FlatId);
+    }
+    return {
+        data: flats,
+        insertFlat,
+        removeFlat,
+    };
 }
 
 export const useContracts = () => {
