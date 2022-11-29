@@ -9,16 +9,16 @@ import {
   useMapEvents,
 } from "react-leaflet";
 
-export default function Map({ setPos }) {
+export default function Map({ setPos, defaultValue }) {
   useEffect(() => {
     setPos({
       name: "location",
-      value: { lat: 10.868276182506731, lng: 106.63713368682674 },
+      value: defaultValue,
     });
   }, []);
   return (
     <MapContainer
-      center={{ lat: 10.868276182506731, lng: 106.63713368682674 }}
+      center={defaultValue}
       zoom={13}
       scrollWheelZoom={false}
       style={{ height: "100vh" }}
@@ -27,10 +27,7 @@ export default function Map({ setPos }) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <LocationMarker
-        pos={{ lat: 10.868276182506731, lng: 106.63713368682674 }}
-        setPos={setPos}
-      />
+      <LocationMarker pos={defaultValue} setPos={setPos} />
     </MapContainer>
   );
 }

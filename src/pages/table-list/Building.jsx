@@ -24,9 +24,8 @@ import { storage } from "../../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Map from "../../components/openstreetmap/Map";
 
-// const data = useBuildings();
 const Building = () => {
-  const [buildings, createBuilding, error] = useBuildings();
+  const [buildings, createBuilding, updateBuilding, error] = useBuildings();
   const areasData = useAreas();
   const [selected, setSelected] = useState(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -40,8 +39,28 @@ const Building = () => {
   const handleSubmitMain = (value) => {
     if (selected) {
       // here update
+      console.log(value);
+      updateBuilding({
+        BuildingId: value.BuildingId,
+        buildingName: value.BuildingName,
+        imageUrl: value.ImageUrl,
+        description: value.Description,
+        coordinateX: Number.parseInt(value.CoordinateX),
+        coordinateY: Number.parseInt(value.CoordinateY),
+        status: value.Status,
+        areaId: value.AreaId,
+      });
     } else {
-      createBuilding(
+      createBuilding({
+        buildingName: value.BuildingName,
+        imageUrl: value.ImageUrl,
+        description: value.Description,
+        coordinateX: Number.parseInt(value.CoordinateX),
+        coordinateY: Number.parseInt(value.CoordinateY),
+        status: value.Status,
+        areaId: value.AreaId,
+      });
+      console.log(
         JSON.stringify({
           buildingId: "1",
           buildingName: value.BuildingName,
@@ -53,20 +72,6 @@ const Building = () => {
           coordinateY: value.CoordinateY,
           status: value.Status,
           areaId: value.AreaId,
-        })
-      );
-      console.log(
-        JSON.stringify({
-          BuildingId: "1",
-          BuildingName: value.BuildingName,
-          ImageUrl: value.ImageUrl,
-          Description: value.Description,
-          TotalRooms: Number.parseInt(value.TotalRooms),
-          TotalFloor: Number.parseInt(value.TotalFloor),
-          CoordinateX: value.CoordinateX,
-          CoordinateY: value.CoordinateY,
-          Status: value.Status,
-          AreaId: value.AreaId,
         })
       );
     }
@@ -120,16 +125,16 @@ const Building = () => {
         accessorKey: "Description",
         header: "Description",
       },
-      {
-        accessorKey: "TotalRooms",
-        header: "Floors",
-        size: 80,
-      },
-      {
-        accessorKey: "TotalFloor",
-        header: "Rooms",
-        size: 80,
-      },
+      // {
+      //   accessorKey: "TotalRooms",
+      //   header: "Floors",
+      //   size: 80,
+      // },
+      // {
+      //   accessorKey: "TotalFloor",
+      //   header: "Rooms",
+      //   size: 80,
+      // },
       {
         accessorKey: "CoordinateX",
         header: "coordinateX",
@@ -191,16 +196,20 @@ const Building = () => {
           </Box>
         )}
         renderTopToolbarCustomActions={() => (
-          <Button
-            color="primary"
-            onClick={() => {
-              setSelected(null);
-              setCreateModalOpen(true);
-            }}
-            variant="contained"
+          <div
+            style={{ display: "flex", justifyContent: "right", width: "100%" }}
           >
-            Thêm tòa nhà
-          </Button>
+            <Button
+              color="primary"
+              onClick={() => {
+                setSelected(null);
+                setCreateModalOpen(true);
+              }}
+              variant="contained"
+            >
+              Thêm tòa nhà
+            </Button>
+          </div>
         )}
       />
       <CreateNewAccountModal
@@ -236,8 +245,6 @@ export const CreateNewAccountModal = ({
   }, [selected]);
 
   const handleChange = (e) => {
-    console.log(e);
-
     if (e.name === "location") {
       setValues({
         ...values,
@@ -253,53 +260,58 @@ export const CreateNewAccountModal = ({
     }
   };
   const handleSubmit = async () => {
-    const storageRef = ref(
-      storage,
-      `images/building/${values.ImageUrl.name}-${new Date().toISOString()}`
-    );
-    const uploadTask = uploadBytesResumable(storageRef, values.ImageUrl);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-        }
-      },
-      (error) => {
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case "storage/unauthorized":
-            // User doesn't have permission to access the object
-            break;
-          case "storage/canceled":
-            // User canceled the upload
-            break;
+    if (typeof values.ImageUrl == "object") {
+      const storageRef = ref(
+        storage,
+        `images/building/${values.ImageUrl.name}-${new Date().toISOString()}`
+      );
+      const uploadTask = uploadBytesResumable(storageRef, values.ImageUrl);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
+            case "storage/canceled":
+              // User canceled the upload
+              break;
 
-          // ...
+            // ...
 
-          case "storage/unknown":
-            // Unknown error occurred, inspect error.serverResponse
-            break;
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        },
+        () => {
+          // Upload completed successfully, now we can get the download URL
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            values.ImageUrl = downloadURL;
+            onSubmit(values);
+          });
         }
-      },
-      () => {
-        // Upload completed successfully, now we can get the download URL
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          values.ImageUrl = downloadURL;
-          onSubmit(values);
-        });
-      }
-    );
+      );
+    } else {
+      onSubmit(values);
+    }
+
     //put your validation logic here
     onClose();
   };
@@ -345,26 +357,6 @@ export const CreateNewAccountModal = ({
                 required
               />
             </Stack>
-            <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
-              <TextField
-                label="TotalFloor"
-                name="TotalFloor"
-                onChange={handleChange}
-                value={values.TotalFloor}
-                type="number"
-                fullWidth
-                required
-              />
-              <TextField
-                fullWidth
-                label="TotalRooms"
-                name="TotalRooms"
-                onChange={handleChange}
-                value={values.TotalRooms}
-                type="number"
-                required
-              />
-            </Stack>
             <Stack
               direction={{ xs: "row" }}
               spacing={{ xs: 2 }}
@@ -372,27 +364,21 @@ export const CreateNewAccountModal = ({
               alignItems="center"
             >
               <div style={{ width: "70%", height: "70%" }}>
-                <Map setPos={handleChange} />
+                <Map
+                  setPos={handleChange}
+                  defaultValue={
+                    selected
+                      ? {
+                          lat: selected?.CoordinateX,
+                          lng: selected?.CoordinateY,
+                        }
+                      : {
+                          lat: 10.868276182506731,
+                          lng: 106.63713368682674,
+                        }
+                  }
+                />
               </div>
-
-              {/* <TextField
-                label="CoordinateX"
-                name="CoordinateX"
-                onChange={handleChange}
-                value={values.CoordinateX}
-                type="number"
-                fullWidth
-                required
-              />
-              <TextField
-                label="CoordinateY"
-                name="CoordinateY"
-                onChange={handleChange}
-                value={values.CoordinateY}
-                type="number"
-                fullWidth
-                required
-              /> */}
             </Stack>
             <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
               <Input
