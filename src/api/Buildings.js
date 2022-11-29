@@ -1,8 +1,8 @@
 import { BASE_URL } from "./Const";
-import { getJSON, postForm } from "../services/Network";
+import { getJSON, postForm, postJSON, putJSON } from "../services/Network";
 
 export async function getBuildings() {
-  const url = `${BASE_URL}/buildings?PageNumber=2`;
+  const url = `${BASE_URL}/buildings?PageNumber=1&PageSize=1000`;
   const buildings = getJSON(url).then((result) => result.resultList);
   return buildings;
 }
@@ -17,4 +17,16 @@ export async function createBuildingApi(building) {
   const url = `${BASE_URL}/buildings`;
   const createdBuilding = postForm(url, building).then((result) => result);
   return createdBuilding;
+}
+
+export async function createBuildingJsonApi(building) {
+  const url = `${BASE_URL}/buildings`;
+  const createdBuilding = postJSON(url, building).then((result) => result);
+  return createdBuilding;
+}
+
+export async function updateBuildingJsonApi(building) {
+  const url = `${BASE_URL}/buildings/${building.BuildingId}`;
+  const updateBuilding = putJSON(url, building).then((result) => result);
+  return updateBuilding;
 }
