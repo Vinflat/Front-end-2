@@ -15,9 +15,9 @@ import {
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 // import { useBuildings } from "./hooks";
-import { useRenters } from './hooks';
+import { useRenters } from "./hooks";
 import { useEffect } from "react";
-import { updateRenter } from '../../api/Renters'
+import { updateRenter } from "../../api/Renters";
 
 const Renter = () => {
   const { data, addRenter, removeRenter } = useRenters();
@@ -44,20 +44,22 @@ const Renter = () => {
     }
   };
 
-  const handleDeleteRow = useCallback((row) => {
+  const handleDeleteRow = useCallback(
+    (row) => {
+      //ERROR IN IF STATEMENT
 
-    //ERROR IN IF STATEMENT
-
-    // if (
-    //   !window.confirm(`Are you sure you want to delete ${row.getValue("fullName")}`
-    //   )
-    // ) {
-    //   return;
-    // }
-    removeRenter(row.original);
-    tableData.splice(row.index, 1);
-    setTableData([...tableData]);
-  }, [tableData]);
+      // if (
+      //   !window.confirm(`Are you sure you want to delete ${row.getValue("fullName")}`
+      //   )
+      // ) {
+      //   return;
+      // }
+      removeRenter(row.original);
+      tableData.splice(row.index, 1);
+      setTableData([...tableData]);
+    },
+    [tableData]
+  );
 
   const getCommonEditTextFieldProps = useCallback(
     (cell) => {
@@ -114,7 +116,7 @@ const Renter = () => {
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: 'email',
+          type: "email",
         }),
       },
       {
@@ -201,45 +203,55 @@ const Renter = () => {
 
   return (
     <>
-      <MaterialReactTable
-        displayColumnDefOptions={{
-          "mrt-row-actions": {
-            muiTableHeadCellProps: {
-              align: "center",
+      <Box m={2} pt={2}>
+        <MaterialReactTable
+          displayColumnDefOptions={{
+            "mrt-row-actions": {
+              muiTableHeadCellProps: {
+                align: "center",
+              },
+              size: 120,
             },
-            size: 120,
-          },
-        }}
-        columns={columns}
-        data={tableData}
-        editingMode="modal" //default
-        enableColumnOrdering
-        enableEditing
-        onEditingRowSave={handleSaveRowEdits}
-        renderRowActions={({ row, table }) => (
-          <Box sx={{ display: "flex", gap: "1rem" }}>
-            <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
-                <Edit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow placement="right" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                <Delete />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        )}
-        renderTopToolbarCustomActions={() => (
-          <Button
-            color="primary"
-            onClick={() => setCreateModalOpen(true)}
-            variant="contained"
-          >
-            Thêm Khách Thuê
-          </Button>
-        )}
-      />
+          }}
+          columns={columns}
+          data={tableData}
+          editingMode="modal" //default
+          enableColumnOrdering
+          enableEditing
+          onEditingRowSave={handleSaveRowEdits}
+          renderRowActions={({ row, table }) => (
+            <Box sx={{ display: "flex", gap: "1rem" }}>
+              <Tooltip arrow placement="left" title="Edit">
+                <IconButton onClick={() => table.setEditingRow(row)}>
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+              <Tooltip arrow placement="right" title="Delete">
+                <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
+          renderTopToolbarCustomActions={() => (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "right",
+                width: "100%",
+              }}
+            >
+              <Button
+                color="primary"
+                onClick={() => setCreateModalOpen(true)}
+                variant="contained"
+              >
+                Thêm Khách Thuê
+              </Button>
+            </div>
+          )}
+        />
+      </Box>
       <CreateNewAccountModal
         columns={columns}
         open={createModalOpen}

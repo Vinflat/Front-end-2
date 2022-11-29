@@ -161,57 +161,63 @@ const Building = () => {
 
   return (
     <>
-      <MaterialReactTable
-        displayColumnDefOptions={{
-          "mrt-row-actions": {
-            muiTableHeadCellProps: {
-              align: "center",
+      <Box m={2} pt={2}>
+        <MaterialReactTable
+          displayColumnDefOptions={{
+            "mrt-row-actions": {
+              muiTableHeadCellProps: {
+                align: "center",
+              },
+              size: 120,
             },
-            size: 120,
-          },
-        }}
-        columns={columns}
-        data={tableData}
-        editingMode="modal" //default
-        enableColumnOrdering
-        enableEditing
-        onEditingRowSave={handleSaveRowEdits}
-        renderRowActions={({ row, table }) => (
-          <Box sx={{ display: "flex", gap: "1rem" }}>
-            <Tooltip arrow placement="left" title="Edit">
-              <IconButton
+          }}
+          columns={columns}
+          data={tableData}
+          editingMode="modal" //default
+          enableColumnOrdering
+          enableEditing
+          onEditingRowSave={handleSaveRowEdits}
+          renderRowActions={({ row, table }) => (
+            <Box sx={{ display: "flex", gap: "1rem" }}>
+              <Tooltip arrow placement="left" title="Edit">
+                <IconButton
+                  onClick={() => {
+                    setSelected(row.original);
+                    setCreateModalOpen(true);
+                  }}
+                >
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+              <Tooltip arrow placement="right" title="Delete">
+                <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
+          renderTopToolbarCustomActions={() => (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "right",
+                width: "100%",
+              }}
+            >
+              <Button
+                color="primary"
                 onClick={() => {
-                  setSelected(row.original);
+                  setSelected(null);
                   setCreateModalOpen(true);
                 }}
+                variant="contained"
               >
-                <Edit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow placement="right" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                <Delete />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        )}
-        renderTopToolbarCustomActions={() => (
-          <div
-            style={{ display: "flex", justifyContent: "right", width: "100%" }}
-          >
-            <Button
-              color="primary"
-              onClick={() => {
-                setSelected(null);
-                setCreateModalOpen(true);
-              }}
-              variant="contained"
-            >
-              Thêm tòa nhà
-            </Button>
-          </div>
-        )}
-      />
+                Thêm tòa nhà
+              </Button>
+            </div>
+          )}
+        />
+      </Box>
       <CreateNewAccountModal
         columns={columns}
         open={createModalOpen}
