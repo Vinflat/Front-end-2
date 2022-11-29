@@ -75,8 +75,8 @@ const Navbar = () => {
                 { name: "Thu /chi", link: "/money" },
                 { name: "Phiếu thu", link: "/money/income" },
                 { name: "Phiếu chi", link: "/money/outcome" },
-                { name: "Cài đặt phiếu thu", link: "/money/setting-collect" },
-                { name: "Cài đặt phiếu chi", link: "/money/setting-spend" },
+                // { name: "Cài đặt phiếu thu", link: "/money/setting-collect" },
+                // { name: "Cài đặt phiếu chi", link: "/money/setting-spend" },
                 { name: "Thống kê kinh doanh", link: "/money/statistics" },
               ]}
             />

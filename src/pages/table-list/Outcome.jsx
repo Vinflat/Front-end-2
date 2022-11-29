@@ -1,274 +1,399 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React from "react";
 import MaterialReactTable from "material-react-table";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  MenuItem,
-  Stack,
-  TextField,
-  Tooltip,
-} from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
-import { useUsers } from "./hooks";
-import { useEffect } from "react";
+import { Box, Button } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import { ExportToCsv } from "export-to-csv"; //or use your library of choice here
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import MenuItem from "@mui/material/MenuItem";
+import AppBar from "@mui/material/AppBar";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useBuildings } from "./hooks";
+const data = useBuildings;
 
-// const data = useBuildings();
+const buildings = [
+  {
+    value: "Tòa nhà 1",
+    label: "Tòa nhà 1",
+  },
+  {
+    value: "Tòa nhà 2",
+    label: "Tòa nhà 2",
+  },
+  {
+    value: "Tòa nhà 3",
+    label: "Tòa nhà 3",
+  },
+];
+const flats = [
+  {
+    value: "Phòng 1",
+    label: "Phòng 1",
+  },
+  {
+    value: "Phòng 2",
+    label: "Phòng 2",
+  },
+  {
+    value: "Phòng 3",
+    label: "Phòng 3",
+  },
+];
+const invoiceTypes = [
+  {
+    value: "Tất cả",
+    label: "Tất cả",
+  },
+  {
+    value: "Phiếu thu",
+    label: "Phiếu thu",
+  },
+  {
+    value: "Phiếu chi",
+    label: "Phiếu chi",
+  },
+];
+
+const invoiceNames = [
+  {
+    value: "Tiền trọ",
+    label: "Tiền trọ",
+  },
+  {
+    value: "Tiền điện",
+    label: "Tiền điện",
+  },
+  {
+    value: "Tiền nước",
+    label: "Tiền nước",
+  },
+  {
+    value: "Tiền cọc",
+    label: "Tiền cọc",
+  },
+];
+
+const columns = [
+  {
+    accessorKey: "id",
+    header: "ID",
+    size: 40,
+  },
+  {
+    accessorKey: "firstName",
+    header: "First Name",
+    size: 120,
+  },
+  {
+    accessorKey: "lastName",
+    header: "Last Name",
+    size: 120,
+  },
+  {
+    accessorKey: "company",
+    header: "Company",
+    size: 300,
+  },
+  {
+    accessorKey: "city",
+    header: "City",
+  },
+  {
+    accessorKey: "country",
+    header: "Country",
+    size: 220,
+  },
+];
+
+const csvOptions = {
+  fieldSeparator: ",",
+  quoteStrings: '"',
+  decimalSeparator: ".",
+  showLabels: true,
+  useBom: true,
+  useKeysAsHeaders: false,
+  headers: columns.map((c) => c.header),
+};
+
+const csvExporter = new ExportToCsv(csvOptions);
+
 const Outcome = () => {
-  const data = useUsers();
-  const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState([]);
-  const [validationErrors, setValidationErrors] = useState({});
+  const [building, setBuilding] = React.useState("Tòa nhà 1");
+  const [flat, setFlat] = React.useState("Phòng 1");
+  const [invoiceType, setInvoiceType] = React.useState("Tất cả");
+  const [value, setValue] = React.useState(dayjs("2014-08-01"));
+  const [invoiceName, setInvoiceName] = React.useState("Tiền trọ");
 
-  useEffect(() => {
-    setTableData(data);
-  }, [data]);
-
-  const handleCreateNewRow = (values) => {
-    tableData.push(values);
-    setTableData([...tableData]);
+  const [openCreateOutcome, setOpenCreateOutcome] = React.useState(false);
+  const handleClickOpenCreateOutcome = () => {
+    setOpenCreateOutcome(true);
+  };
+  const handleCloseCreateOutcome = () => {
+    setOpenCreateOutcome(false);
   };
 
-  const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
-    if (!Object.keys(validationErrors).length) {
-      tableData[row.index] = values;
-      //send/receive api updates here, then refetch or update local table data for re-render
-      setTableData([...tableData]);
-      exitEditingMode(); //required to exit editing mode and close modal
-    }
+  const handleChangeInvoiceName = (event) => {
+    setInvoiceName(event.target.value);
   };
 
-  const handleDeleteRow = useCallback(
-    (row) => {
-      if (
-        !window.confirm(
-          `Are you sure you want to delete ${row.getValue("username")}`
-        )
-      ) {
-        return;
-      }
-      //send api delete request here, then refetch or update local table data for re-render
-      tableData.splice(row.index, 1);
-      setTableData([...tableData]);
-    },
-    [tableData]
-  );
+  const handleExportRows = (rows) => {
+    csvExporter.generateCsv(rows.map((row) => row.original));
+  };
 
-  const getCommonEditTextFieldProps = useCallback(
-    (cell) => {
-      return {
-        error: !!validationErrors[cell.id],
-        helperText: validationErrors[cell.id],
-        onBlur: (event) => {
-          const isValid =
-            cell.column.id === "email"
-              ? validateEmail(event.target.value)
-              : cell.column.id === "age"
-              ? validateAge(+event.target.value)
-              : validateRequired(event.target.value);
-          if (!isValid) {
-            //set validation error for cell if invalid
-            setValidationErrors({
-              ...validationErrors,
-              [cell.id]: `${cell.column.columnDef.header} is required`,
-            });
-          } else {
-            //remove validation error for cell if valid
-            delete validationErrors[cell.id];
-            setValidationErrors({
-              ...validationErrors,
-            });
-          }
-        },
-      };
-    },
-    [validationErrors]
-  );
+  const handleExportData = () => {
+    csvExporter.generateCsv(data);
+  };
 
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: "AccountId",
-        header: "ID",
-        enableColumnOrdering: false,
-        enableEditing: false, //disable editing on this column
-        enableSorting: false,
-        size: 50,
-      },
-      {
-        accessorKey: "Username",
-        header: "Username",
-        size: 50,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: "Email",
-        header: "Email",
-        size: 40,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "email",
-        }),
-      },
-      {
-        accessorKey: "Phone",
-        header: "Phone",
-        size: 40,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
-        }),
-      },
+  const handleChangeBuilding = (event) => {
+    setBuilding(event.target.value);
+  };
 
-      {
-        accessorKey: "Status",
-        header: "Status",
-        size: 40,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-        type: "number",
-      },
-      {
-        accessorKey: "RoleId",
-        header: "Role ID",
-        enableColumnOrdering: false,
-        enableEditing: false, //disable editing on this column
-        enableSorting: false,
-        size: 390,
-      },
+  const handleChangeFlat = (event) => {
+    setFlat(event.target.value);
+  };
 
-      // {
-      //   accessorKey: 'state',
-      //   header: 'State',
-      //   muiTableBodyCellEditTextFieldProps: {
-      //     select: true, //change to select for a dropdown
-      //     children: states.map((state) => (
-      //       <MenuItem key={state} value={state}>
-      //         {state}
-      //       </MenuItem>
-      //     )),
-      //   },
-      // },
-    ],
-    [getCommonEditTextFieldProps]
-  );
+  const handleChangeInvoiceType = (event) => {
+    setInvoiceType(event.target.value);
+  };
+
+  const handleChangeDate = (newValue) => {
+    setValue(newValue);
+  };
+
+  const handleChangeMonth = (newValue) => {
+    setValue(newValue);
+  };
 
   return (
-    <>
-      <MaterialReactTable
-        displayColumnDefOptions={{
-          "mrt-row-actions": {
-            muiTableHeadCellProps: {
-              align: "center",
-            },
-            size: 100,
-          },
-        }}
-        columns={columns}
-        data={tableData}
-        editingMode="modal" //default
-        enableColumnOrdering
-        enableEditing
-        onEditingRowSave={handleSaveRowEdits}
-        renderRowActions={({ row, table }) => (
-          <Box sx={{ display: "flex", gap: "1rem" }}>
-            <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
-                <Edit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow placement="right" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                <Delete />
-              </IconButton>
-            </Tooltip>
+    <div>
+      <Box m={2} pt={2}>
+        <Typography variant="h6">Danh sách phiếu chi</Typography>
+      </Box>
+
+      <Box m={2} pt={2}>
+        <div>
+          <Stack spacing={2} direction="row">
+            <TextField
+              id="outlined-select-building"
+              select
+              label="Chọn tòa nhà"
+              value={building}
+              onChange={handleChangeBuilding}
+            >
+              {buildings.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              id="outlined-select-flat"
+              select
+              label="Chọn phòng"
+              value={flat}
+              onChange={handleChangeFlat}
+            >
+              {flats.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="Ngày bắt đầu"
+                inputFormat="DD/MM/YYYY"
+                value={value}
+                onChange={handleChangeMonth}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="Ngày kết thúc"
+                inputFormat="DD/MM/YYYY"
+                value={value}
+                onChange={handleChangeDate}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+
+            <TextField
+              id="outlined-select-invoice-type"
+              select
+              label="Loại chứng từ"
+              value={invoiceType}
+              onChange={handleChangeInvoiceType}
+            >
+              {invoiceTypes.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Stack
+              alignItems="flex-end"
+              justifyContent="flex-end"
+              spacing={2}
+              direction="row"
+            >
+              <Button
+                color="success"
+                //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
+                onClick={handleExportData}
+                variant="contained"
+              >
+                Xuất excel
+              </Button>
+              <Button
+                color="primary"
+                onClick={handleClickOpenCreateOutcome}
+                variant="contained"
+              >
+                Thêm phiếu chi
+              </Button>
+            </Stack>
+          </Stack>
+        </div>
+      </Box>
+
+      <Dialog open={openCreateOutcome} onClose={handleCloseCreateOutcome}>
+        <AppBar position="static">
+          <DialogTitle>Lập phiếu chi</DialogTitle>
+        </AppBar>
+        <DialogContent>
+          {/* <DialogContentText></DialogContentText> */}
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: "25ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <div>
+              <TextField
+                id="outlined-select-building"
+                select
+                required
+                label="Chọn tòa nhà"
+                value={building}
+                onChange={handleChangeBuilding}
+                helperText="Vui lòng chọn tòa nhà của bạn."
+              >
+                {buildings.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id="outlined-select-flat"
+                select
+                required
+                label="Chọn phòng"
+                value={flat}
+                onChange={handleChangeFlat}
+                helperText="Vui lòng chọn phòng."
+              >
+                {flats.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                required
+                id="outlined-required"
+                label="Lý do chi"
+                defaultValue="..."
+              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker
+                  required
+                  label="Ngày chi (*)"
+                  inputFormat="DD/MM/YYYY"
+                  value={value}
+                  onChange={handleChangeDate}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+              <TextField
+                required
+                id="outlined-required"
+                label="Số tiền"
+                defaultValue="0"
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Người nhận"
+                defaultValue="..."
+              />
+              <TextField
+                id="outlined-select-invoice-name"
+                select
+                label="Loại chi"
+                value={invoiceName}
+                onChange={handleChangeInvoiceName}
+              >
+                {invoiceNames.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                required
+                id="outlined-required"
+                label="Hình thức chi"
+                defaultValue="Tiền mặt/ Chuyển khoản"
+              />
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Button variant="outlined" component="label">
+                  Đính kèm file
+                  <input hidden multiple type="file" />
+                </Button>
+              </Stack>
+            </div>
           </Box>
-        )}
-        renderTopToolbarCustomActions={() => (
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseCreateOutcome}>Hủy</Button>
           <Button
             color="primary"
-            onClick={() => setCreateModalOpen(true)}
             variant="contained"
+            onClick={handleCloseCreateOutcome}
           >
-            Thêm phiếu chi
+            Lưu
           </Button>
-        )}
-      />
-      <CreateNewAccountModal
-        columns={columns}
-        open={createModalOpen}
-        onClose={() => setCreateModalOpen(false)}
-        onSubmit={handleCreateNewRow}
-      />
-    </>
+        </DialogActions>
+      </Dialog>
+
+      <Box m={2} pt={2}>
+        <MaterialReactTable
+          columns={columns}
+          data={data}
+          enableRowSelection
+          positionToolbarAlertBanner="bottom"
+        />
+      </Box>
+    </div>
   );
 };
-
-//example of creating a mui dialog modal for creating new rows
-export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
-  const [values, setValues] = useState(() =>
-    columns.reduce((acc, column) => {
-      acc[column.accessorKey ?? ""] = "";
-      return acc;
-    }, {})
-  );
-
-  const handleSubmit = () => {
-    //put your validation logic here
-    onSubmit(values);
-    onClose();
-  };
-
-  return (
-    <Dialog open={open}>
-      <DialogTitle textAlign="center">Thêm phiếu chi</DialogTitle>
-      <DialogContent>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <Stack
-            sx={{
-              width: "100%",
-              minWidth: { xs: "300px", sm: "360px", md: "400px" },
-              gap: "1.5rem",
-            }}
-          >
-            {columns.map((column) => (
-              <TextField
-                key={column.accessorKey}
-                label={column.header}
-                name={column.accessorKey}
-                onChange={(e) =>
-                  setValues({ ...values, [e.target.name]: e.target.value })
-                }
-              />
-            ))}
-          </Stack>
-        </form>
-      </DialogContent>
-      <DialogActions sx={{ p: "1.25rem" }}>
-        <Button onClick={onClose}>Hủy</Button>
-        <Button color="primary" onClick={handleSubmit} variant="contained">
-          Lưu
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
-
-const validateRequired = (value) => !!value.length;
-const validateEmail = (email) =>
-  !!email.length &&
-  email
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-const validateAge = (age) => age >= 18 && age <= 50;
 
 export default Outcome;
