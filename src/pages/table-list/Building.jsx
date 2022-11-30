@@ -14,6 +14,7 @@ import {
   Tooltip,
   Input,
 } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
 import { Delete, Edit } from "@mui/icons-material";
 import { useAreas, useBuildings } from "./hooks";
 import { useEffect } from "react";
@@ -329,9 +330,11 @@ export const CreateNewAccountModal = ({
           handleSubmit(values);
         }}
       >
-        <DialogTitle textAlign="center">
-          {!selected ? "Thêm tòa nhà" : "Chỉnh sửa tòa nhà"}
-        </DialogTitle>
+        <AppBar position="static">
+          <DialogTitle textAlign="center">
+            {!selected ? "Thêm tòa nhà" : "Chỉnh sửa tòa nhà"}
+          </DialogTitle>
+        </AppBar>
         <DialogContent>
           <Stack spacing={3} sx={{ my: 2 }}>
             <Stack

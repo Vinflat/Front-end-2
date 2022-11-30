@@ -13,8 +13,8 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
 import { Delete, Edit } from "@mui/icons-material";
-// import { useBuildings } from "./hooks";
 import { useRenters } from "./hooks";
 import { useEffect } from "react";
 import { updateRenter } from "../../api/Renters";
@@ -279,7 +279,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Thêm khách thuê</DialogTitle>
+      <AppBar position="static">
+        <DialogTitle textAlign="center">Thêm khách thuê</DialogTitle>
+      </AppBar>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack

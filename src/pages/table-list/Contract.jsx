@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import MaterialReactTable from "material-react-table";
+import AppBar from "@mui/material/AppBar";
 import {
   Box,
   Button,
@@ -279,7 +280,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Thêm khách thuê</DialogTitle>
+      <AppBar position="static">
+      <DialogTitle textAlign="center">Thêm hợp đồng</DialogTitle>
+      </AppBar>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
