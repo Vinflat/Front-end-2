@@ -83,34 +83,55 @@ const invoiceNames = [
 ];
 
 const columns = [
+  // {
+  //   accessorKey: "InvoiceId",
+  //   header: "STT",
+  //   size: 40,
+  // },
   {
-    accessorKey: "id",
-    header: "ID",
-    size: 40,
-  },
-  {
-    accessorKey: "firstName",
-    header: "First Name",
+    accessorKey: "Name",
+    header: "Tên hóa đơn",
     size: 120,
   },
   {
-    accessorKey: "lastName",
-    header: "Last Name",
+    accessorKey: "Status",
+    header: "Trạng thái",
     size: 120,
   },
   {
-    accessorKey: "company",
-    header: "Company",
-    size: 300,
+    accessorKey: "Detail",
+    header: "Thông tin chi tiết",
+    size: 120,
+  },
+  // {
+  //   accessorKey: "ImageUrl",
+  //   header: "Ảnh",
+  //   size: 120,
+  // },
+  {
+    accessorKey: "PaymentTime",
+    header: "Ngày thanh toán",
+    size: 120,
   },
   {
-    accessorKey: "city",
-    header: "City",
+    accessorKey: "RenterId",
+    header: "Khách thuê",
+    size: 120,
   },
   {
-    accessorKey: "country",
-    header: "Country",
-    size: 220,
+    accessorKey: "AccountId",
+    header: "Quản lý",
+    size: 120,
+  },
+  {
+    accessorKey: "PaymentTime",
+    header: "Ngày thanh toán",
+    size: 120,
+  },
+  {
+    accessorKey: "InvoiceTypeId",
+    header: "Loại hóa đơn",
+    size: 120,
   },
 ];
 
@@ -344,13 +365,44 @@ const ReceiptsandPayments = () => {
               <TextField
                 required
                 id="outlined-required"
-                label="Lý do thu"
+                label="Người nộp tiền (Khách thuê)"
                 defaultValue="..."
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Người thu (Quản lý)"
+                defaultValue="..."
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Tên phiếu thu"
+                defaultValue="..."
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Trạng thái (auto chưa trả)"
+                defaultValue="..."
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Ghi chú"
+                defaultValue="..."
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Số tiền"
+                defaultValue="0"
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DesktopDatePicker
                   required
-                  label="Ngày thu (*)"
+                  label="
+                  Thời gian giao dịch (*)"
                   inputFormat="DD/MM/YYYY"
                   value={value}
                   onChange={handleChangeDate}
@@ -358,49 +410,19 @@ const ReceiptsandPayments = () => {
                 />
               </LocalizationProvider>
               <TextField
-                required
-                id="outlined-required"
-                label="Số tiền"
-                defaultValue="0"
-              />
-              <TextField
-                required
-                id="outlined-required"
-                label="Người thu"
-                defaultValue="..."
-              />
-              <TextField
-                required
-                id="outlined-required"
-                label="Người nộp tiền"
-                defaultValue="..."
-              />
-              
-              <TextField
-                required
-                id="outlined-required"
-                label="Hình thức thu"
-                defaultValue="Tiền mặt/ Chuyển khoản"
-              />
-              <TextField
-                id="outlined-select-invoice-name"
+                id="outlined-select-invoice-type"
                 select
-                label="Loại phiếu thu"
-                value={invoiceName}
-                onChange={handleChangeInvoiceName}
+                label="Loại phiếu"
+                value={invoiceType}
+                onChange={handleChangeInvoiceType}
               >
-                {invoiceNames.map((option) => (
+                {invoiceTypes.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
                 ))}
               </TextField>
-              <TextField
-                required
-                id="outlined-required"
-                label="Ghi chú"
-                defaultValue="..."
-              />
+
               <Stack
                 direction="row"
                 alignItems="center"
@@ -416,7 +438,7 @@ const ReceiptsandPayments = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseCreateIncome}>Hủy</Button>
-          <Button onClick={handleCloseCreateIncome}>Lưu</Button>
+          <Button color="primary"variant="contained" onClick={handleCloseCreateIncome}>Lưu</Button>
         </DialogActions>
       </Dialog>
 
@@ -468,24 +490,8 @@ const ReceiptsandPayments = () => {
               <TextField
                 required
                 id="outlined-required"
-                label="Lý do chi"
+                label="Người chi (Quản lý)"
                 defaultValue="..."
-              />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DesktopDatePicker
-                  required
-                  label="Ngày chi (*)"
-                  inputFormat="DD/MM/YYYY"
-                  value={value}
-                  onChange={handleChangeDate}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-              <TextField
-                required
-                id="outlined-required"
-                label="Số tiền"
-                defaultValue="0"
               />
               <TextField
                 required
@@ -494,24 +500,54 @@ const ReceiptsandPayments = () => {
                 defaultValue="..."
               />
               <TextField
-                id="outlined-select-invoice-name"
+                required
+                id="outlined-required"
+                label="Tên phiếu chi"
+                defaultValue="..."
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Trạng thái"
+                defaultValue="..."
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Ghi chú"
+                defaultValue="..."
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Số tiền"
+                defaultValue="0"
+              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker
+                  required
+                  label="
+                  Thời gian giao dịch (*)"
+                  inputFormat="DD/MM/YYYY"
+                  value={value}
+                  onChange={handleChangeDate}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+              <TextField
+                id="outlined-select-invoice-type"
                 select
-                label="Loại chi"
-                value={invoiceName}
-                onChange={handleChangeInvoiceName}
+                label="Loại phiếu"
+                value={invoiceType}
+                onChange={handleChangeInvoiceType}
               >
-                {invoiceNames.map((option) => (
+                {invoiceTypes.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
                 ))}
               </TextField>
-              <TextField
-                required
-                id="outlined-required"
-                label="Hình thức chi"
-                defaultValue="Tiền mặt/ Chuyển khoản"
-              />
+
               <Stack
                 direction="row"
                 alignItems="center"
@@ -527,7 +563,13 @@ const ReceiptsandPayments = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseCreateOutcome}>Hủy</Button>
-          <Button onClick={handleCloseCreateOutcome}>Lưu</Button>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleCloseCreateOutcome}
+          >
+            Lưu
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
