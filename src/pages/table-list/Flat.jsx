@@ -13,6 +13,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
 import { Delete, Edit } from "@mui/icons-material";
 import { useFlats } from "./hooks";
 import { useEffect } from "react";
@@ -155,45 +156,55 @@ const Flat = () => {
 
   return (
     <>
-      <MaterialReactTable
-        displayColumnDefOptions={{
-          "mrt-row-actions": {
-            muiTableHeadCellProps: {
-              align: "center",
+      <Box m={2} pt={2}>
+        <MaterialReactTable
+          displayColumnDefOptions={{
+            "mrt-row-actions": {
+              muiTableHeadCellProps: {
+                align: "center",
+              },
+              size: 120,
             },
-            size: 120,
-          },
-        }}
-        columns={columns}
-        data={tableData}
-        editingMode="modal" //default
-        enableColumnOrdering
-        enableEditing
-        onEditingRowSave={handleSaveRowEdits}
-        renderRowActions={({ row, table }) => (
-          <Box sx={{ display: "flex", gap: "1rem" }}>
-            <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
-                <Edit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow placement="right" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                <Delete />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        )}
-        renderTopToolbarCustomActions={() => (
-          <Button
-            color="primary"
-            onClick={() => setCreateModalOpen(true)}
-            variant="contained"
-          >
-            Thêm phòng
-          </Button>
-        )}
-      />
+          }}
+          columns={columns}
+          data={tableData}
+          editingMode="modal" //default
+          enableColumnOrdering
+          enableEditing
+          onEditingRowSave={handleSaveRowEdits}
+          renderRowActions={({ row, table }) => (
+            <Box sx={{ display: "flex", gap: "1rem" }}>
+              <Tooltip arrow placement="left" title="Edit">
+                <IconButton onClick={() => table.setEditingRow(row)}>
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+              <Tooltip arrow placement="right" title="Delete">
+                <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
+          renderTopToolbarCustomActions={() => (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "right",
+                width: "100%",
+              }}
+            >
+              <Button
+                color="primary"
+                onClick={() => setCreateModalOpen(true)}
+                variant="contained"
+              >
+                Thêm phòng
+              </Button>
+            </div>
+          )}
+        />
+      </Box>
       <CreateNewAccountModal
         columns={columns}
         open={createModalOpen}
@@ -221,7 +232,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Thêm Phòng</DialogTitle>
+      <AppBar position="static">
+        <DialogTitle textAlign="center">Thêm Phòng</DialogTitle>
+      </AppBar>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
