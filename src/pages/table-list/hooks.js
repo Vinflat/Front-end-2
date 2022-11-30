@@ -107,19 +107,24 @@ export const useBuildings = () => {
 
 export const useFlats = () => {
     const [flats, setFlats] = useState([]);
-    useEffect(() => {
-        getFlats().then((result) => {
-            const data = result?.map((flat) => ({
-                ...flat,
-                id: flat.FlatId,
-            }));
-            setFlats(data);
-        });
-    }, []);
-    
-    const insertFlat = (flat) => {
-        createFlat(flat)
-    }
+  useEffect(() => {
+    getFlatList();
+  }, []);
+
+  const getFlatList = () => {
+    getFlats().then((result) => {
+      const data = result?.map((flat) => ({
+        ...flat,
+        id: flat.FlatId,
+      }));
+      setFlats(data);
+    });
+  }
+  const insertFlat = (flat) => {
+    createFlat(flat).then(() => {
+      getFlatList();
+    })
+  }
 
     const removeFlat = (flat) => {
         deleteFlat(flat.FlatId);

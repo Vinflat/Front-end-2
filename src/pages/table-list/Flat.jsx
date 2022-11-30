@@ -129,6 +129,15 @@ const Flat = () => {
         type: "number",
       },
       {
+        accessorKey: "WaterMeter",
+        header: "Water Meter",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        type: "number",
+      },
+      {
         accessorKey: "BuildingId",
         header: "Building Id",
         size: 630,
@@ -137,19 +146,55 @@ const Flat = () => {
           type: "number",
         }),
       },
+    ],
+    [getCommonEditTextFieldProps]
+  );
 
-      // {
-      //   accessorKey: 'state',
-      //   header: 'State',
-      //   muiTableBodyCellEditTextFieldProps: {
-      //     select: true, //change to select for a dropdown
-      //     children: states.map((state) => (
-      //       <MenuItem key={state} value={state}>
-      //         {state}
-      //       </MenuItem>
-      //     )),
-      //   },
-      // },
+
+  const createFlatColumn = useMemo(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Flat Name",
+        enableColumnOrdering: false,
+        enableEditing: false, //disable editing on this column
+        enableSorting: false,
+        size: 80,
+      },
+      {
+        accessorKey: "description",
+        header: "Description",
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "flatTypeId",
+        header: "Flat Type Id",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        type: "number",
+      },
+      {
+        accessorKey: "BuildingId",
+        header: "Building Id",
+        size: 630,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+        }),
+      },
     ],
     [getCommonEditTextFieldProps]
   );
@@ -206,7 +251,7 @@ const Flat = () => {
         />
       </Box>
       <CreateNewAccountModal
-        columns={columns}
+        columns={createFlatColumn}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}
