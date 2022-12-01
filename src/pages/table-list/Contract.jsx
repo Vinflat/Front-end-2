@@ -16,24 +16,28 @@ import {
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 // import { useBuildings } from "./hooks";
-import { useRenters } from "./hooks";
+import { useContracts, useRenters } from "./hooks";
 import { useEffect } from "react";
 import { updateRenter } from "../../api/Renters";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const Contract = () => {
-  const { data, addRenter, removeRenter } = useRenters();
+  // const { data, addRenter, removeRenter } = useRenters();
+  const [data, createContract] = useContracts();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
-    setTableData(data);
+    setTableData(data ? data : []);
   }, [data]);
 
   const handleCreateNewRow = (values) => {
-    addRenter(values);
-    tableData.push(values);
-    setTableData([...tableData]);
+    console.log(values);
+    createContract(values);
+    // tableData.push(values);
+    // setTableData([...tableData]);
   };
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
@@ -55,7 +59,6 @@ const Contract = () => {
       // ) {
       //   return;
       // }
-      removeRenter(row.original);
       tableData.splice(row.index, 1);
       setTableData([...tableData]);
     },
@@ -96,7 +99,7 @@ const Contract = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "RenterId",
+        accessorKey: "ContractId",
         header: "ID",
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
@@ -104,51 +107,60 @@ const Contract = () => {
         size: 100,
       },
       {
-        accessorKey: "Username",
-        header: "Username",
+        accessorKey: "ContractName",
+        header: "ContractName",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
       },
       {
-        accessorKey: "Email",
-        header: "Email",
+        accessorKey: "DateSigned",
+        header: "DateSigned",
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: "email",
         }),
+        type: "date",
       },
       {
-        accessorKey: "Phone",
-        header: "Phone",
+        accessorKey: "StartDate",
+        header: "StartDate",
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: "number",
         }),
+        type: "date",
       },
       {
-        accessorKey: "FullName",
-        header: "Full Name",
+        accessorKey: "Description",
+        header: "Description",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
       },
       {
-        accessorKey: "BirthDate",
-        header: "Birth Date",
+        accessorKey: "EndDate",
+        header: "EndDate",
         size: 50,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: "date",
         }),
+        type: "date",
       },
       {
-        accessorKey: "Status",
-        header: "Status",
+        accessorKey: "LastUpdated",
+        header: "LastUpdated",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        type: "date",
+      },
+      {
+        accessorKey: "ContractStatus",
+        header: "ContractStatus",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -163,27 +175,12 @@ const Contract = () => {
         }),
       },
       {
-        accessorKey: "Image",
-        header: "Image",
+        accessorKey: "Price",
+        header: "Price",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: "Address",
-        header: "Address",
-        size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: "Gender",
-        header: "Gender",
-        size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
+          type: "number",
         }),
       },
       // {
@@ -267,12 +264,17 @@ const Contract = () => {
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
-      acc[column.accessorKey ?? ""] = "";
+      if (column.type == "date") {
+        acc[column.accessorKey ?? ""] = new Date();
+      } else {
+        acc[column.accessorKey ?? ""] = "";
+      }
       return acc;
     }, {})
   );
 
   const handleSubmit = () => {
+    console.log(values);
     //put your validation logic here
     onSubmit(values);
     onClose();
@@ -281,7 +283,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   return (
     <Dialog open={open}>
       <AppBar position="static">
-      <DialogTitle textAlign="center">Thêm hợp đồng</DialogTitle>
+        <DialogTitle textAlign="center">Thêm hợp đồng</DialogTitle>
       </AppBar>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
@@ -293,15 +295,73 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
             }}
           >
             {columns.map((column) => (
-              <TextField
-                key={column.accessorKey}
-                label={column.header}
-                name={column.accessorKey}
-                onChange={(e) =>
-                  setValues({ ...values, [e.target.name]: e.target.value })
-                }
-              />
+              <>
+                {column.accessorKey !== "ContractId" && column.type !== "date" && (
+                  <TextField
+                    key={column.accessorKey}
+                    label={column.header}
+                    name={column.accessorKey}
+                    onChange={(e) =>
+                      setValues({
+                        ...values,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                )}
+              </>
             ))}
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                inputFormat="DD/MM/YYYY"
+                value={values.DateSigned || new Date()}
+                label="DateSigned"
+                onChange={(e) => setValues({ ...values, DateSigned: e })}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                inputFormat="DD/MM/YYYY"
+                value={values["StartDate"] || new Date()}
+                label="StartDate"
+                onChange={(e) =>
+                  setValues({
+                    ...values,
+                    StartDate: e,
+                  })
+                }
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                inputFormat="DD/MM/YYYY"
+                value={values["EndDate"] || new Date()}
+                label="EndDate"
+                onChange={(e) =>
+                  setValues({
+                    ...values,
+                    EndDate: e,
+                  })
+                }
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                inputFormat="DD/MM/YYYY"
+                value={values["LastUpdated"] || new Date()}
+                label="LastUpdated"
+                onChange={(e) =>
+                  setValues({
+                    ...values,
+                    LastUpdated: e,
+                  })
+                }
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
           </Stack>
         </form>
       </DialogContent>

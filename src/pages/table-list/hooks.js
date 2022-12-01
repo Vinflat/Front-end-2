@@ -6,8 +6,8 @@ import {
   updateBuildingJsonApi,
 } from "../../api/Buildings";
 import { getUsers, deleteAccount, createAccount } from "../../api/Accounts";
-import { getFlats, getFlatById, getFlatTypes, getFlatTypeByFlatTypeId, createFlat, updateFlat, deleteFlat, createFlatType, updateFlatType, deleteFlatType } from "../../api/Flats";
-import { getContracts } from "../../api/Contracts";
+import { getFlats } from "../../api/Flats";
+import { createContractJsonApi, getContracts } from "../../api/Contracts";
 import { createRenter, getRenters, deleteRenter } from "../../api/Renters";
 import { getAreas } from "../../api/Areas";
 import { getInvoices } from "../../api/Invoices";
@@ -145,6 +145,7 @@ export const useFlats = () => {
 
 export const useContracts = () => {
   const [contracts, setContracts] = useState([]);
+  const [error, setError] = useState(null);
   useEffect(() => {
     getContracts().then((result) => {
       const data = result?.map((contract) => ({
@@ -154,7 +155,23 @@ export const useContracts = () => {
       setContracts(data);
     });
   }, []);
-  return contracts;
+
+  const createContract = async (contract) => {
+    try {
+      await createContractJsonApi(contract);
+    } catch (err) {
+      setError(err);
+    }
+
+    getContracts().then((result) => {
+      const data = result?.map((contract) => ({
+        ...contract,
+        id: contract.contractId,
+      }));
+      setContracts(data);
+    });
+  };
+  return [contracts, createContract, error];
 };
 
 export const useRenters = () => {
