@@ -176,6 +176,14 @@ const User = () => {
         size: 50,
       },
       {
+        accessorKey: "fullname",
+        header: "Full name",
+        enableColumnOrdering: false,
+        enableEditing: false, //disable editing on this column
+        enableSorting: false,
+        size: 50,
+      },
+      {
         accessorKey: "password",
         header: "Password",
         size: 50,
@@ -210,15 +218,7 @@ const User = () => {
           ...getCommonEditTextFieldProps(cell),
         }),
         type: "number",
-      },
-      {
-        accessorKey: "RoleId",
-        header: "Role ID",
-        enableColumnOrdering: false,
-        enableEditing: false, //disable editing on this column
-        enableSorting: false,
-        size: 390,
-      },
+      }
     ],
     [getCommonEditTextFieldProps]
   );

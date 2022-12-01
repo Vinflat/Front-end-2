@@ -10,10 +10,15 @@ import { getFlats, getFlatById, getFlatTypes, getFlatTypeByFlatTypeId, createFla
 import { getContracts } from "../../api/Contracts";
 import { createRenter, getRenters, deleteRenter } from "../../api/Renters";
 import { getAreas } from "../../api/Areas";
+import { getInvoices } from "../../api/Invoices";
 
 export const useUsers = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
+    getUserList();
+  }, []);
+
+  const getUserList = () => {
     getUsers().then((result) => {
       const data = result.map((user) => ({
         ...user,
@@ -23,9 +28,11 @@ export const useUsers = () => {
       }));
       setUsers(data);
     });
-  }, []);
+  }
   const addUser = (user) => {
-    createAccount(user);
+    createAccount(user).then(() => {
+      getUserList();
+    });
   };
 
   const removeUser = (user) => {
@@ -177,5 +184,32 @@ export const useRenters = () => {
     data: renters,
     addRenter,
     removeRenter,
+  };
+};
+
+
+export const useInvoice = () => {
+  const [invoices, setInvoices] = useState([]);
+  const [income, setIncome] = useState([]);
+  const [outCome, setOutCome] = useState([]);
+  useEffect(() => {
+    getInvoices().then((result) => {
+      const data = result?.map((invoice) => {
+        return {
+          ...invoice,
+          id: invoice.InvoiceId,
+          CreatedTime: new Date(invoice.CreatedTime).toLocaleDateString()
+        };
+      });
+      setInvoices(data);
+      setIncome(data.filter(item => item.InvoiceTypeId === 1))
+      setOutCome(data.filter(item => item.InvoiceTypeId === 2))
+    });
+  }, []);
+
+  return {
+    data: invoices,
+    income,
+    outCome,
   };
 };

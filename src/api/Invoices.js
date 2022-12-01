@@ -1,10 +1,10 @@
 import { BASE_URL } from "./Const";
-import { getJSON } from "./Network";
+import { getJSON } from "../services/Network";
 
 
 export async function getInvoices() {
     const url = `${BASE_URL}/invoices`;
-    const invoces = getJSON(url).then(result => result);
+    const invoces = getJSON(url).then(result => result.resultList);
     return invoces;
 }
 

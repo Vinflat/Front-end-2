@@ -18,8 +18,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-const data = useBuildings;
-
+import { useInvoice } from "./hooks";
 const buildings = [
   {
     value: "Tòa nhà 1",
@@ -89,31 +88,35 @@ const columns = [
     size: 40,
   },
   {
-    accessorKey: "firstName",
-    header: "First Name",
+    accessorKey: "Amount",
+    header: "Amount",
     size: 120,
   },
   {
-    accessorKey: "lastName",
-    header: "Last Name",
+    accessorKey: "CreatedTime",
+    header: "Create time",
     size: 120,
   },
   {
-    accessorKey: "company",
-    header: "Company",
+    accessorKey: "Detail",
+    header: "Detail",
     size: 300,
   },
   {
-    accessorKey: "city",
-    header: "City",
+    accessorKey: "Name",
+    header: "Name",
   },
   {
-    accessorKey: "country",
-    header: "Country",
-    size: 220,
+    accessorKey: "RenterId",
+    header: "Renter ID",
+    size: 80,
+  },
+  {
+    accessorKey: "Status",
+    header: "Status",
+    size: 100,
   },
 ];
-
 const csvOptions = {
   fieldSeparator: ",",
   quoteStrings: '"',
@@ -127,6 +130,7 @@ const csvOptions = {
 const csvExporter = new ExportToCsv(csvOptions);
 
 const Income = () => {
+  const { income } = useInvoice();
   const [building, setBuilding] = React.useState("Tòa nhà 1");
   const [flat, setFlat] = React.useState("Phòng 1");
   const [invoiceType, setInvoiceType] = React.useState("Tất cả");
@@ -150,7 +154,7 @@ const Income = () => {
   };
 
   const handleExportData = () => {
-    csvExporter.generateCsv(data);
+    csvExporter.generateCsv(income);
   };
 
   const handleChangeBuilding = (event) => {
@@ -400,7 +404,7 @@ const Income = () => {
       <Box m={2} pt={2}>
         <MaterialReactTable
           columns={columns}
-          data={data}
+          data={income}
           enableRowSelection
           positionToolbarAlertBanner="bottom"
         />
