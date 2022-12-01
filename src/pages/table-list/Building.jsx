@@ -358,7 +358,7 @@ export const CreateNewAccountModal = ({
             </Stack>
             <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
               <TextField
-                label="BuildingName"
+                label="Tên tòa nhà"
                 name="BuildingName"
                 onChange={handleChange}
                 value={values.BuildingName}
@@ -401,7 +401,7 @@ export const CreateNewAccountModal = ({
                 onChange={handleChange}
               />
               <TextField
-                label="Description"
+                label="Thông tin chi tiết"
                 name="Description"
                 onChange={handleChange}
                 value={values.Description}
@@ -411,17 +411,17 @@ export const CreateNewAccountModal = ({
             </Stack>
             <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
               <FormControl fullWidth required>
-                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                <InputLabel id="demo-simple-select-label">Trạng thái</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  label="Status"
+                  label="Trạng thái"
                   name="Status"
                   onChange={handleChange}
                   value={values.Status}
                 >
-                  <MenuItem value={false}>False</MenuItem>
-                  <MenuItem value={true}>True</MenuItem>
+                  <MenuItem value={false}>Ngưng hoạt động</MenuItem>
+                  <MenuItem value={true}>Đang hoạt động</MenuItem>
                 </Select>
               </FormControl>
               <FormControl fullWidth required>
@@ -429,7 +429,7 @@ export const CreateNewAccountModal = ({
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  label="AreaId"
+                  label="Vị trí"
                   name="AreaId"
                   onChange={handleChange}
                   value={values.AreaId}
