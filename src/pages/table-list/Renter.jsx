@@ -104,7 +104,7 @@ const Renter = () => {
       },
       {
         accessorKey: "Username",
-        header: "Username",
+        header: "Tên tài khoản",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -121,7 +121,7 @@ const Renter = () => {
       },
       {
         accessorKey: "Phone",
-        header: "Phone",
+        header: "SĐT",
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -130,7 +130,7 @@ const Renter = () => {
       },
       {
         accessorKey: "FullName",
-        header: "Full Name",
+        header: "Tên đầy đủ",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -138,7 +138,7 @@ const Renter = () => {
       },
       {
         accessorKey: "BirthDate",
-        header: "Birth Date",
+        header: "Ngày sinh",
         size: 50,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -147,7 +147,7 @@ const Renter = () => {
       },
       {
         accessorKey: "Status",
-        header: "Status",
+        header: "Trạng thái",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -155,7 +155,7 @@ const Renter = () => {
       },
       {
         accessorKey: "ImageUrl",
-        header: "ImageUrl",
+        header: "Link ảnh",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -163,7 +163,7 @@ const Renter = () => {
       },
       {
         accessorKey: "Image",
-        header: "Image",
+        header: "Ảnh",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -171,7 +171,7 @@ const Renter = () => {
       },
       {
         accessorKey: "Address",
-        header: "Address",
+        header: "Địa chỉ",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -179,7 +179,7 @@ const Renter = () => {
       },
       {
         accessorKey: "Gender",
-        header: "Gender",
+        header: "Giới tính",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -205,7 +205,7 @@ const Renter = () => {
     () => [
       {
         accessorKey: "Username",
-        header: "Username",
+        header: "Tên tài khoản",
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -214,7 +214,7 @@ const Renter = () => {
       },
       {
         accessorKey: "FullName",
-        header: "Full Name",
+        header: "Tên khách thuê",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -231,7 +231,7 @@ const Renter = () => {
       },
       {
         accessorKey: "Password",
-        header: "Password",
+        header: "Mật khẩu",
         size: 50,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -241,7 +241,7 @@ const Renter = () => {
 
       {
         accessorKey: "Phone",
-        header: "Phone",
+        header: "Số điện thoại",
         size: 40,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -250,7 +250,7 @@ const Renter = () => {
       },
       {
         accessorKey: "Gender",
-        header: "Gender",
+        header: "Giới tính",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -258,7 +258,7 @@ const Renter = () => {
       },
       {
         accessorKey: "BirthDate",
-        header: "BirthDate",
+        header: "Ngày sinh",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -267,7 +267,7 @@ const Renter = () => {
       },
       {
         accessorKey: "Address",
-        header: "Address",
+        header: "Địa chỉ",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),

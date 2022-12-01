@@ -94,31 +94,31 @@ const columns = [
   },
   {
     accessorKey: "Amount",
-    header: "Amount",
+    header: "Tổng số tiền cần trả",
     size: 120,
   },
   {
     accessorKey: "CreatedTime",
-    header: "Create time",
+    header: "Ngày tạo",
     size: 120,
   },
   {
     accessorKey: "Detail",
-    header: "Detail",
+    header: "Thông tin chi tiết",
     size: 300,
   },
   {
     accessorKey: "Name",
-    header: "Name",
+    header: "Tên phiếu",
   },
   {
     accessorKey: "RenterId",
-    header: "Renter ID",
+    header: "Người thuê",
     size: 80,
   },
   {
     accessorKey: "Status",
-    header: "Status",
+    header: "Trạng thái",
     size: 100,
   },
 ];
