@@ -6,7 +6,7 @@ import {
   updateBuildingJsonApi,
 } from "../../api/Buildings";
 import { getUsers, deleteAccount, createAccount } from "../../api/Accounts";
-import { getFlats } from "../../api/Flats";
+import { getFlats, createFlat, deleteFlat  } from "../../api/Flats";
 import { createContractJsonApi, getContracts } from "../../api/Contracts";
 import { createRenter, getRenters, deleteRenter } from "../../api/Renters";
 import { getAreas } from "../../api/Areas";
