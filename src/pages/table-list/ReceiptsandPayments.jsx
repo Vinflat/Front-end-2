@@ -18,8 +18,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-import { useBuildings } from "./hooks";
-const data = useBuildings;
+import { useBuildings, useInvoice } from "./hooks";
 
 const buildings = [
   {
@@ -89,49 +88,38 @@ const columns = [
   //   size: 40,
   // },
   {
-    accessorKey: "Name",
-    header: "Tên hóa đơn",
+    accessorKey: "id",
+    header: "ID",
+    size: 40,
+  },
+  {
+    accessorKey: "Amount",
+    header: "Amount",
     size: 120,
   },
   {
-    accessorKey: "Status",
-    header: "Trạng thái",
+    accessorKey: "CreatedTime",
+    header: "Create time",
     size: 120,
   },
   {
     accessorKey: "Detail",
-    header: "Thông tin chi tiết",
-    size: 120,
+    header: "Detail",
+    size: 300,
   },
-  // {
-  //   accessorKey: "ImageUrl",
-  //   header: "Ảnh",
-  //   size: 120,
-  // },
   {
-    accessorKey: "PaymentTime",
-    header: "Ngày thanh toán",
-    size: 120,
+    accessorKey: "Name",
+    header: "Name",
   },
   {
     accessorKey: "RenterId",
-    header: "Khách thuê",
-    size: 120,
+    header: "Renter ID",
+    size: 80,
   },
   {
-    accessorKey: "AccountId",
-    header: "Quản lý",
-    size: 120,
-  },
-  {
-    accessorKey: "PaymentTime",
-    header: "Ngày thanh toán",
-    size: 120,
-  },
-  {
-    accessorKey: "InvoiceTypeId",
-    header: "Loại hóa đơn",
-    size: 120,
+    accessorKey: "Status",
+    header: "Status",
+    size: 100,
   },
 ];
 
@@ -148,6 +136,7 @@ const csvOptions = {
 const csvExporter = new ExportToCsv(csvOptions);
 
 const ReceiptsandPayments = () => {
+  const { data } = useInvoice();
   const [building, setBuilding] = React.useState("Tòa nhà 1");
   const [flat, setFlat] = React.useState("Phòng 1");
   const [invoiceType, setInvoiceType] = React.useState("Tất cả");

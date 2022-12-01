@@ -25,7 +25,6 @@ export async function getContractHistories() {
   return histories;
 }
 
-//TODO check the response to get the result, currently this endpoint doesn't return value
 export async function getContractHistoryByUser(renterId) {
   const url = `${BASE_URL}/contracts/user/${renterId}/history`;
   const histories = getJSON(url).then((result) => result);

@@ -17,9 +17,10 @@ import AppBar from "@mui/material/AppBar";
 import { Delete, Edit } from "@mui/icons-material";
 import { useFlats } from "./hooks";
 import { useEffect } from "react";
+import { updateFlat } from "../../api/Flats";
 
 const Flat = () => {
-  const data = useFlats();
+  const { data, insertFlat, removeFlat } = useFlats();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -29,12 +30,14 @@ const Flat = () => {
   }, [data]);
 
   const handleCreateNewRow = (values) => {
+    insertFlat(values)
     tableData.push(values);
     setTableData([...tableData]);
   };
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
     if (!Object.keys(validationErrors).length) {
+      updateFlat(values);
       tableData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
       setTableData([...tableData]);
@@ -44,14 +47,15 @@ const Flat = () => {
 
   const handleDeleteRow = useCallback(
     (row) => {
-      if (
-        !window.confirm(
-          `Are you sure you want to delete ${row.getValue("name")}`
-        )
-      ) {
-        return;
-      }
+      // if (
+      //   !window.confirm(
+      //     `Are you sure you want to delete ${row.getValue("name")}`
+      //   )
+      // ) {
+      //   return;
+      // }
       //send api delete request here, then refetch or update local table data for re-render
+      removeFlat(row.original)
       tableData.splice(row.index, 1);
       setTableData([...tableData]);
     },
@@ -125,6 +129,15 @@ const Flat = () => {
         type: "number",
       },
       {
+        accessorKey: "WaterMeter",
+        header: "Water Meter",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        type: "number",
+      },
+      {
         accessorKey: "BuildingId",
         header: "Building Id",
         size: 630,
@@ -133,19 +146,55 @@ const Flat = () => {
           type: "number",
         }),
       },
+    ],
+    [getCommonEditTextFieldProps]
+  );
 
-      // {
-      //   accessorKey: 'state',
-      //   header: 'State',
-      //   muiTableBodyCellEditTextFieldProps: {
-      //     select: true, //change to select for a dropdown
-      //     children: states.map((state) => (
-      //       <MenuItem key={state} value={state}>
-      //         {state}
-      //       </MenuItem>
-      //     )),
-      //   },
-      // },
+
+  const createFlatColumn = useMemo(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Flat Name",
+        enableColumnOrdering: false,
+        enableEditing: false, //disable editing on this column
+        enableSorting: false,
+        size: 80,
+      },
+      {
+        accessorKey: "description",
+        header: "Description",
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "flatTypeId",
+        header: "Flat Type Id",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        type: "number",
+      },
+      {
+        accessorKey: "BuildingId",
+        header: "Building Id",
+        size: 630,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+        }),
+      },
     ],
     [getCommonEditTextFieldProps]
   );
@@ -202,7 +251,7 @@ const Flat = () => {
         />
       </Box>
       <CreateNewAccountModal
-        columns={columns}
+        columns={createFlatColumn}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}

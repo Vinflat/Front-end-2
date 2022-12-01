@@ -165,6 +165,64 @@ const User = () => {
     [getCommonEditTextFieldProps]
   );
 
+  const CreateColumns = useMemo(
+    () => [
+      {
+        accessorKey: "username",
+        header: "User name",
+        enableColumnOrdering: false,
+        enableEditing: false, //disable editing on this column
+        enableSorting: false,
+        size: 50,
+      },
+      {
+        accessorKey: "fullname",
+        header: "Full name",
+        enableColumnOrdering: false,
+        enableEditing: false, //disable editing on this column
+        enableSorting: false,
+        size: 50,
+      },
+      {
+        accessorKey: "password",
+        header: "Password",
+        size: 50,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "email",
+        header: "Email",
+        size: 40,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "email",
+        }),
+      },
+      {
+        accessorKey: "phone",
+        header: "Phone",
+        size: 40,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+        }),
+      },
+
+      {
+        accessorKey: "roleId",
+        header: "Role Id",
+        size: 40,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        type: "number",
+      }
+    ],
+    [getCommonEditTextFieldProps]
+  );
+
   return (
     <>
       <Box m={2} pt={2}>
@@ -217,7 +275,7 @@ const User = () => {
         />
       </Box>
       <CreateNewAccountModal
-        columns={columns}
+        columns={CreateColumns}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}

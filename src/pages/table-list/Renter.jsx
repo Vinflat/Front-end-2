@@ -201,6 +201,81 @@ const Renter = () => {
     [getCommonEditTextFieldProps]
   );
 
+  const createRenterColumns = useMemo(
+    () => [
+      {
+        accessorKey: "Username",
+        header: "Username",
+        size: 40,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "string",
+        }),
+      },
+      {
+        accessorKey: "FullName",
+        header: "Full Name",
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "Email",
+        header: "Email",
+        size: 40,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "email",
+        }),
+      },
+      {
+        accessorKey: "Password",
+        header: "Password",
+        size: 50,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "password",
+        }),
+      },
+
+      {
+        accessorKey: "Phone",
+        header: "Phone",
+        size: 40,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+        }),
+      },
+      {
+        accessorKey: "Gender",
+        header: "Gender",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: "BirthDate",
+        header: "BirthDate",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "date",
+        }),
+      },
+      {
+        accessorKey: "Address",
+        header: "Address",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+    ],
+    [getCommonEditTextFieldProps]
+  );
   return (
     <>
       <Box m={2} pt={2}>
@@ -253,7 +328,7 @@ const Renter = () => {
         />
       </Box>
       <CreateNewAccountModal
-        columns={columns}
+        columns={createRenterColumns}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}

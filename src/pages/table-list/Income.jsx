@@ -18,8 +18,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-const data = useBuildings;
-
+import { useInvoice } from "./hooks";
 const buildings = [
   {
     value: "Tòa nhà 1",
@@ -89,42 +88,40 @@ const columns = [
   //   size: 40,
   // },
   {
-    accessorKey: "Name",
-    header: "Tên phiếu thu",
+    accessorKey: "id",
+    header: "ID",
+    size: 40,
+  },
+  {
+    accessorKey: "Amount",
+    header: "Amount",
     size: 120,
   },
   {
-    accessorKey: "Status",
-    header: "Trạng thái",
+    accessorKey: "CreatedTime",
+    header: "Create time",
     size: 120,
   },
   {
     accessorKey: "Detail",
-    header: "Thông tin chi tiết",
-    size: 120,
+    header: "Detail",
+    size: 300,
   },
-  // {
-  //   accessorKey: "ImageUrl",
-  //   header: "Link ảnh",
-  //   size: 220,
-  // },
   {
-    accessorKey: "PaymentTime",
-    header: "Ngày thanh toán",
-    size: 120,
+    accessorKey: "Name",
+    header: "Name",
   },
   {
     accessorKey: "RenterId",
-    header: "Khách thuê",
-    size: 120,
+    header: "Renter ID",
+    size: 80,
   },
   {
-    accessorKey: "AccountId",
-    header: "Quản lý",
-    size: 120,
+    accessorKey: "Status",
+    header: "Status",
+    size: 100,
   },
 ];
-
 const csvOptions = {
   fieldSeparator: ",",
   quoteStrings: '"',
@@ -138,6 +135,7 @@ const csvOptions = {
 const csvExporter = new ExportToCsv(csvOptions);
 
 const Income = () => {
+  const { income } = useInvoice();
   const [building, setBuilding] = React.useState("Tòa nhà 1");
   const [flat, setFlat] = React.useState("Phòng 1");
   const [invoiceType, setInvoiceType] = React.useState("Tất cả");
@@ -161,7 +159,7 @@ const Income = () => {
   };
 
   const handleExportData = () => {
-    csvExporter.generateCsv(data);
+    csvExporter.generateCsv(income);
   };
 
   const handleChangeBuilding = (event) => {
@@ -411,7 +409,7 @@ const Income = () => {
       <Box m={2} pt={2}>
         <MaterialReactTable
           columns={columns}
-          data={data}
+          data={income}
           enableRowSelection
           positionToolbarAlertBanner="bottom"
         />
