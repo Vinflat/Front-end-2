@@ -114,17 +114,17 @@ const Building = () => {
       },
       {
         accessorKey: "BuildingName",
-        header: "Name",
+        header: "Tên tòa nhà",
         size: 140,
       },
       {
         accessorKey: "ImageUrlUrl",
-        header: "Image",
+        header: "Ảnh",
         size: 140,
       },
       {
         accessorKey: "Description",
-        header: "Description",
+        header: "Chi tiết",
       },
       // {
       //   accessorKey: "TotalRooms",
@@ -148,12 +148,12 @@ const Building = () => {
       },
       {
         accessorKey: "Status",
-        header: "Status",
+        header: "Trạng thái",
         size: 80,
       },
       {
         accessorKey: "AreaId",
-        header: "areaId",
+        header: "Vị trí",
         size: 80,
       },
     ],
