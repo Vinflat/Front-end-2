@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import MaterialReactTable from "material-react-table";
+import Typography from "@mui/material/Typography";
 import {
   Box,
   Button,
@@ -218,13 +219,16 @@ const User = () => {
           ...getCommonEditTextFieldProps(cell),
         }),
         type: "number",
-      }
+      },
     ],
     [getCommonEditTextFieldProps]
   );
 
   return (
     <>
+      <Box m={2} pt={2}>
+        <Typography variant="h6">Danh sách tài khoản</Typography>
+      </Box>
       <Box m={2} pt={2}>
         <MaterialReactTable
           displayColumnDefOptions={{

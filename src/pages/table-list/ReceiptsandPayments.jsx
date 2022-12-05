@@ -198,7 +198,6 @@ const ReceiptsandPayments = () => {
       </Box>
 
       <Box m={2} pt={2}>
-        <Divider />
         <div>
           <Stack spacing={2} direction="row">
             <TextField
@@ -262,7 +261,6 @@ const ReceiptsandPayments = () => {
             </TextField>
           </Stack>
         </div>
-        <Divider />
       </Box>
 
       <Box m={2} pt={1}>

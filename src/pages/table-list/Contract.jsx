@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import MaterialReactTable from "material-react-table";
 import AppBar from "@mui/material/AppBar";
+import Typography from "@mui/material/Typography";
 import {
   Box,
   Button,
@@ -202,6 +203,9 @@ const Contract = () => {
   return (
     <>
       <Box m={2} pt={2}>
+        <Typography variant="h6">Danh sách hợp đồng</Typography>
+      </Box>
+      <Box m={2} pt={2}>
         <MaterialReactTable
           displayColumnDefOptions={{
             "mrt-row-actions": {
@@ -296,19 +300,20 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           >
             {columns.map((column) => (
               <>
-                {column.accessorKey !== "ContractId" && column.type !== "date" && (
-                  <TextField
-                    key={column.accessorKey}
-                    label={column.header}
-                    name={column.accessorKey}
-                    onChange={(e) =>
-                      setValues({
-                        ...values,
-                        [e.target.name]: e.target.value,
-                      })
-                    }
-                  />
-                )}
+                {column.accessorKey !== "ContractId" &&
+                  column.type !== "date" && (
+                    <TextField
+                      key={column.accessorKey}
+                      label={column.header}
+                      name={column.accessorKey}
+                      onChange={(e) =>
+                        setValues({
+                          ...values,
+                          [e.target.name]: e.target.value,
+                        })
+                      }
+                    />
+                  )}
               </>
             ))}
             <LocalizationProvider dateAdapter={AdapterDayjs}>

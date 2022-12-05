@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
+  Box,
   Container,
   Button,
   Grid,
@@ -11,6 +12,8 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Avatar from "@mui/material/Avatar";
+import { styled } from "@mui/material/styles";
 
 import "./login.scss";
 
@@ -26,6 +29,13 @@ async function loginUser(credentials) {
     }
   ).then((data) => data.json());
 }
+
+const Img = styled("img")({
+  margin: "auto",
+  display: "auto",
+  maxWidth: "100%",
+  maxHeight: "100%",
+});
 
 export default function Login({ setToken }) {
   const [username, setUserName] = useState();
@@ -56,7 +66,6 @@ export default function Login({ setToken }) {
 
   return (
     <div className="login">
-      
       <Container maxWidth="sm">
         <Grid
           container
@@ -65,8 +74,19 @@ export default function Login({ setToken }) {
           justifyContent="center"
           style={{ minHeight: "100vh" }}
         >
-          <img src="https://iili.io/pW5LNI.png"/>
           <Paper elelvation={2} sx={{ padding: 5 }}>
+            <Grid item>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Avatar sx={{ width: 150, height: 150 }}>
+                  <Img alt="complex" src="https://iili.io/HCM6oy7.png" />
+                </Avatar>
+              </Box>
+            </Grid>
+
             <form onSubmit={handleLogin}>
               <Grid container direction="column" spacing={2}>
                 <Grid item>

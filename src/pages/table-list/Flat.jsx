@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import MaterialReactTable from "material-react-table";
+import Typography from "@mui/material/Typography";
 import {
   Box,
   Button,
@@ -30,7 +31,7 @@ const Flat = () => {
   }, [data]);
 
   const handleCreateNewRow = (values) => {
-    insertFlat(values)
+    insertFlat(values);
     tableData.push(values);
     setTableData([...tableData]);
   };
@@ -55,7 +56,7 @@ const Flat = () => {
       //   return;
       // }
       //send api delete request here, then refetch or update local table data for re-render
-      removeFlat(row.original)
+      removeFlat(row.original);
       tableData.splice(row.index, 1);
       setTableData([...tableData]);
     },
@@ -150,7 +151,6 @@ const Flat = () => {
     [getCommonEditTextFieldProps]
   );
 
-
   const createFlatColumn = useMemo(
     () => [
       {
@@ -201,6 +201,9 @@ const Flat = () => {
 
   return (
     <>
+      <Box m={2} pt={2}>
+        <Typography variant="h6">Danh sách phòng</Typography>
+      </Box>
       <Box m={2} pt={2}>
         <MaterialReactTable
           displayColumnDefOptions={{

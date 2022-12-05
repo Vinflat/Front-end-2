@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import MaterialReactTable from "material-react-table";
+import Typography from "@mui/material/Typography";
 import {
   Box,
   Button,
@@ -162,6 +163,9 @@ const Building = () => {
 
   return (
     <>
+      <Box m={2} pt={2}>
+        <Typography variant="h6">Danh sách tòa nhà</Typography>
+      </Box>
       <Box m={2} pt={2}>
         <MaterialReactTable
           displayColumnDefOptions={{
@@ -411,7 +415,9 @@ export const CreateNewAccountModal = ({
             </Stack>
             <Stack direction={{ xs: "row" }} spacing={{ xs: 2 }}>
               <FormControl fullWidth required>
-                <InputLabel id="demo-simple-select-label">Trạng thái</InputLabel>
+                <InputLabel id="demo-simple-select-label">
+                  Trạng thái
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
